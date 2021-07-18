@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Charts</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Chart code</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @charts.each do |chart| %>
+      <tr>
+        <td><%= chart.title %></td>
+        <td><%= chart.chart_code %></td>
+        <td><%= link_to 'Show', chart %></td>
+        <td><%= link_to 'Edit', edit_chart_path(chart) %></td>
+        <td><%= link_to 'Destroy', chart, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Chart', new_chart_path %>
