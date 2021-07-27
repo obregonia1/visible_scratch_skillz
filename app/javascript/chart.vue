@@ -15,18 +15,11 @@
       <p @click='normal'>normal</p>
       <p @click='double'>double</p>
     </div>
-    <p @click='clickAdd'>add</p>
-    <p @click='addRest'>add rest</p>
-    <p @click='allClear'>all clear</p>
-    <p @click='deleteOne'>delete</p>
-
-    <div class='container'>
-      <template v-for="chartCode in chartCodes">
-        <svg>
-          <line v-if="chartCode.trick === 'rest'" x1="0" y1="0" x2="0" y2="0"/>
-          <line v-else :class="[chartCode.pattern, `length${chartCode.beatLength}`]" x1="0" y1="90" x2="90" y2="0"/>
-        </svg>
-      </template>
+    <div class="add">
+      <p @click='clickAdd'>add</p>
+      <p @click='addRest'>add rest</p>
+      <p @click='allClear'>all clear</p>
+      <p @click='deleteOne'>delete</p>
     </div>
   </div>
   {{ chartCodes }}
@@ -53,10 +46,29 @@ export default {
   mounted() {
     this.stage = new Konva.Stage({
       container: 'chart',
-      width: 800,
+      width: 481,
       height: 100
     })
-    this.layer = new Konva.Layer();
+    this.bgLayer = new Konva.Layer()
+
+    for (let i = 0; i < 25; i++) {
+      this.addBgDashedLine(i * 20)
+    }
+
+    for (let i = 0; i < 5; i++) {
+      this.addBgSolidLine(i * 120)
+    }
+
+
+    // this.line = new Konva.Line({
+    //   points: [10, 0, 10, 100],
+    //   stroke: 'black',
+    //   strokeWidth: 1,
+    //   dash: [3, 3]
+    // })
+    this.bgLayer.add(this.bgLine)
+    this.stage.add(this.bgLayer)
+    // this.layer = new Konva.Layer();
     // this.line = new Konva.Line({
     //   points: [0, 100, 100, 0, 200, 100, 300, 0],
     //   stroke: '#5a5454',
@@ -65,6 +77,7 @@ export default {
     // });
     // this.layer.add(this.line);
     this.stage.add(this.layer);
+    this.stage.draw()
   },
   computed: {
     render() {
@@ -103,6 +116,7 @@ export default {
           layer.add(line)
         }
       })
+      this.stage.draw()
     }
   },
   methods: {
@@ -145,12 +159,29 @@ export default {
     double() {
       this.beatLength = 3
     },
+    addBgSolidLine(x1) {
+      this.bgLine = new Konva.Line({
+        points: [x1, 100, x1, 0],
+        stroke: '#c0c0c0',
+        strokeWidth: 1
+      })
+      this.bgLayer.add(this.bgLine)
+    },
+    addBgDashedLine(x1) {
+      this.bgLine = new Konva.Line({
+        points: [x1, 100, x1, 0],
+        stroke: '#d3d3d3',
+        strokeWidth: 1,
+        dash: [3, 3]
+      })
+      this.bgLayer.add(this.bgLine)
+    }
   }
 }
 </script>
 
 <style scoped>
-.container, .select-trick, .select-pattern, .select-length {
+.container, .select-trick, .select-pattern, .select-length, .add {
   display: flex;
 }
 
@@ -163,6 +194,10 @@ export default {
 }
 
 .select-length p {
+  margin: 10px;
+}
+
+.add p {
   margin: 10px;
 }
 
