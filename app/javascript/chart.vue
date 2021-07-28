@@ -40,7 +40,6 @@ export default {
       stage: {},
       currentBeat: 0,
       codeLayer: null,
-      line: null,
     }
   },
   mounted() {
@@ -68,7 +67,13 @@ export default {
   computed: {},
   methods: {
     addRest() {
-      this.chartCodes.push({trick: 'rest'})
+      this.chartCodes.push({
+        trick: 'rest',
+        pattern: null,
+        beatLength: this.beatLength,
+        beatPosition: this.currentBeat
+      })
+      this.currentBeat += this.beatLength
     },
     allClear() {
       this.chartCodes.splice(0)
@@ -76,11 +81,13 @@ export default {
       this.currentBeat = 0
     },
     deleteOne() {
-      const lastCode = this.chartCodes.pop()
-      this.codeLayer.destroy()
-      this.renderChartCodes(this.chartCodes)
-      this.stage.draw()
-      this.currentBeat -= lastCode.beatLength
+      if (this.chartCodes.length > 0) {
+        const lastCode = this.chartCodes.pop()
+        this.codeLayer.destroy()
+        this.renderChartCodes(this.chartCodes)
+        this.stage.draw()
+        this.currentBeat -= lastCode.beatLength
+      }
     },
     clickAdd() {
       const code = {
@@ -147,7 +154,7 @@ export default {
       }
     },
     addCodeLine(code) {
-      let line = this.line
+      let line = null
       let layer = this.codeLayer
       if (code.pattern === 'forward') {
         line = new Konva.Line({
