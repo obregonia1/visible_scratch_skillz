@@ -3,17 +3,17 @@
   </div>
   <div class="select-container">
     <div class="select-trick">
-      <p @click='baby'>baby</p>
-      <p @click='chirp'>chirp</p>
-      <p @click='slice'>slice</p>
+      <p @click='baby' :class="{isSelected: trick === 'baby'}">baby</p>
+      <p @click='chirp' :class="{isSelected: trick === 'chirp'}">chirp</p>
+      <p @click='slice' :class="{isSelected: trick === 'slice'}">slice</p>
     </div>
     <div class="select-pattern">
-      <p @click='forward'>forward</p>
-      <p @click='backward'>backward</p>
+      <p @click='forward' :class="{isSelected: pattern === 'forward'}">forward</p>
+      <p @click='backward' :class="{isSelected: pattern === 'backward'}">backward</p>
     </div>
     <div class="select-length">
-      <p @click='normal'>normal</p>
-      <p @click='double'>double</p>
+      <p @click='normal' :class="{isSelected: beatLength === 6}">normal</p>
+      <p @click='double' :class="{isSelected: beatLength === 3}">double</p>
     </div>
     <div class="add">
       <p @click='clickAdd'>add</p>
@@ -59,50 +59,47 @@ export default {
       this.addBgSolidLine(i * 120)
     }
 
+    this.layer = new Konva.Layer()
+
     this.bgLayer.add(this.bgLine)
     this.stage.add(this.bgLayer)
-    this.stage.add(this.layer);
     this.stage.draw()
   },
   computed: {
-    render() {
-      let line = this.line
-      let layer = this.layer
-      this.chartCodes.forEach(function (code) {
-        if (code.pattern === 'forward') {
-          line = new Konva.Line({
-            points: [code.beatPosition * 100 / 6, 100, code.beatPosition * 100 / 6 + 100 * code.beatLength / 6, 0],
-            stroke: '#5a5454',
-            strokeWidth: 2,
-          })
-          layer.add(line)
-          if (code.trick === 'slice') {
-            line = new Konva.Line({
-              points: [code.beatPosition * 100 / 6, 100, code.beatPosition * 100 / 6 + 10, 100],
-              stroke: '#5a5454',
-              strokeWidth: 2,
-            })
-          }
-          layer.add(line)
-        } else if (code.pattern === 'backward') {
-          line = new Konva.Line({
-            points: [code.beatPosition * 100 / 6, 0, code.beatPosition * 100 / 6 + 100, 100],
-            stroke: '#5a5454',
-            strokeWidth: 2,
-          })
-          layer.add(line)
-          if (code.trick === 'slice') {
-            line = new Konva.Line({
-              points: [code.beatPosition * 100 / 6 + 90, 100, code.beatPosition * 100 / 6 + 100, 100],
-              stroke: '#5a5454',
-              strokeWidth: 2,
-            })
-          }
-          layer.add(line)
-        }
-      })
-      this.stage.draw()
-    }
+    // render() {
+    //   let line = this.line
+    //   let layer = this.layer
+    //   this.chartCodes.forEach(function (code) {
+    //     if (code.pattern === 'forward') {
+    //       line = new Konva.Line({
+    //         points: [code.beatPosition * 120 / 6, 100, code.beatPosition * 120 / 6 + 120 * code.beatLength / 6, 0],
+    //         stroke: '#5a5454',
+    //         strokeWidth: 2,
+    //       })
+    //       layer.add(line)
+    //       // this.drawFaderLine(code, layer)
+    //       // layer.add(this.drawFaderLine(code))
+    //       console.log('hoge')
+    //     } else if (code.pattern === 'backward') {
+    //       line = new Konva.Line({
+    //         points: [code.beatPosition * 100 / 6, 0, code.beatPosition * 100 / 6 + 100, 100],
+    //         stroke: '#5a5454',
+    //         strokeWidth: 2,
+    //       })
+    //       layer.add(line)
+    //       if (code.trick === 'slice') {
+    //         line = new Konva.Line({
+    //           points: [code.beatPosition * 100 / 6 + 90, 100, code.beatPosition * 100 / 6 + 100, 100],
+    //           stroke: '#5a5454',
+    //           strokeWidth: 2,
+    //         })
+    //       }
+    //       layer.add(line)
+    //     }
+    //   })
+    //   this.stage.add(layer)
+    //   this.stage.draw()
+    // }
   },
   methods: {
     addRest() {
@@ -115,13 +112,15 @@ export default {
       this.chartCodes.pop()
     },
     clickAdd() {
-      this.chartCodes.push({
+      const code = {
         trick: this.trick,
         pattern: this.pattern,
         beatLength: this.beatLength,
         beatPosition: this.currentBeat
-      })
+      }
+      this.chartCodes.push(code)
       this.currentBeat += this.beatLength
+      this.addCodeLine(code)
     },
     baby() {
       this.trick = 'baby'
@@ -160,7 +159,59 @@ export default {
         dash: [3, 3]
       })
       this.bgLayer.add(this.bgLine)
-    }
+    },
+    drawFaderLine(code, layer) {
+      let faderLine = new Konva.Line({
+        points: this.faderPoints(code),
+        stroke: '#5a5454',
+        strokeWidth: 2,
+      })
+      layer.add(faderLine)
+    },
+    faderPoints(code) {
+      if (code.trick === 'chirp') {
+        return [code.beatPosition * 120 / 6 + 110, 1, code.beatPosition * 120 / 6 + 120, 1]
+      } else if (code.trick === 'slice') {
+        return [code.beatPosition * 120 / 6, 99, code.beatPosition * 120 / 6 + 10, 99]
+      }
+    },
+    addCodeLine(code) {
+      let line = this.line
+      let layer = this.layer
+      if (code.pattern === 'forward') {
+        line = new Konva.Line({
+          points: [code.beatPosition * 120 / 6, 100, code.beatPosition * 120 / 6 + 120 * code.beatLength / 6, 0],
+          stroke: '#5a5454',
+          strokeWidth: 2,
+        })
+        layer.add(line)
+        if (code.trick !== 'baby') {
+          this.drawFaderLine(code, layer)
+        }
+      } else if (code.pattern === 'backward') {
+        line = new Konva.Line({
+          points: [code.beatPosition * 100 / 6, 0, code.beatPosition * 100 / 6 + 100, 100],
+          stroke: '#5a5454',
+          strokeWidth: 2,
+        })
+        layer.add(line)
+        if (code.trick === 'slice') {
+          line = new Konva.Line({
+            points: [code.beatPosition * 100 / 6 + 90, 100, code.beatPosition * 100 / 6 + 100, 100],
+            stroke: '#5a5454',
+            strokeWidth: 2,
+          })
+        }
+        layer.add(line)
+      }
+      this.stage.add(layer)
+      this.stage.draw()
+    },
+    renderChartCodes(chartCodes) {
+      chartCodes.forEach(function (code) {
+        this.addCodeLine(code)
+      })
+    },
   }
 }
 </script>
@@ -194,5 +245,9 @@ svg {
 line {
   stroke: rgb(90, 84, 84);
   stroke-width: 2px;
+}
+
+.isSelected {
+  background-color: #9f7cba;
 }
 </style>
