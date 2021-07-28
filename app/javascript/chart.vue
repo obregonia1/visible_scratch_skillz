@@ -65,8 +65,7 @@ export default {
     this.stage.add(this.bgLayer)
     this.stage.draw()
   },
-  computed: {
-  },
+  computed: {},
   methods: {
     addRest() {
       this.chartCodes.push({trick: 'rest'})
@@ -77,7 +76,11 @@ export default {
       this.currentBeat = 0
     },
     deleteOne() {
-      this.chartCodes.pop()
+      const lastCode = this.chartCodes.pop()
+      this.codeLayer.destroy()
+      this.renderChartCodes(this.chartCodes)
+      this.stage.draw()
+      this.currentBeat -= lastCode.beatLength
     },
     clickAdd() {
       const code = {
@@ -129,7 +132,7 @@ export default {
       this.bgLayer.add(this.bgLine)
     },
     drawFaderLine(code, layer) {
-      let faderLine = new Konva.Line({
+      const faderLine = new Konva.Line({
         points: this.faderPoints(code),
         stroke: '#5a5454',
         strokeWidth: 2,
@@ -176,7 +179,7 @@ export default {
       this.stage.draw()
     },
     renderChartCodes(chartCodes) {
-      chartCodes.forEach(function (code) {
+      chartCodes.forEach((code) => {
         this.addCodeLine(code)
       })
       this.stage.draw()
