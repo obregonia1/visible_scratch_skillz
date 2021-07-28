@@ -39,7 +39,7 @@ export default {
       beatLength: 6,
       stage: {},
       currentBeat: 0,
-      layer: null,
+      codeLayer: null,
       line: null,
     }
   },
@@ -59,57 +59,28 @@ export default {
       this.addBgSolidLine(i * 120)
     }
 
-    this.layer = new Konva.Layer()
+    this.codeLayer = new Konva.Layer()
 
     this.bgLayer.add(this.bgLine)
     this.stage.add(this.bgLayer)
     this.stage.draw()
   },
-  computed: {
-    // render() {
-    //   let line = this.line
-    //   let layer = this.layer
-    //   this.chartCodes.forEach(function (code) {
-    //     if (code.pattern === 'forward') {
-    //       line = new Konva.Line({
-    //         points: [code.beatPosition * 120 / 6, 100, code.beatPosition * 120 / 6 + 120 * code.beatLength / 6, 0],
-    //         stroke: '#5a5454',
-    //         strokeWidth: 2,
-    //       })
-    //       layer.add(line)
-    //       // this.drawFaderLine(code, layer)
-    //       // layer.add(this.drawFaderLine(code))
-    //       console.log('hoge')
-    //     } else if (code.pattern === 'backward') {
-    //       line = new Konva.Line({
-    //         points: [code.beatPosition * 100 / 6, 0, code.beatPosition * 100 / 6 + 100, 100],
-    //         stroke: '#5a5454',
-    //         strokeWidth: 2,
-    //       })
-    //       layer.add(line)
-    //       if (code.trick === 'slice') {
-    //         line = new Konva.Line({
-    //           points: [code.beatPosition * 100 / 6 + 90, 100, code.beatPosition * 100 / 6 + 100, 100],
-    //           stroke: '#5a5454',
-    //           strokeWidth: 2,
-    //         })
-    //       }
-    //       layer.add(line)
-    //     }
-    //   })
-    //   this.stage.add(layer)
-    //   this.stage.draw()
-    // }
-  },
+  computed: {},
   methods: {
     addRest() {
       this.chartCodes.push({trick: 'rest'})
     },
     allClear() {
       this.chartCodes.splice(0)
+      this.codeLayer.destroy()
+      this.currentBeat = 0
     },
     deleteOne() {
-      this.chartCodes.pop()
+      const lastCode = this.chartCodes.pop()
+      this.codeLayer.destroy()
+      this.renderChartCodes(this.chartCodes)
+      this.stage.draw()
+      this.currentBeat -= lastCode.beatLength
     },
     clickAdd() {
       const code = {
@@ -161,7 +132,7 @@ export default {
       this.bgLayer.add(this.bgLine)
     },
     drawFaderLine(code, layer) {
-      let faderLine = new Konva.Line({
+      const faderLine = new Konva.Line({
         points: this.faderPoints(code),
         stroke: '#5a5454',
         strokeWidth: 2,
@@ -177,7 +148,7 @@ export default {
     },
     addCodeLine(code) {
       let line = this.line
-      let layer = this.layer
+      let layer = this.codeLayer
       if (code.pattern === 'forward') {
         line = new Konva.Line({
           points: [code.beatPosition * 120 / 6, 100, code.beatPosition * 120 / 6 + 120 * code.beatLength / 6, 0],
@@ -208,9 +179,10 @@ export default {
       this.stage.draw()
     },
     renderChartCodes(chartCodes) {
-      chartCodes.forEach(function (code) {
+      chartCodes.forEach((code) => {
         this.addCodeLine(code)
       })
+      this.stage.draw()
     },
   }
 }
