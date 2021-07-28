@@ -59,23 +59,8 @@ export default {
       this.addBgSolidLine(i * 120)
     }
 
-
-    // this.line = new Konva.Line({
-    //   points: [10, 0, 10, 100],
-    //   stroke: 'black',
-    //   strokeWidth: 1,
-    //   dash: [3, 3]
-    // })
     this.bgLayer.add(this.bgLine)
     this.stage.add(this.bgLayer)
-    // this.layer = new Konva.Layer();
-    // this.line = new Konva.Line({
-    //   points: [0, 100, 100, 0, 200, 100, 300, 0],
-    //   stroke: '#5a5454',
-    //   strokeWidth: 2,
-    //   scaleX: 0.5
-    // });
-    // this.layer.add(this.line);
     this.stage.add(this.layer);
     this.stage.draw()
   },
@@ -181,7 +166,7 @@ export default {
 </script>
 
 <style scoped>
-.container, .select-trick, .select-pattern, .select-length, .add {
+.select-trick, .select-pattern, .select-length, .add {
   display: flex;
 }
 
@@ -209,20 +194,5 @@ svg {
 line {
   stroke: rgb(90, 84, 84);
   stroke-width: 2px;
-}
-
-.test {
-  stroke: #0e736b;
-  transform: translate(45px, 0) scale(-1, 1)
-  /*transform: scaleX(0.5);*/
-}
-
-.backward {
-  transform: translate(90px, 0) scale(-1, 1)
-  /*scaleX(0.5);*/
-}
-
-.length3 {
-  transform: scaleX(0.5);
 }
 </style>
