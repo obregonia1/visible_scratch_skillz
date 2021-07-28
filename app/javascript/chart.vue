@@ -3,17 +3,17 @@
   </div>
   <div class="select-container">
     <div class="select-trick">
-      <p @click='baby'>baby</p>
-      <p @click='chirp'>chirp</p>
-      <p @click='slice'>slice</p>
+      <p @click='baby' :class="{isSelected: trick === 'baby'}">baby</p>
+      <p @click='chirp' :class="{isSelected: trick === 'chirp'}">chirp</p>
+      <p @click='slice' :class="{isSelected: trick === 'slice'}">slice</p>
     </div>
     <div class="select-pattern">
-      <p @click='forward'>forward</p>
-      <p @click='backward'>backward</p>
+      <p @click='forward' :class="{isSelected: pattern === 'forward'}">forward</p>
+      <p @click='backward' :class="{isSelected: pattern === 'backward'}">backward</p>
     </div>
     <div class="select-length">
-      <p @click='normal'>normal</p>
-      <p @click='double'>double</p>
+      <p @click='normal' :class="{isSelected: beatLength === 6}">normal</p>
+      <p @click='double' :class="{isSelected: beatLength === 3}">double</p>
     </div>
     <div class="add">
       <p @click='clickAdd'>add</p>
@@ -245,5 +245,9 @@ svg {
 line {
   stroke: rgb(90, 84, 84);
   stroke-width: 2px;
+}
+
+.isSelected {
+  background-color: #9f7cba;
 }
 </style>
