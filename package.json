@@ -7,6 +7,7 @@
     "@rails/ujs": "^6.0.0",
     "@rails/webpacker": "5.4.0",
     "@vue/compiler-sfc": "^3.1.5",
+    "konva": "^8.1.1",
     "turbolinks": "^5.2.0",
     "vue": "^3.1.5",
     "vue-loader": "^16.2.0",
