@@ -12,8 +12,9 @@
       <p @click='backward' :class="{isSelected: pattern === 'backward'}">backward</p>
     </div>
     <div class="select-length">
-      <p @click='normal' :class="{isSelected: beatLength === 6}">normal</p>
-      <p @click='double' :class="{isSelected: beatLength === 3}">double</p>
+      <p @click='normal' :class="{isSelected: beatLength === 6}">1</p>
+      <p @click='double' :class="{isSelected: beatLength === 3}">1/2</p>
+      <p @click='oneThird' :class="{isSelected: beatLength === 2}">1/3</p>
     </div>
     <div class="add">
       <p @click='clickAdd'>add</p>
@@ -40,6 +41,7 @@ export default {
       stage: {},
       currentBeat: 0,
       codeLayer: null,
+      faderPosition: null,
     }
   },
   mounted() {
@@ -94,7 +96,8 @@ export default {
         trick: this.trick,
         pattern: this.pattern,
         beatLength: this.beatLength,
-        beatPosition: this.currentBeat
+        beatPosition: this.currentBeat,
+        faderPosition: this.calcFaderPosition(),
       }
       this.chartCodes.push(code)
       this.currentBeat += this.beatLength
@@ -120,6 +123,9 @@ export default {
     },
     double() {
       this.beatLength = 3
+    },
+    oneThird() {
+      this.beatLength = 2
     },
     addBgSolidLine(x1) {
       this.bgLine = new Konva.Line({
@@ -148,9 +154,19 @@ export default {
     },
     faderPoints(code) {
       if (code.trick === 'chirp') {
-        return [code.beatPosition * 120 / 6 + 110, 1, code.beatPosition * 120 / 6 + 120, 1]
+        return [
+          code.beatPosition * 120 / 6 + code.faderPosition * 120 / 6 - 10,
+          1,
+          code.beatPosition * 120 / 6 + code.faderPosition * 120 / 6,
+          1
+        ]
       } else if (code.trick === 'slice') {
-        return [code.beatPosition * 120 / 6, 99, code.beatPosition * 120 / 6 + 10, 99]
+        return [
+          code.beatPosition * 120 / 6,
+          99,
+          code.beatPosition * 120 / 6 + 10,
+          99
+        ]
       }
     },
     addCodeLine(code) {
@@ -191,6 +207,13 @@ export default {
       })
       this.stage.draw()
     },
+    calcFaderPosition() {
+      if (this.trick === 'chirp') {
+        return this.beatLength
+      } else if (this.trick === 'slice') {
+        return 0
+      }
+    }
   }
 }
 </script>
