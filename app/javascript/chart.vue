@@ -184,14 +184,14 @@ export default {
         }
       } else if (code.pattern === 'backward') {
         line = new Konva.Line({
-          points: [code.beatPosition * 100 / 6, 0, code.beatPosition * 100 / 6 + 100, 100],
+          points: [code.beatPosition * 120 / 6, 0, code.beatPosition * 120 / 6 + 120 * code.beatLength / 6, 100],
           stroke: '#5a5454',
           strokeWidth: 2,
         })
         layer.add(line)
         if (code.trick === 'slice') {
           line = new Konva.Line({
-            points: [code.beatPosition * 100 / 6 + 90, 100, code.beatPosition * 100 / 6 + 100, 100],
+            points: [code.beatPosition * 120 / 6 + 90, 100, code.beatPosition * 120 / 6 + 120, 100],
             stroke: '#5a5454',
             strokeWidth: 2,
           })
