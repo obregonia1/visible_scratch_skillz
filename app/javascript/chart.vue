@@ -7,6 +7,12 @@
       <p @click='chirp' :class="{isSelected: trick === 'chirp'}">chirp</p>
       <p @click='slice' :class="{isSelected: trick === 'slice'}">slice</p>
       <p @click='chop' :class="{isSelected: trick === 'chop'}">chop</p>
+      <p @click='transformer' :class="{isSelected: trick === 'transformer'}">transformer</p>
+    </div>
+    <div class="select-click" v-show="trick ==='transformer'">
+      <p @click="clickCount2" :class="{isSelected: clickCount === 2}">2</p>
+      <p @click="clickCount3" :class="{isSelected: clickCount === 3}">3</p>
+      <p @click="clickCount4" :class="{isSelected: clickCount === 4}">4</p>
     </div>
     <div class="select-pattern">
       <p @click='forward' :class="{isSelected: pattern === 'forward'}">forward</p>
@@ -43,6 +49,7 @@ export default {
       currentBeat: 0,
       codeLayer: null,
       faderPositions: null,
+      clickCount: null,
     }
   },
   mounted() {
@@ -115,6 +122,18 @@ export default {
     },
     chop() {
       this.trick = 'chop'
+    },
+    transformer() {
+      this.trick = 'transformer'
+    },
+    clickCount2() {
+      this.clickCount = 2
+    },
+    clickCount3() {
+      this.clickCount = 3
+    },
+    clickCount4() {
+      this.clickCount = 4
     },
     forward() {
       this.pattern = 'forward'
@@ -202,6 +221,14 @@ export default {
         return [this.pattern === 'forward' ? 0 : this.beatLength]
       } else if (this.trick === 'chop') {
         return [0, this.beatLength]
+      } else if (this.trick === 'transformer') {
+        if (this.clickCount === 2) {
+          return [0, this.beatLength / 2, this.beatLength]
+        } else if (this.clickCount === 3) {
+          return [0, this.beatLength / 3, this.beatLength * 2 / 3, this.beatLength]
+        } else if (this.clickCount === 4) {
+          return [0, this.beatLength / 4, this.beatLength / 2, this.beatLength * 3 / 4, this.beatLength]
+        }
       }
     },
     toPixel(beatPosition) {
@@ -212,7 +239,7 @@ export default {
 </script>
 
 <style scoped>
-.select-trick, .select-pattern, .select-length, .add {
+.select-trick, .select-pattern, .select-length, .add, .select-click{
   display: flex;
 }
 
@@ -229,6 +256,10 @@ export default {
 }
 
 .add p {
+  margin: 10px;
+}
+
+.select-click p {
   margin: 10px;
 }
 
