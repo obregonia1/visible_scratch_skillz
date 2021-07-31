@@ -148,25 +148,19 @@ export default {
       const faderLine = new Konva.Line({
         points: this.faderPoints(code),
         stroke: '#5a5454',
-        strokeWidth: 2,
+        strokeWidth: 1,
       })
       layer.add(faderLine)
     },
     faderPoints(code) {
-      if (code.trick === 'chirp') {
-        return [
-          code.beatPosition * 120 / 6 + code.faderPosition * 120 / 6 - 10,
-          1,
-          code.beatPosition * 120 / 6 + code.faderPosition * 120 / 6,
-          1
-        ]
-      } else if (code.trick === 'slice') {
-        return [
-          code.beatPosition * 120 / 6,
-          99,
-          code.beatPosition * 120 / 6 + 10,
-          99
-        ]
+      const x1 = code.beatPosition * 120 / 6 + code.faderPosition * 120 / 6 - 10
+      const x2 = code.beatPosition * 120 / 6 + code.faderPosition * 120 / 6 + 10
+      if (code.pattern === 'forward') {
+        const y = 100 - code.faderPosition * 100 / 6 * 6 / code.beatLength
+        return [x1, y, x2, y]
+      } else if (code.pattern === 'backward') {
+        const y = code.faderPosition * 100 / 6 * 6 / code.beatLength
+        return [x1, y, x2, y]
       }
     },
     addCodeLine(code) {
@@ -189,14 +183,9 @@ export default {
           strokeWidth: 2,
         })
         layer.add(line)
-        if (code.trick === 'slice') {
-          line = new Konva.Line({
-            points: [code.beatPosition * 120 / 6 + 90, 100, code.beatPosition * 120 / 6 + 120, 100],
-            stroke: '#5a5454',
-            strokeWidth: 2,
-          })
+        if (code.trick !== 'baby') {
+          this.drawFaderLine(code, layer)
         }
-        layer.add(line)
       }
       this.stage.add(layer)
       this.stage.draw()
@@ -209,9 +198,9 @@ export default {
     },
     calcFaderPosition() {
       if (this.trick === 'chirp') {
-        return this.beatLength
+        return this.pattern === 'forward' ? this.beatLength : 0
       } else if (this.trick === 'slice') {
-        return 0
+        return this.pattern === 'forward' ? 0 : this.beatLength
       }
     }
   }
