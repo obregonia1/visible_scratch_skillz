@@ -148,58 +148,40 @@ export default {
       const faderLine = new Konva.Line({
         points: this.faderPoints(code),
         stroke: '#5a5454',
-        strokeWidth: 2,
+        strokeWidth: 1,
       })
       layer.add(faderLine)
     },
     faderPoints(code) {
-      if (code.trick === 'chirp') {
-        return [
-          code.beatPosition * 120 / 6 + code.faderPosition * 120 / 6 - 10,
-          1,
-          code.beatPosition * 120 / 6 + code.faderPosition * 120 / 6,
-          1
-        ]
-      } else if (code.trick === 'slice') {
-        return [
-          code.beatPosition * 120 / 6,
-          99,
-          code.beatPosition * 120 / 6 + 10,
-          99
-        ]
+      const faderPosition = this.toPixel(code.beatPosition) + this.toPixel(code.faderPosition)
+      const x1 = faderPosition - 10
+      const x2 = faderPosition + 10
+      if (code.pattern === 'forward') {
+        const y = 100 - code.faderPosition / code.beatLength * 100
+        return [x1, y, x2, y]
+      } else if (code.pattern === 'backward') {
+        const y = code.faderPosition / code.beatLength * 100
+        return [x1, y, x2, y]
       }
     },
     addCodeLine(code) {
+      if (code.trick !== 'rest') {
       let line = null
       let layer = this.codeLayer
-      if (code.pattern === 'forward') {
-        line = new Konva.Line({
-          points: [code.beatPosition * 120 / 6, 100, code.beatPosition * 120 / 6 + 120 * code.beatLength / 6, 0],
-          stroke: '#5a5454',
-          strokeWidth: 2,
-        })
+      const y1 = code.pattern === 'forward' ? 100 : 0
+      const y2 = code.pattern === 'forward' ? 0 : 100
+      line = new Konva.Line({
+        points: [this.toPixel(code.beatPosition), y1, this.toPixel(code.beatPosition) + this.toPixel(code.beatLength), y2],
+        stroke: '#5a5454',
+        strokeWidth: 2,
+      })
         layer.add(line)
-        if (code.trick !== 'baby') {
+        if (code.trick !== ('baby' || 'rest')) {
           this.drawFaderLine(code, layer)
         }
-      } else if (code.pattern === 'backward') {
-        line = new Konva.Line({
-          points: [code.beatPosition * 100 / 6, 0, code.beatPosition * 100 / 6 + 100, 100],
-          stroke: '#5a5454',
-          strokeWidth: 2,
-        })
-        layer.add(line)
-        if (code.trick === 'slice') {
-          line = new Konva.Line({
-            points: [code.beatPosition * 100 / 6 + 90, 100, code.beatPosition * 100 / 6 + 100, 100],
-            stroke: '#5a5454',
-            strokeWidth: 2,
-          })
-        }
-        layer.add(line)
-      }
       this.stage.add(layer)
       this.stage.draw()
+      }
     },
     renderChartCodes(chartCodes) {
       chartCodes.forEach((code) => {
@@ -209,10 +191,13 @@ export default {
     },
     calcFaderPosition() {
       if (this.trick === 'chirp') {
-        return this.beatLength
+        return this.pattern === 'forward' ? this.beatLength : 0
       } else if (this.trick === 'slice') {
-        return 0
+        return this.pattern === 'forward' ? 0 : this.beatLength
       }
+    },
+    toPixel(beatPosition) {
+      return beatPosition * 120 / 6
     }
   }
 }
