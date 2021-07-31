@@ -6,6 +6,7 @@
       <p @click='baby' :class="{isSelected: trick === 'baby'}">baby</p>
       <p @click='chirp' :class="{isSelected: trick === 'chirp'}">chirp</p>
       <p @click='slice' :class="{isSelected: trick === 'slice'}">slice</p>
+      <p @click='chop' :class="{isSelected: trick === 'chop'}">chop</p>
     </div>
     <div class="select-pattern">
       <p @click='forward' :class="{isSelected: pattern === 'forward'}">forward</p>
@@ -41,7 +42,7 @@ export default {
       stage: {},
       currentBeat: 0,
       codeLayer: null,
-      faderPosition: null,
+      faderPositions: null,
     }
   },
   mounted() {
@@ -97,7 +98,7 @@ export default {
         pattern: this.pattern,
         beatLength: this.beatLength,
         beatPosition: this.currentBeat,
-        faderPosition: this.calcFaderPosition(),
+        faderPositions: this.calcFaderPositions(),
       }
       this.chartCodes.push(code)
       this.currentBeat += this.beatLength
@@ -111,6 +112,9 @@ export default {
     },
     slice() {
       this.trick = 'slice'
+    },
+    chop() {
+      this.trick = 'chop'
     },
     forward() {
       this.pattern = 'forward'
@@ -145,22 +149,24 @@ export default {
       this.bgLayer.add(this.bgLine)
     },
     drawFaderLine(code, layer) {
+      code.faderPositions.forEach(faderPosition => {
       const faderLine = new Konva.Line({
-        points: this.faderPoints(code),
+        points: this.faderPoints(code, faderPosition),
         stroke: '#5a5454',
         strokeWidth: 1,
       })
       layer.add(faderLine)
+      })
     },
-    faderPoints(code) {
-      const faderPosition = this.toPixel(code.beatPosition) + this.toPixel(code.faderPosition)
-      const x1 = faderPosition - 10
-      const x2 = faderPosition + 10
+    faderPoints(code, faderPosition) {
+      const faderPositionPx = this.toPixel(code.beatPosition) + this.toPixel(faderPosition)
+      const x1 = faderPositionPx - 10
+      const x2 = faderPositionPx + 10
       if (code.pattern === 'forward') {
-        const y = 100 - code.faderPosition / code.beatLength * 100
+        const y = 100 - faderPosition / code.beatLength * 100
         return [x1, y, x2, y]
       } else if (code.pattern === 'backward') {
-        const y = code.faderPosition / code.beatLength * 100
+        const y = faderPosition / code.beatLength * 100
         return [x1, y, x2, y]
       }
     },
@@ -189,11 +195,13 @@ export default {
       })
       this.stage.draw()
     },
-    calcFaderPosition() {
+    calcFaderPositions() {
       if (this.trick === 'chirp') {
-        return this.pattern === 'forward' ? this.beatLength : 0
+        return [this.pattern === 'forward' ? this.beatLength : 0]
       } else if (this.trick === 'slice') {
-        return this.pattern === 'forward' ? 0 : this.beatLength
+        return [this.pattern === 'forward' ? 0 : this.beatLength]
+      } else if (this.trick === 'chop') {
+        return [0, this.beatLength]
       }
     },
     toPixel(beatPosition) {
