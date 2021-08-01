@@ -206,26 +206,30 @@ export default {
       }
     },
     addCodeLine(code) {
-      let line = null
+      let y1 = null
+      let y2 = null
+      let strokeWidth = null
+      let stroke = null
       let layer = this.codeLayer
       if (code.trick !== 'rest') {
-        const y1 = code.pattern === 'forward' ? 100 : 0
-        const y2 = code.pattern === 'forward' ? 0 : 100
-        line = new Konva.Line({
-          points: [this.toPixel(code.beatPosition), y1, this.toPixel(code.beatPosition) + this.toPixel(code.beatLength), y2],
-          stroke: '#5a5454',
-          strokeWidth: 2,
-        })
+        y1 = code.pattern === 'forward' ? 100 : 0
+        y2 = code.pattern === 'forward' ? 0 : 100
+        strokeWidth = 2
+        stroke = '#5a5454'
         if (code.trick !== ('baby')) {
           this.drawFaderLine(code, layer)
         }
       } else if (code.trick === 'rest') {
-        line = new Konva.Line({
-          points: [this.toPixel(code.beatPosition), 100, this.toPixel(code.beatPosition) + this.toPixel(code.beatLength), 100],
-          stroke: 'red',
-          strokeWidth: 1,
-        })
+        y1 = 100
+        y2 = 100
+        strokeWidth = 1
+        stroke = 'red'
       }
+      const line = new Konva.Line({
+        points: [this.toPixel(code.beatPosition), y1, this.toPixel(code.beatPosition) + this.toPixel(code.beatLength), y2],
+        stroke: stroke,
+        strokeWidth: strokeWidth,
+      })
       layer.add(line)
       this.stage.add(layer)
       this.stage.draw()
