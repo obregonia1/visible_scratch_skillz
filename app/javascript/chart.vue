@@ -125,6 +125,9 @@ export default {
     },
     transformer() {
       this.trick = 'transformer'
+      if (!this.clickCount) {
+      this.clickCount = 2
+      }
     },
     clickCount2() {
       this.clickCount = 2
@@ -222,13 +225,11 @@ export default {
       } else if (this.trick === 'chop') {
         return [0, this.beatLength]
       } else if (this.trick === 'transformer') {
-        if (this.clickCount === 2) {
-          return [0, this.beatLength / 2, this.beatLength]
-        } else if (this.clickCount === 3) {
-          return [0, this.beatLength / 3, this.beatLength * 2 / 3, this.beatLength]
-        } else if (this.clickCount === 4) {
-          return [0, this.beatLength / 4, this.beatLength / 2, this.beatLength * 3 / 4, this.beatLength]
+        let faderPositions = [0]
+        for (let n = 1; n<=this.clickCount; n++) {
+          faderPositions.push(this.beatLength * n / this.clickCount)
         }
+        return faderPositions
       }
     },
     toPixel(beatPosition) {
