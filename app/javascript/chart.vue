@@ -8,11 +8,13 @@
       <p @click='slice' :class="{isSelected: trick === 'slice'}">slice</p>
       <p @click='chop' :class="{isSelected: trick === 'chop'}">chop</p>
       <p @click='transformer' :class="{isSelected: trick === 'transformer'}">transformer</p>
+      <p @click='flare' :class="{isSelected: trick === 'flare'}">flare</p>
     </div>
-    <div class="select-click" v-show="trick ==='transformer'">
+    <div class="select-click" v-show="trick === 'transformer' || trick === 'flare'">
+      <p @click="clickCount1" v-show="trick === 'flare'" :class="{isSelected: clickCount === 1}">1</p>
       <p @click="clickCount2" :class="{isSelected: clickCount === 2}">2</p>
       <p @click="clickCount3" :class="{isSelected: clickCount === 3}">3</p>
-      <p @click="clickCount4" :class="{isSelected: clickCount === 4}">4</p>
+      <p @click="clickCount4" v-show="trick === 'transformer'" :class="{isSelected: clickCount === 4}">4</p>
     </div>
     <div class="select-pattern">
       <p @click='forward' :class="{isSelected: pattern === 'forward'}">forward</p>
@@ -125,9 +127,18 @@ export default {
     },
     transformer() {
       this.trick = 'transformer'
-      if (!this.clickCount) {
-      this.clickCount = 2
+      if (!this.clickCount || this.clickCount === 1) {
+        this.clickCount = 2
       }
+    },
+    flare() {
+      this.trick = 'flare'
+      if (!this.clickCount || this.clickCount === 4) {
+        this.clickCount = 1
+      }
+    },
+    clickCount1() {
+      this.clickCount = 1
     },
     clickCount2() {
       this.clickCount = 2
@@ -172,12 +183,12 @@ export default {
     },
     drawFaderLine(code, layer) {
       code.faderPositions.forEach(faderPosition => {
-      const faderLine = new Konva.Line({
-        points: this.faderPoints(code, faderPosition),
-        stroke: '#5a5454',
-        strokeWidth: 1,
-      })
-      layer.add(faderLine)
+        const faderLine = new Konva.Line({
+          points: this.faderPoints(code, faderPosition),
+          stroke: '#5a5454',
+          strokeWidth: 1,
+        })
+        layer.add(faderLine)
       })
     },
     faderPoints(code, faderPosition) {
@@ -194,21 +205,21 @@ export default {
     },
     addCodeLine(code) {
       if (code.trick !== 'rest') {
-      let line = null
-      let layer = this.codeLayer
-      const y1 = code.pattern === 'forward' ? 100 : 0
-      const y2 = code.pattern === 'forward' ? 0 : 100
-      line = new Konva.Line({
-        points: [this.toPixel(code.beatPosition), y1, this.toPixel(code.beatPosition) + this.toPixel(code.beatLength), y2],
-        stroke: '#5a5454',
-        strokeWidth: 2,
-      })
+        let line = null
+        let layer = this.codeLayer
+        const y1 = code.pattern === 'forward' ? 100 : 0
+        const y2 = code.pattern === 'forward' ? 0 : 100
+        line = new Konva.Line({
+          points: [this.toPixel(code.beatPosition), y1, this.toPixel(code.beatPosition) + this.toPixel(code.beatLength), y2],
+          stroke: '#5a5454',
+          strokeWidth: 2,
+        })
         layer.add(line)
         if (code.trick !== ('baby' || 'rest')) {
           this.drawFaderLine(code, layer)
         }
-      this.stage.add(layer)
-      this.stage.draw()
+        this.stage.add(layer)
+        this.stage.draw()
       }
     },
     renderChartCodes(chartCodes) {
@@ -226,8 +237,14 @@ export default {
         return [0, this.beatLength]
       } else if (this.trick === 'transformer') {
         let faderPositions = [0]
-        for (let n = 1; n<=this.clickCount; n++) {
+        for (let n = 1; n <= this.clickCount; n++) {
           faderPositions.push(this.beatLength * n / this.clickCount)
+        }
+        return faderPositions
+      } else if (this.trick === 'flare') {
+        let faderPositions = []
+        for (let n = 1; n <= this.clickCount; n++) {
+          faderPositions.push(this.beatLength * n / (this.clickCount + 1))
         }
         return faderPositions
       }
@@ -240,7 +257,7 @@ export default {
 </script>
 
 <style scoped>
-.select-trick, .select-pattern, .select-length, .add, .select-click{
+.select-trick, .select-pattern, .select-length, .add, .select-click {
   display: flex;
 }
 
