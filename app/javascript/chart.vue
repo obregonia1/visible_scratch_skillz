@@ -19,6 +19,7 @@
     <div class="select-pattern">
       <p @click='forward' :class="{isSelected: pattern === 'forward'}">forward</p>
       <p @click='backward' :class="{isSelected: pattern === 'backward'}">backward</p>
+      <p @click='orbit' :class="{isSelected: pattern === 'orbit'}">orbit</p>
     </div>
     <div class="select-length">
       <p @click='normal' :class="{isSelected: beatLength === 6}">1</p>
@@ -104,12 +105,20 @@ export default {
       }
     },
     clickAdd() {
+      if (this.pattern === 'orbit') {
+        this.drawAddTrick('forward')
+        this.drawAddTrick('backward')
+      } else if (this.pattern !== 'orbit') {
+        this.drawAddTrick(this.pattern)
+      }
+    },
+    drawAddTrick(pattern) {
       const code = {
         trick: this.trick,
-        pattern: this.pattern,
+        pattern: pattern,
         beatLength: this.beatLength,
         beatPosition: this.currentBeat,
-        faderPositions: this.calcFaderPositions(),
+        faderPositions: this.calcFaderPositions(pattern),
       }
       this.chartCodes.push(code)
       this.currentBeat += this.beatLength
@@ -156,6 +165,9 @@ export default {
     },
     backward() {
       this.pattern = 'backward'
+    },
+    orbit() {
+      this.pattern = 'orbit'
     },
     normal() {
       this.beatLength = 6
@@ -216,7 +228,7 @@ export default {
         y2 = code.pattern === 'forward' ? 0 : 100
         strokeWidth = 2
         stroke = '#5a5454'
-        if (code.trick !== ('baby')) {
+        if (code.trick !== 'baby') {
           this.drawFaderLine(code, layer)
         }
       } else if (code.trick === 'rest') {
@@ -240,11 +252,11 @@ export default {
       })
       this.stage.draw()
     },
-    calcFaderPositions() {
+    calcFaderPositions(pattern) {
       if (this.trick === 'chirp') {
-        return [this.pattern === 'forward' ? this.beatLength : 0]
+        return [pattern === 'forward' ? this.beatLength : 0]
       } else if (this.trick === 'slice') {
-        return [this.pattern === 'forward' ? 0 : this.beatLength]
+        return [pattern === 'forward' ? 0 : this.beatLength]
       } else if (this.trick === 'chop') {
         return [0, this.beatLength]
       } else if (this.trick === 'transformer') {
