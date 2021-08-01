@@ -79,13 +79,15 @@ export default {
   computed: {},
   methods: {
     addRest() {
-      this.chartCodes.push({
+      const code = {
         trick: 'rest',
         pattern: null,
         beatLength: this.beatLength,
         beatPosition: this.currentBeat
-      })
+      }
+      this.chartCodes.push(code)
       this.currentBeat += this.beatLength
+      this.addCodeLine(code)
     },
     allClear() {
       this.chartCodes.splice(0)
@@ -204,23 +206,33 @@ export default {
       }
     },
     addCodeLine(code) {
+      let y1 = null
+      let y2 = null
+      let strokeWidth = null
+      let stroke = null
+      let layer = this.codeLayer
       if (code.trick !== 'rest') {
-        let line = null
-        let layer = this.codeLayer
-        const y1 = code.pattern === 'forward' ? 100 : 0
-        const y2 = code.pattern === 'forward' ? 0 : 100
-        line = new Konva.Line({
-          points: [this.toPixel(code.beatPosition), y1, this.toPixel(code.beatPosition) + this.toPixel(code.beatLength), y2],
-          stroke: '#5a5454',
-          strokeWidth: 2,
-        })
-        layer.add(line)
-        if (code.trick !== ('baby' || 'rest')) {
+        y1 = code.pattern === 'forward' ? 100 : 0
+        y2 = code.pattern === 'forward' ? 0 : 100
+        strokeWidth = 2
+        stroke = '#5a5454'
+        if (code.trick !== ('baby')) {
           this.drawFaderLine(code, layer)
         }
-        this.stage.add(layer)
-        this.stage.draw()
+      } else if (code.trick === 'rest') {
+        y1 = 100
+        y2 = 100
+        strokeWidth = 1
+        stroke = 'red'
       }
+      const line = new Konva.Line({
+        points: [this.toPixel(code.beatPosition), y1, this.toPixel(code.beatPosition) + this.toPixel(code.beatLength), y2],
+        stroke: stroke,
+        strokeWidth: strokeWidth,
+      })
+      layer.add(line)
+      this.stage.add(layer)
+      this.stage.draw()
     },
     renderChartCodes(chartCodes) {
       chartCodes.forEach((code) => {
