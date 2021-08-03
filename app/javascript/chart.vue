@@ -19,7 +19,7 @@
     <div class="select-pattern">
       <p @click='forward' :class="{isSelected: pattern === 'forward'}">forward</p>
       <p @click='backward' :class="{isSelected: pattern === 'backward'}">backward</p>
-      <p @click='orbit' :class="{isSelected: pattern === 'orbit'}">orbit</p>
+      <p @click='orbit' v-show="trick !== 'chop'" :class="{isSelected: pattern === 'orbit'}">orbit</p>
     </div>
     <div class="select-length">
       <p @click='normal' :class="{isSelected: beatLength === 6}">1</p>
@@ -33,6 +33,8 @@
       <p @click='deleteOne'>delete</p>
     </div>
   </div>
+  <p @click="convert">Export</p>
+  <div><img id="img"></div>
   {{ chartCodes }}
 
 
@@ -62,6 +64,13 @@ export default {
       height: 100
     })
     this.bgLayer = new Konva.Layer()
+
+    const bgColor = new Konva.Rect({
+      width: 481,
+      height: 100,
+      fill: 'white'
+    })
+    this.bgLayer.add(bgColor)
 
     for (let i = 0; i < 25; i++) {
       this.addBgDashedLine(i * 20)
@@ -275,6 +284,10 @@ export default {
     },
     toPixel(beatPosition) {
       return beatPosition * 120 / 6
+    },
+    convert() {
+      const png = this.stage.toDataURL()
+      document.getElementById("img").src = png
     }
   }
 }
