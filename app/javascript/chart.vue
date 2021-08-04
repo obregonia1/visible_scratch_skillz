@@ -68,7 +68,9 @@ export default {
       width: 481,
       height: 100
     })
-    this.bgLayer = new Konva.Layer()
+    this.bgLineLayer = new Konva.Layer({
+      name: 'bgLine'
+    })
 
     for (let i = 0; i < 25; i++) {
       this.addBgDashedLine(i * 20)
@@ -78,9 +80,11 @@ export default {
       this.addBgSolidLine(i * 120)
     }
 
-    this.codeLayer = new Konva.Layer()
+    this.codeLayer = new Konva.Layer({
+      name: 'code'
+    })
 
-    this.stage.add(this.bgLayer)
+    this.stage.add(this.bgLineLayer)
     this.stage.draw()
   },
   computed: {},
@@ -190,7 +194,7 @@ export default {
         stroke: '#c0c0c0',
         strokeWidth: 1
       })
-      this.bgLayer.add(this.bgLine)
+      this.bgLineLayer.add(this.bgLine)
     },
     addBgDashedLine(x1) {
       this.bgLine = new Konva.Line({
@@ -199,7 +203,7 @@ export default {
         strokeWidth: 1,
         dash: [3, 3]
       })
-      this.bgLayer.add(this.bgLine)
+      this.bgLineLayer.add(this.bgLine)
     },
     drawFaderLine(code, layer) {
       code.faderPositions.forEach(faderPosition => {
@@ -207,6 +211,7 @@ export default {
           points: this.faderPoints(code, faderPosition),
           stroke: '#5a5454',
           strokeWidth: 1,
+          name: 'fader',
         })
         layer.add(faderLine)
       })
@@ -234,6 +239,7 @@ export default {
         y2 = code.pattern === 'forward' ? 0 : 100
         strokeWidth = 2
         stroke = '#5a5454'
+        name = 'code'
         if (code.trick !== 'baby') {
           this.drawFaderLine(code, layer)
         }
@@ -242,11 +248,13 @@ export default {
         y2 = 100
         strokeWidth = 1
         stroke = 'red'
+        name = 'rest'
       }
       const line = new Konva.Line({
         points: [this.toPixel(code.beatPosition), y1, this.toPixel(code.beatPosition) + this.toPixel(code.beatLength), y2],
         stroke: stroke,
         strokeWidth: strokeWidth,
+        name: name,
       })
       layer.add(line)
       this.stage.add(layer)
@@ -294,14 +302,18 @@ export default {
         fill: 'white'
       })
 
-      const bgcLayer = new Konva.Layer()
-      bgcLayer.add(bgColor)
-      imageStage.add(bgcLayer)
-      const bgLayer = this.bgLayer.clone()
-      bgLayer.offsetY(-30)
-      imageStage.add(bgLayer)
+      const bgColorLayer = new Konva.Layer({
+        name: 'bgColor'
+      })
+      bgColorLayer.add(bgColor)
+      imageStage.add(bgColorLayer)
+      const bgLineLayer = this.bgLineLayer.clone()
+      bgLineLayer.offsetY(-30)
+      imageStage.add(bgLineLayer)
 
-      const textLayer = new Konva.Layer()
+      const textLayer = new Konva.Layer({
+        name: 'text'
+      })
       const title = new Konva.Text({
         x: this.stage.width() / 2,
         y: 10,
@@ -324,9 +336,15 @@ export default {
 
       const codeLayer = this.codeLayer.clone()
       codeLayer.offsetY(-30)
+      const restLines = codeLayer.getChildren(line => {
+        return line.attrs.name === 'rest'
+      })
+      restLines.map(line => {
+        line.setAttr('visible', false)
+      })
+
       imageStage.add(codeLayer)
       imageStage.add(textLayer)
-      console.log(imageStage)
 
       const png = imageStage.toDataURL({
         pixelRatio: 2
