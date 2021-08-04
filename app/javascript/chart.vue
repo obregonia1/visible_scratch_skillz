@@ -115,11 +115,13 @@ export default {
       }
     },
     clickAdd() {
-      if (this.pattern === 'orbit') {
-        this.drawAddTrick('forward')
-        this.drawAddTrick('backward')
-      } else if (this.pattern !== 'orbit') {
-        this.drawAddTrick(this.pattern)
+      if (this.currentBeat < 24) {
+        if (this.pattern === 'orbit') {
+          this.drawAddTrick('forward')
+          this.drawAddTrick('backward')
+        } else if (this.pattern !== 'orbit') {
+          this.drawAddTrick(this.pattern)
+        }
       }
     },
     drawAddTrick(pattern) {
