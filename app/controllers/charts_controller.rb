@@ -64,6 +64,6 @@ class ChartsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def chart_params
-      params.require(:chart).permit(:title, :chart_code)
+      params.require(:chart).permit(:title, :chart_code, :image)
     end
 end

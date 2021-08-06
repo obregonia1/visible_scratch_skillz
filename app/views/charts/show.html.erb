@@ -10,5 +10,9 @@
   <%= @chart.chart_code %>
 </p>
 
+<p>
+  <%= image_tag @chart.image, class: 'image' %>
+</p>
+
 <%= link_to 'Edit', edit_chart_path(@chart) %> |
 <%= link_to 'Back', charts_path %>
