@@ -39,7 +39,6 @@
   </div>
   <p @click="convert">Export</p>
   <div v-show="exportImg"><img id="img"></div>
-  {{ chartCodes }}
 
 </template>
 
@@ -65,8 +64,8 @@ export default {
   mounted() {
     this.stage = new Konva.Stage({
       container: 'chart',
-      width: 481,
-      height: 100
+      width: 500,
+      height: 110
     })
     this.bgLineLayer = new Konva.Layer({
       name: 'bgLine'
@@ -80,10 +79,14 @@ export default {
       this.addBgSolidLine(i * 120)
     }
 
+    this.bgLineLayer.offsetX(-10)
+    this.bgLineLayer.offsetY(-10)
     this.codeLayer = new Konva.Layer({
       name: 'code'
     })
 
+    this.codeLayer.offsetX(-10)
+    this.codeLayer.offsetY(-10)
     this.stage.add(this.bgLineLayer)
     this.stage.draw()
   },
@@ -310,6 +313,7 @@ export default {
       bgColorLayer.add(bgColor)
       imageStage.add(bgColorLayer)
       const bgLineLayer = this.bgLineLayer.clone()
+      bgLineLayer.offsetX(-10)
       bgLineLayer.offsetY(-30)
       imageStage.add(bgLineLayer)
 
@@ -337,6 +341,7 @@ export default {
       textLayer.add(appName)
 
       const codeLayer = this.codeLayer.clone()
+      codeLayer.offsetX(-10)
       codeLayer.offsetY(-30)
       const restLines = codeLayer.getChildren(line => {
         return line.attrs.name === 'rest'
@@ -348,10 +353,11 @@ export default {
       imageStage.add(codeLayer)
       imageStage.add(textLayer)
 
-      const png = imageStage.toDataURL({
+      const imageUrl = imageStage.toDataURL({
         pixelRatio: 2
       })
-      document.getElementById("img").src = png
+      const img = document.getElementById("img")
+      img.src = imageUrl
       this.exportImg = true
     }
   }
