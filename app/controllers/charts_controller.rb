@@ -22,6 +22,8 @@ class ChartsController < ApplicationController
   # POST /charts or /charts.json
   def create
     @chart = Chart.new(chart_params)
+    @image = Image.create(image_params)
+    @chart.image = @image
 
     respond_to do |format|
       if @chart.save
@@ -58,12 +60,16 @@ class ChartsController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_chart
-      @chart = Chart.find(params[:id])
-    end
+  def set_chart
+    @chart = Chart.find(params[:id])
+  end
 
-    # Only allow a list of trusted parameters through.
-    def chart_params
-      params.require(:chart).permit(:title, :chart_code, :image)
-    end
+  # Only allow a list of trusted parameters through.
+  def chart_params
+    params.require(:chart).permit(:title, :chart_code)
+  end
+
+  def image_params
+    params.require(:chart).permit(:image)
+  end
 end
