@@ -41,6 +41,8 @@ class ChartsController < ApplicationController
   def update
     respond_to do |format|
       if @chart.update(chart_params)
+        @image = @chart.image
+        @image.attach_blob(image_params)
         format.html { redirect_to @chart, notice: "Chart was successfully updated." }
         format.json { render :show, status: :ok, location: @chart }
       else
