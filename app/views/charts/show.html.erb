@@ -1,13 +1,17 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Title:</strong>
-  <%= @chart.title %>
-</p>
+<!--<p>-->
+<!--  <strong>Title:</strong>-->
+  <%#= @chart.title %>
+<!--</p>-->
+
+<!--<p>-->
+<!--  <strong>Chart code:</strong>-->
+  <%#= @chart.chart_code %>
+<!--</p>-->
 
 <p>
-  <strong>Chart code:</strong>
-  <%= @chart.chart_code %>
+  <%= image_tag @chart.image.image_file, class: 'image'%>
 </p>
 
 <%= link_to 'Edit', edit_chart_path(@chart) %> |

@@ -25,6 +25,9 @@ class ChartsController < ApplicationController
 
     respond_to do |format|
       if @chart.save
+        @image = Image.new
+        @image.attach_blob(image_params)
+        @chart.image = @image
         format.html { redirect_to @chart, notice: "Chart was successfully created." }
         format.json { render :show, status: :created, location: @chart }
       else
@@ -38,6 +41,8 @@ class ChartsController < ApplicationController
   def update
     respond_to do |format|
       if @chart.update(chart_params)
+        @image = @chart.image
+        @image.attach_blob(image_params)
         format.html { redirect_to @chart, notice: "Chart was successfully updated." }
         format.json { render :show, status: :ok, location: @chart }
       else
@@ -58,12 +63,16 @@ class ChartsController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_chart
-      @chart = Chart.find(params[:id])
-    end
+  def set_chart
+    @chart = Chart.find(params[:id])
+  end
 
-    # Only allow a list of trusted parameters through.
-    def chart_params
-      params.require(:chart).permit(:title, :chart_code)
-    end
+  # Only allow a list of trusted parameters through.
+  def chart_params
+    params.require(:chart).permit(:title, :chart_code)
+  end
+
+  def image_params
+    params.require(:chart).permit(:image)[:image]
+  end
 end

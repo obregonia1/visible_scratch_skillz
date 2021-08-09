@@ -1,4 +1,8 @@
 <template>
+  <div>
+    <label for="title">title</label>
+    <input type="text" v-model="title" id="title">
+  </div>
   <div id="chart">
   </div>
   <div class="select-container">
@@ -33,8 +37,8 @@
       <p @click='deleteOne'>delete</p>
     </div>
   </div>
-  {{ chartCodes }}
-
+  <p @click="convert">Export</p>
+  <div v-show="exportImg"><img id="img"></div>
 
 </template>
 
@@ -53,15 +57,19 @@ export default {
       codeLayer: null,
       faderPositions: null,
       clickCount: null,
+      exportImg: false,
+      title: '',
     }
   },
   mounted() {
     this.stage = new Konva.Stage({
       container: 'chart',
-      width: 481,
-      height: 100
+      width: 500,
+      height: 110
     })
-    this.bgLayer = new Konva.Layer()
+    this.bgLineLayer = new Konva.Layer({
+      name: 'bgLine'
+    })
 
     for (let i = 0; i < 25; i++) {
       this.addBgDashedLine(i * 20)
@@ -71,10 +79,15 @@ export default {
       this.addBgSolidLine(i * 120)
     }
 
-    this.codeLayer = new Konva.Layer()
+    this.bgLineLayer.offsetX(-10)
+    this.bgLineLayer.offsetY(-10)
+    this.codeLayer = new Konva.Layer({
+      name: 'code'
+    })
 
-    this.bgLayer.add(this.bgLine)
-    this.stage.add(this.bgLayer)
+    this.codeLayer.offsetX(-10)
+    this.codeLayer.offsetY(-10)
+    this.stage.add(this.bgLineLayer)
     this.stage.draw()
   },
   computed: {},
@@ -105,11 +118,13 @@ export default {
       }
     },
     clickAdd() {
-      if (this.pattern === 'orbit') {
-        this.drawAddTrick('forward')
-        this.drawAddTrick('backward')
-      } else if (this.pattern !== 'orbit') {
-        this.drawAddTrick(this.pattern)
+      if (this.currentBeat < 24) {
+        if (this.pattern === 'orbit') {
+          this.drawAddTrick('forward')
+          this.drawAddTrick('backward')
+        } else if (this.pattern !== 'orbit') {
+          this.drawAddTrick(this.pattern)
+        }
       }
     },
     drawAddTrick(pattern) {
@@ -184,7 +199,7 @@ export default {
         stroke: '#c0c0c0',
         strokeWidth: 1
       })
-      this.bgLayer.add(this.bgLine)
+      this.bgLineLayer.add(this.bgLine)
     },
     addBgDashedLine(x1) {
       this.bgLine = new Konva.Line({
@@ -193,7 +208,7 @@ export default {
         strokeWidth: 1,
         dash: [3, 3]
       })
-      this.bgLayer.add(this.bgLine)
+      this.bgLineLayer.add(this.bgLine)
     },
     drawFaderLine(code, layer) {
       code.faderPositions.forEach(faderPosition => {
@@ -201,6 +216,7 @@ export default {
           points: this.faderPoints(code, faderPosition),
           stroke: '#5a5454',
           strokeWidth: 1,
+          name: 'fader',
         })
         layer.add(faderLine)
       })
@@ -228,6 +244,7 @@ export default {
         y2 = code.pattern === 'forward' ? 0 : 100
         strokeWidth = 2
         stroke = '#5a5454'
+        name = 'code'
         if (code.trick !== 'baby') {
           this.drawFaderLine(code, layer)
         }
@@ -236,11 +253,13 @@ export default {
         y2 = 100
         strokeWidth = 1
         stroke = 'red'
+        name = 'rest'
       }
       const line = new Konva.Line({
         points: [this.toPixel(code.beatPosition), y1, this.toPixel(code.beatPosition) + this.toPixel(code.beatLength), y2],
         stroke: stroke,
         strokeWidth: strokeWidth,
+        name: name,
       })
       layer.add(line)
       this.stage.add(layer)
@@ -275,6 +294,75 @@ export default {
     },
     toPixel(beatPosition) {
       return beatPosition * 120 / 6
+    },
+    convert() {
+      const imageStage = new Konva.Stage({
+        container: 'img',
+        width: 500,
+        height: 160,
+      })
+      const bgColor = new Konva.Rect({
+        width: 500,
+        height: 160,
+        fill: 'white'
+      })
+
+      const bgColorLayer = new Konva.Layer({
+        name: 'bgColor'
+      })
+      bgColorLayer.add(bgColor)
+      imageStage.add(bgColorLayer)
+      const bgLineLayer = this.bgLineLayer.clone()
+      bgLineLayer.offsetX(-10)
+      bgLineLayer.offsetY(-30)
+      imageStage.add(bgLineLayer)
+
+      const textLayer = new Konva.Layer({
+        name: 'text'
+      })
+      const title = new Konva.Text({
+        x: this.stage.width() / 2,
+        y: 10,
+        text: this.title,
+        fill: 'black',
+        fontSize: 16,
+      })
+      title.offsetX(title.width() / 2)
+      textLayer.add(title)
+
+      const appName = new Konva.Text({
+        x: this.stage.width() / 2,
+        y: 140,
+        text: '©︎Invisible Scratch Skillz',
+        fill: 'black',
+        fontSize: 12,
+      })
+      appName.offsetX(appName.width() / 2)
+      textLayer.add(appName)
+
+      const codeLayer = this.codeLayer.clone()
+      codeLayer.offsetX(-10)
+      codeLayer.offsetY(-30)
+      const restLines = codeLayer.getChildren(line => {
+        return line.attrs.name === 'rest'
+      })
+      restLines.map(line => {
+        line.setAttr('visible', false)
+      })
+
+      imageStage.add(codeLayer)
+      imageStage.add(textLayer)
+
+      const imageUrl = imageStage.toDataURL({
+        pixelRatio: 2
+      })
+      const img = document.getElementById("img")
+      img.src = imageUrl
+      // this.exportImg = true
+
+      let elm = document.getElementsByName("chart[image]")
+      elm[0].setAttribute("value", imageUrl)
+      elm[0].setAttribute("id", "chart_image")
     }
   }
 }
@@ -317,5 +405,10 @@ line {
 
 .isSelected {
   background-color: #9f7cba;
+}
+
+img {
+  width: 500px;
+  height: 160px;
 }
 </style>

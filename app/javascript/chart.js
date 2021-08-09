@@ -1,9 +1,11 @@
 import { createApp } from 'vue'
-import App from './chart.vue'
+import App from './chart'
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('turbolinks:load', () => {
   const selector = '#js-chart';
-  if (document.querySelector(selector)) {
-    createApp(App).mount(selector);
+  const chart = document.querySelector(selector)
+  if (chart) {
+    const app = createApp(App)
+    app.mount(selector)
   }
 })

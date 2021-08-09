@@ -1,4 +1,4 @@
-<%= form_with(model: chart) do |form| %>
+<%= form_with model: chart, multipart: true do |form| %>
   <% if chart.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(chart.errors.count, "error") %> prohibited this chart from being saved:</h2>
@@ -16,12 +16,9 @@
     <%= form.text_field :title %>
   </div>
 
-  <div class="field">
-    <%= form.label :chart_code %>
-    <%= form.text_area :chart_code %>
-  </div>
-
   <div id="js-chart"></div>
+
+  <input type="hidden" name="chart[image]" id="chart_image">
 
   <div class="actions">
     <%= form.submit %>
