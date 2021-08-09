@@ -22,11 +22,12 @@ class ChartsController < ApplicationController
   # POST /charts or /charts.json
   def create
     @chart = Chart.new(chart_params)
-    @image = Image.create(image_params)
-    @chart.image = @image
 
     respond_to do |format|
       if @chart.save
+        @image = Image.new
+        @image.attach_blob(image_params)
+        @chart.image = @image
         format.html { redirect_to @chart, notice: "Chart was successfully created." }
         format.json { render :show, status: :created, location: @chart }
       else
@@ -70,6 +71,6 @@ class ChartsController < ApplicationController
   end
 
   def image_params
-    params.require(:chart).permit(:image)
+    params.require(:chart).permit(:image)[:image]
   end
 end

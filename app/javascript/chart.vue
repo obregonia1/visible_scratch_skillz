@@ -358,7 +358,11 @@ export default {
       })
       const img = document.getElementById("img")
       img.src = imageUrl
-      this.exportImg = true
+      // this.exportImg = true
+
+      let elm = document.getElementsByName("chart[image]")
+      elm[0].setAttribute("value", imageUrl)
+      elm[0].setAttribute("id", "chart_image")
     }
   }
 }
