@@ -1,7 +1,9 @@
 <template>
   <div>
-    <label for="title">title</label>
-    <input type="text" v-model="title" id="title">
+    <label for="chart_title">title</label>
+    <input type="text" name="chart[title]" id="chart_title" v-model="title">
+    <input type="hidden" name="chart[chart_code]" id="chart_code" :value="JSON.stringify(chartCodes)">
+    <input type="hidden" name="chart[image]" id="chart_image" :value="imageUrl">
   </div>
   <div id="chart">
   </div>
@@ -59,6 +61,7 @@ export default {
       clickCount: null,
       exportImg: false,
       title: '',
+      imageUrl: '',
     }
   },
   mounted() {
@@ -353,16 +356,13 @@ export default {
       imageStage.add(codeLayer)
       imageStage.add(textLayer)
 
-      const imageUrl = imageStage.toDataURL({
+      this.imageUrl = imageStage.toDataURL({
         pixelRatio: 2
       })
       const img = document.getElementById("img")
       img.src = imageUrl
       // this.exportImg = true
 
-      let elm = document.getElementsByName("chart[image]")
-      elm[0].setAttribute("value", imageUrl)
-      elm[0].setAttribute("id", "chart_image")
     }
   }
 }
