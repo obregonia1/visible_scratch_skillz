@@ -6,7 +6,6 @@
   <thead>
     <tr>
       <th>Title</th>
-      <th>Chart code</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -15,7 +14,6 @@
     <% @charts.each do |chart| %>
       <tr>
         <td><%= chart.title %></td>
-        <td><%= chart.chart_code %></td>
         <td><%= link_to 'Show', chart %></td>
         <td><%= link_to 'Edit', edit_chart_path(chart) %></td>
         <td><%= link_to 'Destroy', chart, method: :delete, data: { confirm: 'Are you sure?' } %></td>
