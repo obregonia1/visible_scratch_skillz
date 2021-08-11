@@ -48,6 +48,9 @@
 import Konva from "konva";
 
 export default {
+  props: {
+    chartId: {type: Number, required: true}
+  },
   data() {
     return {
       chartCodes: [],
@@ -62,9 +65,35 @@ export default {
       exportImg: false,
       title: '',
       imageUrl: '',
+      loaded: null,
     }
   },
   mounted() {
+    if (this.chartId) {
+      fetch(`/api/charts/${this.chartId}.json`, {
+        method: 'GET',
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'X-CSRF-Token': this.token()
+        },
+        credentials: 'same-origin'
+      })
+        .then((response) => {
+          return response.json()
+        })
+        .then((json) => {
+          this.title = json.title
+          this.chartCodes = JSON.parse(json.chart_code)
+          this.renderChartCodes(this.chartCodes)
+          const lastCode = this.chartCodes[this.chartCodes.length - 1]
+          this.currentBeat = lastCode.beatPosition + lastCode.beatLength
+          this.loaded = true
+        })
+        .catch((error) => {
+          console.warn('Failed to parsing', error)
+        })
+    }
+
     this.stage = new Konva.Stage({
       container: 'chart',
       width: 500,
@@ -359,11 +388,15 @@ export default {
       this.imageUrl = imageStage.toDataURL({
         pixelRatio: 2
       })
-      const img = document.getElementById("img")
-      img.src = imageUrl
+      // const img = document.getElementById("img")
+      // img.src = imageUrl
       // this.exportImg = true
 
-    }
+    },
+    token() {
+      const meta = document.querySelector('meta[name="csrf-token"]')
+      return meta ? meta.getAttribute('content') : ''
+    },
   }
 }
 </script>

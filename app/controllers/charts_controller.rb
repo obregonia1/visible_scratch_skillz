@@ -17,6 +17,7 @@ class ChartsController < ApplicationController
 
   # GET /charts/1/edit
   def edit
+    @chart.edit = true
   end
 
   # POST /charts or /charts.json
@@ -41,6 +42,7 @@ class ChartsController < ApplicationController
   def update
     respond_to do |format|
       if @chart.update(chart_params)
+        @chart.edit = false
         @image = @chart.image
         @image.attach_blob(image_params)
         format.html { redirect_to @chart, notice: "Chart was successfully updated." }
