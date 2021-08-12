@@ -23,12 +23,10 @@ class ChartsController < ApplicationController
   # POST /charts or /charts.json
   def create
     @chart = Chart.new(chart_params)
+    @chart.attach_blob(image_params)
 
     respond_to do |format|
       if @chart.save
-        @image = Image.new
-        @image.attach_blob(image_params)
-        @chart.image = @image
         format.html { redirect_to @chart, notice: "Chart was successfully created." }
         format.json { render :show, status: :created, location: @chart }
       else
@@ -42,9 +40,8 @@ class ChartsController < ApplicationController
   def update
     respond_to do |format|
       if @chart.update(chart_params)
+        @chart.attach_blob(image_params)
         @chart.edit = false
-        @image = @chart.image
-        @image.attach_blob(image_params)
         format.html { redirect_to @chart, notice: "Chart was successfully updated." }
         format.json { render :show, status: :ok, location: @chart }
       else
