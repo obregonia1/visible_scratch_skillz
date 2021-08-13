@@ -11,7 +11,7 @@
     </div>
   <% end %>
 
-  <div id="js-chart" <%= "data-chart-id=#{chart.id}" if chart.edit %>></div>
+  <div id="js-chart" <%= "data-chart-id=#{chart.id}" if chart.id %>></div>
 
   <div class="actions">
     <%= form.submit %>

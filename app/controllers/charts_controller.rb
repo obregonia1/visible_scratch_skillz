@@ -17,13 +17,13 @@ class ChartsController < ApplicationController
 
   # GET /charts/1/edit
   def edit
-    @chart.edit = true
+    # @chart.edit = true
   end
 
   # POST /charts or /charts.json
   def create
     @chart = Chart.new(chart_params)
-    @chart.attach_blob(image_params)
+    @chart.attach_blob(image_param)
 
     respond_to do |format|
       if @chart.save
@@ -40,8 +40,8 @@ class ChartsController < ApplicationController
   def update
     respond_to do |format|
       if @chart.update(chart_params)
-        @chart.attach_blob(image_params)
-        @chart.edit = false
+        @chart.attach_blob(image_param)
+        # @chart.edit = false
         format.html { redirect_to @chart, notice: "Chart was successfully updated." }
         format.json { render :show, status: :ok, location: @chart }
       else
@@ -71,7 +71,7 @@ class ChartsController < ApplicationController
     params.require(:chart).permit(:title, :chart_code)
   end
 
-  def image_params
+  def image_param
     params.require(:chart).permit(:image)[:image]
   end
 end

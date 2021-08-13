@@ -1,18 +1,10 @@
 <p id="notice"><%= notice %></p>
 
-<!--<p>-->
-<!--  <strong>Title:</strong>-->
-  <%#= @chart.title %>
-<!--</p>-->
+<%= render 'form', chart: @chart %>
 
 <!--<p>-->
-<!--  <strong>Chart code:</strong>-->
-  <%#= @chart.chart_code %>
+  <%#= image_tag @chart.image, class: 'image'%>
 <!--</p>-->
-
-<p>
-  <%= image_tag @chart.image, class: 'image'%>
-</p>
 
 <%= link_to 'Edit', edit_chart_path(@chart) %> |
 <%= link_to 'Back', charts_path %>
