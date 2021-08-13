@@ -1,45 +1,50 @@
 <template>
   <div>
-    <label for="chart_title">title</label>
-    <input type="text" name="chart[title]" id="chart_title" v-model="title">
     <input type="hidden" name="chart[chart_code]" id="chart_code" :value="JSON.stringify(chartCodes)">
     <input type="hidden" name="chart[image]" id="chart_image" :value="imageUrl">
   </div>
-  <div id="chart">
+  <template v-if="editing">
+    <label for="chart_title">title</label>
+    <input type="text" name="chart[title]" id="chart_title" v-model="title">
+  </template>
+  <p v-else="!editing">{{ title }}</p>
+  <div id="chart"></div>
+  <div v-show="editing">
+    <div class="select-container">
+      <div class="select-trick">
+        <p @click='baby' :class="{isSelected: trick === 'baby'}">baby</p>
+        <p @click='chirp' :class="{isSelected: trick === 'chirp'}">chirp</p>
+        <p @click='slice' :class="{isSelected: trick === 'slice'}">slice</p>
+        <p @click='chop' :class="{isSelected: trick === 'chop'}">chop</p>
+        <p @click='transformer' :class="{isSelected: trick === 'transformer'}">transformer</p>
+        <p @click='flare' :class="{isSelected: trick === 'flare'}">flare</p>
+      </div>
+      <div class="select-click" v-show="trick === 'transformer' || trick === 'flare'">
+        <p @click="clickCount1" v-show="trick === 'flare'" :class="{isSelected: clickCount === 1}">1</p>
+        <p @click="clickCount2" :class="{isSelected: clickCount === 2}">2</p>
+        <p @click="clickCount3" :class="{isSelected: clickCount === 3}">3</p>
+        <p @click="clickCount4" v-show="trick === 'transformer'" :class="{isSelected: clickCount === 4}">4</p>
+      </div>
+      <div class="select-pattern">
+        <p @click='forward' :class="{isSelected: pattern === 'forward'}">forward</p>
+        <p @click='backward' :class="{isSelected: pattern === 'backward'}">backward</p>
+        <p @click='orbit' :class="{isSelected: pattern === 'orbit'}">orbit</p>
+      </div>
+      <div class="select-length">
+        <p @click='normal' :class="{isSelected: beatLength === 6}">1</p>
+        <p @click='double' :class="{isSelected: beatLength === 3}">1/2</p>
+        <p @click='oneThird' :class="{isSelected: beatLength === 2}">1/3</p>
+      </div>
+      <div class="add">
+        <p @click='clickAdd'>add</p>
+        <p @click='addRest'>add rest</p>
+        <p @click='allClear'>all clear</p>
+        <p @click='deleteOne'>delete</p>
+      </div>
+    </div>
+    <p @click="convert">Export</p>
   </div>
-  <div class="select-container">
-    <div class="select-trick">
-      <p @click='baby' :class="{isSelected: trick === 'baby'}">baby</p>
-      <p @click='chirp' :class="{isSelected: trick === 'chirp'}">chirp</p>
-      <p @click='slice' :class="{isSelected: trick === 'slice'}">slice</p>
-      <p @click='chop' :class="{isSelected: trick === 'chop'}">chop</p>
-      <p @click='transformer' :class="{isSelected: trick === 'transformer'}">transformer</p>
-      <p @click='flare' :class="{isSelected: trick === 'flare'}">flare</p>
-    </div>
-    <div class="select-click" v-show="trick === 'transformer' || trick === 'flare'">
-      <p @click="clickCount1" v-show="trick === 'flare'" :class="{isSelected: clickCount === 1}">1</p>
-      <p @click="clickCount2" :class="{isSelected: clickCount === 2}">2</p>
-      <p @click="clickCount3" :class="{isSelected: clickCount === 3}">3</p>
-      <p @click="clickCount4" v-show="trick === 'transformer'" :class="{isSelected: clickCount === 4}">4</p>
-    </div>
-    <div class="select-pattern">
-      <p @click='forward' :class="{isSelected: pattern === 'forward'}">forward</p>
-      <p @click='backward' :class="{isSelected: pattern === 'backward'}">backward</p>
-      <p @click='orbit' :class="{isSelected: pattern === 'orbit'}">orbit</p>
-    </div>
-    <div class="select-length">
-      <p @click='normal' :class="{isSelected: beatLength === 6}">1</p>
-      <p @click='double' :class="{isSelected: beatLength === 3}">1/2</p>
-      <p @click='oneThird' :class="{isSelected: beatLength === 2}">1/3</p>
-    </div>
-    <div class="add">
-      <p @click='clickAdd'>add</p>
-      <p @click='addRest'>add rest</p>
-      <p @click='allClear'>all clear</p>
-      <p @click='deleteOne'>delete</p>
-    </div>
-  </div>
-  <p @click="convert">Export</p>
+  <p @click="edit" v-show="!editing">edit</p>
   <div v-show="exportImg"><img id="img"></div>
 
 </template>
@@ -66,6 +71,7 @@ export default {
       title: '',
       imageUrl: '',
       loaded: null,
+      editing: false,
     }
   },
   mounted() {
@@ -87,11 +93,14 @@ export default {
           this.renderChartCodes(this.chartCodes)
           const lastCode = this.chartCodes[this.chartCodes.length - 1]
           this.currentBeat = lastCode.beatPosition + lastCode.beatLength
+          this.editing = false
           this.loaded = true
         })
         .catch((error) => {
           console.warn('Failed to parsing', error)
         })
+    } else {
+      this.editing = true
     }
 
     this.stage = new Konva.Stage({
@@ -397,6 +406,9 @@ export default {
       const meta = document.querySelector('meta[name="csrf-token"]')
       return meta ? meta.getAttribute('content') : ''
     },
+    edit() {
+      this.editing = true
+    }
   }
 }
 </script>
