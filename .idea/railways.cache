@@ -2,7 +2,6 @@
                                   charts GET    /charts(.:format)                                                                                 charts#index
                                          POST   /charts(.:format)                                                                                 charts#create
                                new_chart GET    /charts/new(.:format)                                                                             charts#new
-                              edit_chart GET    /charts/:id/edit(.:format)                                                                        charts#edit
                                    chart GET    /charts/:id(.:format)                                                                             charts#show
                                          PATCH  /charts/:id(.:format)                                                                             charts#update
                                          PUT    /charts/:id(.:format)                                                                             charts#update

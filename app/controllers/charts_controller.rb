@@ -1,5 +1,5 @@
 class ChartsController < ApplicationController
-  before_action :set_chart, only: %i[ show edit update destroy ]
+  before_action :set_chart, only: %i[ show update destroy ]
 
   # GET /charts or /charts.json
   def index
@@ -13,11 +13,6 @@ class ChartsController < ApplicationController
   # GET /charts/new
   def new
     @chart = Chart.new
-  end
-
-  # GET /charts/1/edit
-  def edit
-    # @chart.edit = true
   end
 
   # POST /charts or /charts.json

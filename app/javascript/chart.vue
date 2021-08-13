@@ -44,7 +44,7 @@
     </div>
     <p @click="convert">Export</p>
   </div>
-  <p @click="edit">edit</p>
+  <p @click="edit" v-show="!editing">edit</p>
   <div v-show="exportImg"><img id="img"></div>
 
 </template>
