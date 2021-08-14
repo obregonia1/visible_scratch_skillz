@@ -1,5 +1,5 @@
 class Chart < ApplicationRecord
-  attr_accessor :edit
+  belongs_to :user
   has_one_attached :image
 
   def attach_blob(image_params)

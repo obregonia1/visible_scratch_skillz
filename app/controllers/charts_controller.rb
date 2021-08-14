@@ -36,11 +36,10 @@ class ChartsController < ApplicationController
     respond_to do |format|
       if @chart.update(chart_params)
         @chart.attach_blob(image_param)
-        # @chart.edit = false
         format.html { redirect_to @chart, notice: "Chart was successfully updated." }
         format.json { render :show, status: :ok, location: @chart }
       else
-        format.html { render :edit, status: :unprocessable_entity }
+        format.html { render :show, status: :unprocessable_entity }
         format.json { render json: @chart.errors, status: :unprocessable_entity }
       end
     end
