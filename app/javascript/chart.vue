@@ -44,7 +44,7 @@
     </div>
     <p @click="convert">Export</p>
   </div>
-  <p @click="edit" v-show="!editing">edit</p>
+  <p @click="edit" v-show="!editing && (userId === currentUserId)">edit</p>
   <div v-show="exportImg"><img id="img"></div>
 
 </template>
@@ -54,7 +54,8 @@ import Konva from "konva";
 
 export default {
   props: {
-    chartId: {type: Number, required: true}
+    chartId: {type: Number, required: true},
+    currentUserId: {type: Number, required: true}
   },
   data() {
     return {
@@ -72,6 +73,7 @@ export default {
       imageUrl: '',
       loaded: null,
       editing: false,
+      userId: '',
     }
   },
   mounted() {
@@ -88,6 +90,7 @@ export default {
           return response.json()
         })
         .then((json) => {
+          this.userId = json.user_id
           this.title = json.title
           this.chartCodes = JSON.parse(json.chart_code)
           this.renderChartCodes(this.chartCodes)
