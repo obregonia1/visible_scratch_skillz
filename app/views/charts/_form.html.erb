@@ -11,9 +11,16 @@
     </div>
   <% end %>
 
-  <div id="js-chart" <%= "data-chart-id=#{chart.id}" if chart.id %>></div>
+  <div id="js-chart"
+    <% if chart.id %>
+      <%= "data-chart-id=#{chart.id}" %>
+      <%= "data-current-user-id=#{current_user.id}" %>
+    <% end %>
+  ></div>
 
-  <div class="actions">
-    <%= form.submit %>
-  </div>
+  <% if params[:action] == 'new' || chart.user == current_user %>
+    <div class="actions">
+      <%= form.submit %>
+    </div>
+  <% end %>
 <% end %>

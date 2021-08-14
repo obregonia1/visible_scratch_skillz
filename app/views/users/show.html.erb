@@ -16,7 +16,7 @@
       <tr>
         <td><%= chart.title %></td>
         <td><%= link_to 'Show', chart %></td>
-        <td><%= link_to 'Destroy', chart, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Destroy', chart, method: :delete, data: { confirm: 'Are you sure?' } if @user == current_user %></td>
       </tr>
     <% end %>
   <% else %>
@@ -27,4 +27,4 @@
 
 <br>
 
-<%= link_to 'New Chart', new_chart_path %>
+<%= link_to 'New Chart', new_chart_path if @user == current_user %>
