@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class ChartsController < ApplicationController
-  before_action :set_chart, only: %i[ show update destroy ]
+  before_action :set_chart, only: %i[show update destroy]
 
   # GET /charts or /charts.json
   def index
@@ -7,8 +9,7 @@ class ChartsController < ApplicationController
   end
 
   # GET /charts/1 or /charts/1.json
-  def show
-  end
+  def show; end
 
   # GET /charts/new
   def new
@@ -22,7 +23,7 @@ class ChartsController < ApplicationController
 
     respond_to do |format|
       if @chart.save
-        format.html { redirect_to @chart, notice: "Chart was successfully created." }
+        format.html { redirect_to @chart, notice: 'Chart was successfully created.' }
         format.json { render :show, status: :created, location: @chart }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -36,7 +37,7 @@ class ChartsController < ApplicationController
     respond_to do |format|
       if @chart.update(chart_params)
         @chart.attach_blob(image_param)
-        format.html { redirect_to @chart, notice: "Chart was successfully updated." }
+        format.html { redirect_to @chart, notice: 'Chart was successfully updated.' }
         format.json { render :show, status: :ok, location: @chart }
       else
         format.html { render :show, status: :unprocessable_entity }
@@ -49,13 +50,14 @@ class ChartsController < ApplicationController
   def destroy
     @chart.destroy
     respond_to do |format|
-      format.html { redirect_to user_path(current_user), notice: "Chart was successfully destroyed." }
+      format.html { redirect_to user_path(current_user), notice: 'Chart was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+
+  # Use callbacks to share common setup or constraints between actions.
   def set_chart
     @chart = Chart.find(params[:id])
   end
