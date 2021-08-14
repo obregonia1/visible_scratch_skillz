@@ -49,7 +49,7 @@ class ChartsController < ApplicationController
   def destroy
     @chart.destroy
     respond_to do |format|
-      format.html { redirect_to charts_url, notice: "Chart was successfully destroyed." }
+      format.html { redirect_to user_path(current_user), notice: "Chart was successfully destroyed." }
       format.json { head :no_content }
     end
   end
@@ -62,7 +62,7 @@ class ChartsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def chart_params
-    params.require(:chart).permit(:title, :chart_code)
+    params.require(:chart).permit(:title, :chart_code).merge(user_id: current_user.id)
   end
 
   def image_param
