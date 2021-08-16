@@ -40,19 +40,19 @@
     <div class="click-count-select">
       <p>Click Count</p>
       <label class="radio">
-        <input type="radio" value="1" v-model="clickCount" checked="checked">
+        <input type="radio" value="1" v-model="clickCount" checked="checked" :disabled="trick !== 'flare'">
         1
       </label>
       <label class="radio">
-        <input type="radio" value="2" v-model="clickCount">
+        <input type="radio" value="2" v-model="clickCount" :disabled="trick !== 'transformer' && trick !== 'flare'">
         2
       </label>
       <label class="radio">
-        <input type="radio" value="3" v-model="clickCount">
+        <input type="radio" value="3" v-model="clickCount" :disabled="trick !== 'transformer' && trick !== 'flare'">
         3
       </label>
       <label class="radio">
-        <input type="radio" value="4" v-model="clickCount">
+        <input type="radio" value="4" v-model="clickCount" :disabled="trick !== 'transformer'">
         4
       </label>
     </div>
@@ -234,18 +234,6 @@ export default {
       this.currentBeat += Number(this.beatLength)
       this.addCodeLine(code)
     },
-    baby() {
-      this.trick = 'baby'
-    },
-    chirp() {
-      this.trick = 'chirp'
-    },
-    slice() {
-      this.trick = 'slice'
-    },
-    chop() {
-      this.trick = 'chop'
-    },
     transformer() {
       this.trick = 'transformer'
       if (!this.clickCount || this.clickCount === 1) {
@@ -257,36 +245,6 @@ export default {
       if (!this.clickCount || this.clickCount === 4) {
         this.clickCount = 1
       }
-    },
-    clickCount1() {
-      this.clickCount = 1
-    },
-    clickCount2() {
-      this.clickCount = 2
-    },
-    clickCount3() {
-      this.clickCount = 3
-    },
-    clickCount4() {
-      this.clickCount = 4
-    },
-    forward() {
-      this.pattern = 'forward'
-    },
-    backward() {
-      this.pattern = 'backward'
-    },
-    orbit() {
-      this.pattern = 'orbit'
-    },
-    normal() {
-      this.beatLength = 6
-    },
-    double() {
-      this.beatLength = 3
-    },
-    oneThird() {
-      this.beatLength = 2
     },
     addBgSolidLine(x1) {
       this.bgLine = new Konva.Line({
