@@ -1,3 +1,27 @@
 // Place all the styles related to the charts controller here.
 // They will automatically be included in application.scss.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+
+#js-chart {
+  p, label, .title, .trick-select, .click-count-select, .pattern-select, .beat-length-select,  {
+    text-align: center;
+  }
+  .trick-select {
+    p {
+      //text-align: center;
+    }
+  }
+}
+
+.actions {
+text-align: center;
+}
+
+.konvajs-content {
+  margin: 0 auto;
+}
+
+.select-container, .add {
+  display: flex;
+  justify-content: center;
+}

@@ -20,7 +20,7 @@
 
   <% if params[:action] == 'new' || chart.user == current_user %>
     <div class="actions">
-      <%= form.submit %>
+      <%= form.submit class: 'button' %>
     </div>
   <% end %>
 <% end %>
