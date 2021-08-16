@@ -3,7 +3,7 @@
     <input type="hidden" name="chart[chart_code]" id="chart_code" :value="JSON.stringify(chartCodes)">
     <input type="hidden" name="chart[image]" id="chart_image" :value="imageUrl">
   </div>
-  <div v-if="editing" class="title">
+  <div v-if="editing">
     <label for="chart_title">title</label>
     <input type="text" name="chart[title]" id="chart_title" v-model="title">
   </div>
@@ -87,12 +87,12 @@
       </label>
     </div>
     <div class="add">
-      <p @click='clickAdd'>add</p>
-      <p @click='addRest'>add rest</p>
-      <p @click='allClear'>all clear</p>
-      <p @click='deleteOne'>delete</p>
+      <p @click='clickAdd' class="button">add</p>
+      <p @click='addRest' class="button">add rest</p>
+      <p @click='allClear' class="button">all clear</p>
+      <p @click='deleteOne' class="button">delete</p>
     </div>
-    <p @click="convert">Export</p>
+    <p @click="convert" class="button">Export</p>
   </div>
   <div class="button-container">
     <p @click="edit" v-show="!editing && (userId === currentUserId)" class="button">edit</p>
