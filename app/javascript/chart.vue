@@ -3,50 +3,108 @@
     <input type="hidden" name="chart[chart_code]" id="chart_code" :value="JSON.stringify(chartCodes)">
     <input type="hidden" name="chart[image]" id="chart_image" :value="imageUrl">
   </div>
-  <template v-if="editing">
-    <label for="chart_title">title</label>
-    <input type="text" name="chart[title]" id="chart_title" v-model="title">
-  </template>
-  <p v-else="!editing">{{ title }}</p>
+  <div v-if="editing" class="chart-title">
+    <label for="chart_title" class="label">Title</label>
+    <input type="text" name="chart[title]" id="chart_title" v-model="title" class="input is-small">
+  </div>
+  <div v-else="!editing" class="chart-title">
+    <a class="title is-4">{{ title }}</a>
+    <a @click="edit" v-if="!editing && (userId === currentUserId)" class="button edit is-small">edit</a>
+  </div>
   <div id="chart"></div>
-  <div v-show="editing">
+  <div v-if="editing">
     <div class="select-container">
-      <div class="select-trick">
-        <p @click='baby' :class="{isSelected: trick === 'baby'}">baby</p>
-        <p @click='chirp' :class="{isSelected: trick === 'chirp'}">chirp</p>
-        <p @click='slice' :class="{isSelected: trick === 'slice'}">slice</p>
-        <p @click='chop' :class="{isSelected: trick === 'chop'}">chop</p>
-        <p @click='transformer' :class="{isSelected: trick === 'transformer'}">transformer</p>
-        <p @click='flare' :class="{isSelected: trick === 'flare'}">flare</p>
+      <div class="select-block">
+        <p class="label">Trick</p>
+        <label class="radio">
+          <input type="radio" value="baby" v-model="trick" checked="checked">
+          Baby
+        </label>
+        <label class="radio">
+          <input type="radio" value="chirp" v-model="trick">
+          Chirp
+        </label>
+        <label class="radio">
+          <input type="radio" value="slice" v-model="trick">
+          Slice
+        </label>
+        <label class="radio">
+          <input type="radio" value="chop" v-model="trick">
+          Chop
+        </label>
+        <label class="radio">
+          <input type="radio" value="transformer" v-model="trick">
+          Transformer
+        </label>
+        <label class="radio">
+          <input type="radio" value="flare" v-model="trick">
+          Flare
+        </label>
       </div>
-      <div class="select-click" v-show="trick === 'transformer' || trick === 'flare'">
-        <p @click="clickCount1" v-show="trick === 'flare'" :class="{isSelected: clickCount === 1}">1</p>
-        <p @click="clickCount2" :class="{isSelected: clickCount === 2}">2</p>
-        <p @click="clickCount3" :class="{isSelected: clickCount === 3}">3</p>
-        <p @click="clickCount4" v-show="trick === 'transformer'" :class="{isSelected: clickCount === 4}">4</p>
+      <div class="select-block">
+        <p class="label">Click Count</p>
+        <label class="radio">
+          <input type="radio" value="1" v-model="clickCount" checked="checked" :disabled="trick !== 'flare'">
+          1
+        </label>
+        <label class="radio">
+          <input type="radio" value="2" v-model="clickCount" :disabled="trick !== 'transformer' && trick !== 'flare'">
+          2
+        </label>
+        <label class="radio">
+          <input type="radio" value="3" v-model="clickCount" :disabled="trick !== 'transformer' && trick !== 'flare'">
+          3
+        </label>
+        <label class="radio">
+          <input type="radio" value="4" v-model="clickCount" :disabled="trick !== 'transformer'">
+          4
+        </label>
       </div>
-      <div class="select-pattern">
-        <p @click='forward' :class="{isSelected: pattern === 'forward'}">forward</p>
-        <p @click='backward' :class="{isSelected: pattern === 'backward'}">backward</p>
-        <p @click='orbit' :class="{isSelected: pattern === 'orbit'}">orbit</p>
+      <div class="select-block">
+        <p class="label">Pattern</p>
+        <label class="radio">
+          <input type="radio" value="forward" v-model="pattern" checked="checked">
+          Forward
+        </label>
+        <label class="radio">
+          <input type="radio" value="backward" v-model="pattern">
+          Backward
+        </label>
+        <label class="radio">
+          <input type="radio" value="orbit" v-model="pattern">
+          Orbit
+        </label>
       </div>
-      <div class="select-length">
-        <p @click='normal' :class="{isSelected: beatLength === 6}">1</p>
-        <p @click='double' :class="{isSelected: beatLength === 3}">1/2</p>
-        <p @click='oneThird' :class="{isSelected: beatLength === 2}">1/3</p>
-      </div>
-      <div class="add">
-        <p @click='clickAdd'>add</p>
-        <p @click='addRest'>add rest</p>
-        <p @click='allClear'>all clear</p>
-        <p @click='deleteOne'>delete</p>
+      <div class="select-block">
+        <p class="label">Beat Length</p>
+        <label class="radio">
+          <input type="radio" value="6" v-model="beatLength" checked="checked">
+          1
+        </label>
+        <label class="radio">
+          <input type="radio" value="3" v-model="beatLength">
+          1/2
+        </label>
+        <label class="radio">
+          <input type="radio" value="2" v-model="beatLength">
+          1/3
+        </label>
       </div>
     </div>
-    <p @click="convert">Export</p>
+    <div class="button-container">
+      <div class="button-row">
+        <p @click='clickAdd' class="button">Add Trick</p>
+        <p @click='addRest' class="button">Add Rest</p>
+        <p @click='allClear' class="button">All Clear</p>
+        <p @click='deleteOne' class="button">Delete</p>
+      </div>
+      <div class="button-row submit">
+        <p @click="convert" class="button">Export</p>
+        <input type="submit" name="commit" value="Save" class="button" data-disable-with="Save">
+      </div>
+    </div>
   </div>
-  <p @click="edit" v-show="!editing && (userId === currentUserId)">edit</p>
   <div v-show="exportImg"><img id="img"></div>
-
 </template>
 
 <script>
@@ -54,8 +112,8 @@ import Konva from "konva";
 
 export default {
   props: {
-    chartId: {type: Number, required: true},
-    currentUserId: {type: Number, required: true}
+    chartId: { type: Number, required: true },
+    currentUserId: { type: Number, required: true }
   },
   data() {
     return {
@@ -86,22 +144,21 @@ export default {
         },
         credentials: 'same-origin'
       })
-        .then((response) => {
-          return response.json()
-        })
-        .then((json) => {
-          this.userId = json.user_id
-          this.title = json.title
-          this.chartCodes = JSON.parse(json.chart_code)
-          this.renderChartCodes(this.chartCodes)
-          const lastCode = this.chartCodes[this.chartCodes.length - 1]
-          this.currentBeat = lastCode.beatPosition + lastCode.beatLength
-          this.editing = false
-          this.loaded = true
-        })
-        .catch((error) => {
-          console.warn('Failed to parsing', error)
-        })
+          .then((response) => {
+            return response.json()
+          })
+          .then((json) => {
+            this.userId = json.user_id
+            this.title = json.title
+            this.chartCodes = JSON.parse(json.chart_code)
+            this.renderChartCodes(this.chartCodes)
+            const lastCode = this.chartCodes[this.chartCodes.length - 1]
+            this.currentBeat = lastCode.beatPosition + lastCode.beatLength
+            this.loaded = true
+          })
+          .catch((error) => {
+            console.warn('Failed to parsing', error)
+          })
     } else {
       this.editing = true
     }
@@ -144,7 +201,7 @@ export default {
         beatPosition: this.currentBeat
       }
       this.chartCodes.push(code)
-      this.currentBeat += this.beatLength
+      this.currentBeat += Number(this.beatLength)
       this.addCodeLine(code)
     },
     allClear() {
@@ -175,25 +232,13 @@ export default {
       const code = {
         trick: this.trick,
         pattern: pattern,
-        beatLength: this.beatLength,
+        beatLength: Number(this.beatLength),
         beatPosition: this.currentBeat,
         faderPositions: this.calcFaderPositions(pattern),
       }
       this.chartCodes.push(code)
-      this.currentBeat += this.beatLength
+      this.currentBeat += Number(this.beatLength)
       this.addCodeLine(code)
-    },
-    baby() {
-      this.trick = 'baby'
-    },
-    chirp() {
-      this.trick = 'chirp'
-    },
-    slice() {
-      this.trick = 'slice'
-    },
-    chop() {
-      this.trick = 'chop'
     },
     transformer() {
       this.trick = 'transformer'
@@ -206,36 +251,6 @@ export default {
       if (!this.clickCount || this.clickCount === 4) {
         this.clickCount = 1
       }
-    },
-    clickCount1() {
-      this.clickCount = 1
-    },
-    clickCount2() {
-      this.clickCount = 2
-    },
-    clickCount3() {
-      this.clickCount = 3
-    },
-    clickCount4() {
-      this.clickCount = 4
-    },
-    forward() {
-      this.pattern = 'forward'
-    },
-    backward() {
-      this.pattern = 'backward'
-    },
-    orbit() {
-      this.pattern = 'orbit'
-    },
-    normal() {
-      this.beatLength = 6
-    },
-    double() {
-      this.beatLength = 3
-    },
-    oneThird() {
-      this.beatLength = 2
     },
     addBgSolidLine(x1) {
       this.bgLine = new Konva.Line({
@@ -317,21 +332,21 @@ export default {
     },
     calcFaderPositions(pattern) {
       if (this.trick === 'chirp') {
-        return [pattern === 'forward' ? this.beatLength : 0]
+        return [pattern === 'forward' ? Number(this.beatLength) : 0]
       } else if (this.trick === 'slice') {
-        return [pattern === 'forward' ? 0 : this.beatLength]
+        return [pattern === 'forward' ? 0 : Number(this.beatLength)]
       } else if (this.trick === 'chop') {
-        return [0, this.beatLength]
+        return [0, Number(this.beatLength)]
       } else if (this.trick === 'transformer') {
         let faderPositions = [0]
-        for (let n = 1; n <= this.clickCount; n++) {
-          faderPositions.push(this.beatLength * n / this.clickCount)
+        for (let n = 1; n <= Number(this.clickCount); n++) {
+          faderPositions.push(Number(this.beatLength) * n / Number(this.clickCount))
         }
         return faderPositions
       } else if (this.trick === 'flare') {
         let faderPositions = []
-        for (let n = 1; n <= this.clickCount; n++) {
-          faderPositions.push(this.beatLength * n / (this.clickCount + 1))
+        for (let n = 1; n <= Number(this.clickCount); n++) {
+          faderPositions.push(Number(this.beatLength) * n / (Number(this.clickCount) + 1))
         }
         return faderPositions
       }
@@ -417,46 +432,46 @@ export default {
 </script>
 
 <style scoped>
-.select-trick, .select-pattern, .select-length, .add, .select-click {
-  display: flex;
-}
+/*.select-trick, .select-pattern, .select-length, .add, .select-click {*/
+/*  display: flex;*/
+/*}*/
 
-.select-trick p {
-  margin: 10px;
-}
+/*.select-trick p {*/
+/*  margin: 10px;*/
+/*}*/
 
-.select-pattern p {
-  margin: 10px;
-}
+/*.select-pattern p {*/
+/*  margin: 10px;*/
+/*}*/
 
-.select-length p {
-  margin: 10px;
-}
+/*.select-length p {*/
+/*  margin: 10px;*/
+/*}*/
 
-.add p {
-  margin: 10px;
-}
+/*.add p {*/
+/*  margin: 10px;*/
+/*}*/
 
-.select-click p {
-  margin: 10px;
-}
+/*.select-click p {*/
+/*  margin: 10px;*/
+/*}*/
 
-svg {
-  width: 90px;
-  height: 92px;
-}
+/*svg {*/
+/*  width: 90px;*/
+/*  height: 92px;*/
+/*}*/
 
-line {
-  stroke: rgb(90, 84, 84);
-  stroke-width: 2px;
-}
+/*line {*/
+/*  stroke: rgb(90, 84, 84);*/
+/*  stroke-width: 2px;*/
+/*}*/
 
-.isSelected {
-  background-color: #9f7cba;
-}
+/*.isSelected {*/
+/*  background-color: #9f7cba;*/
+/*}*/
 
-img {
-  width: 500px;
-  height: 160px;
-}
+/*img {*/
+/*  width: 500px;*/
+/*  height: 160px;*/
+/*}*/
 </style>

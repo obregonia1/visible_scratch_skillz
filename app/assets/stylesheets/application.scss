@@ -13,3 +13,10 @@
  *= require_tree .
  *= require_self
  */
+@import "bulma";
+
+header {
+  p {
+    text-align: right;
+  }
+}

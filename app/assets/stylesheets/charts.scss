@@ -1,3 +1,53 @@
 // Place all the styles related to the charts controller here.
-// They will automatically be included in application.css.
+// They will automatically be included in application.scss.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+
+#js-chart {
+  .select-block {
+    margin: 20px 0;
+  }
+
+  .button-container {
+    margin: 12px auto;
+  }
+
+  .button-row {
+    display: flex;
+    justify-content: space-between;
+    margin: 12px auto;
+    width: 80%;
+
+    p {
+      flex-basis: 25%;
+      margin: 0 5px;
+    }
+  }
+
+  .button-row.submit {
+    input, p {
+      flex-basis: 50%;
+      margin: 0 5px;
+    }
+  }
+
+  .select-container, .chart-title {
+    margin: 0 auto;
+    width: 80%;
+  }
+
+  .chart-title {
+    a {
+      margin: 0 8px;
+    }
+  }
+}
+
+.konvajs-content {
+  margin: 24px auto;
+}
+
+.box {
+  width: 60%;
+  margin: 0 auto;
+}
+
