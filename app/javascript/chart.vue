@@ -100,7 +100,7 @@
       </div>
       <div class="button-row submit">
         <a @click="exportImg" class="button">Export</a>
-        <a @click="save" class="button" data-disable-with="Save">Save</a>
+        <a v-if="!nonLogin" @click="save" class="button" data-disable-with="Save">Save</a>
       </div>
     </div>
   </div>
@@ -113,7 +113,8 @@ import Konva from "konva";
 export default {
   props: {
     chartId: { type: Number, required: true },
-    currentUserId: { type: Number, required: true }
+    currentUserId: { type: Number, required: true },
+    nonLogin: { type: Boolean, required: true }
   },
   data() {
     return {
