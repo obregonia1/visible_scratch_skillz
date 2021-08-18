@@ -99,8 +99,8 @@
         <p @click='deleteOne' class="button">Delete</p>
       </div>
       <div class="button-row submit">
-        <p @click="convert" class="button">Export</p>
-        <input type="submit" name="commit" value="Save" class="button" data-disable-with="Save">
+        <a @click="exportImg" class="button">Export</a>
+        <a v-if="!nonLogin" @click="save" class="button" data-disable-with="Save">Save</a>
       </div>
     </div>
   </div>
@@ -113,7 +113,8 @@ import Konva from "konva";
 export default {
   props: {
     chartId: { type: Number, required: true },
-    currentUserId: { type: Number, required: true }
+    currentUserId: { type: Number, required: true },
+    nonLogin: { type: Boolean, required: true }
   },
   data() {
     return {
@@ -126,12 +127,13 @@ export default {
       codeLayer: null,
       faderPositions: null,
       clickCount: null,
-      exportImg: false,
+      displayImg: false,
       title: '',
       imageUrl: '',
       loaded: null,
       editing: false,
       userId: '',
+      imageStage: null,
     }
   },
   mounted() {
@@ -355,7 +357,7 @@ export default {
       return beatPosition * 120 / 6
     },
     convert() {
-      const imageStage = new Konva.Stage({
+      this.imageStage = new Konva.Stage({
         container: 'img',
         width: 500,
         height: 160,
@@ -370,11 +372,11 @@ export default {
         name: 'bgColor'
       })
       bgColorLayer.add(bgColor)
-      imageStage.add(bgColorLayer)
+      this.imageStage.add(bgColorLayer)
       const bgLineLayer = this.bgLineLayer.clone()
       bgLineLayer.offsetX(-10)
       bgLineLayer.offsetY(-30)
-      imageStage.add(bgLineLayer)
+      this.imageStage.add(bgLineLayer)
 
       const textLayer = new Konva.Layer({
         name: 'text'
@@ -409,16 +411,11 @@ export default {
         line.setAttr('visible', false)
       })
 
-      imageStage.add(codeLayer)
-      imageStage.add(textLayer)
-
-      this.imageUrl = imageStage.toDataURL({
+      this.imageStage.add(codeLayer)
+      this.imageStage.add(textLayer)
+      this.imageUrl = this.imageStage.toDataURL({
         pixelRatio: 2
       })
-      // const img = document.getElementById("img")
-      // img.src = imageUrl
-      // this.exportImg = true
-
     },
     token() {
       const meta = document.querySelector('meta[name="csrf-token"]')
@@ -426,52 +423,25 @@ export default {
     },
     edit() {
       this.editing = true
+    },
+    save() {
+      const convert = this.convert
+      const promise = new Promise(function(resolve){
+        convert()
+        resolve()
+      })
+      function onFulfilled() {
+        const form = document.getElementById('form')
+        form.submit()
+      }
+      promise.then(onFulfilled)
+    },
+    exportImg() {
+      this.convert()
+      this.displayImg = true
+      const img = document.getElementById("img")
+      img.src = this.imageUrl
     }
   }
 }
 </script>
-
-<style scoped>
-/*.select-trick, .select-pattern, .select-length, .add, .select-click {*/
-/*  display: flex;*/
-/*}*/
-
-/*.select-trick p {*/
-/*  margin: 10px;*/
-/*}*/
-
-/*.select-pattern p {*/
-/*  margin: 10px;*/
-/*}*/
-
-/*.select-length p {*/
-/*  margin: 10px;*/
-/*}*/
-
-/*.add p {*/
-/*  margin: 10px;*/
-/*}*/
-
-/*.select-click p {*/
-/*  margin: 10px;*/
-/*}*/
-
-/*svg {*/
-/*  width: 90px;*/
-/*  height: 92px;*/
-/*}*/
-
-/*line {*/
-/*  stroke: rgb(90, 84, 84);*/
-/*  stroke-width: 2px;*/
-/*}*/
-
-/*.isSelected {*/
-/*  background-color: #9f7cba;*/
-/*}*/
-
-/*img {*/
-/*  width: 500px;*/
-/*  height: 160px;*/
-/*}*/
-</style>

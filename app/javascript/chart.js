@@ -7,7 +7,8 @@ document.addEventListener('turbolinks:load', () => {
   if (chart) {
     const chartId = Number(chart.getAttribute('data-chart-id'))
     const currentUserId = Number(chart.getAttribute('data-current-user-id'))
-    const app = createApp(Chart, { chartId: chartId, currentUserId: currentUserId })
+    const nonLogin = chart.getAttribute('non-login')
+    const app = createApp(Chart, { chartId: chartId, currentUserId: currentUserId, nonLogin: nonLogin })
     app.mount(selector)
   }
 })
