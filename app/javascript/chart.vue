@@ -3,99 +3,106 @@
     <input type="hidden" name="chart[chart_code]" id="chart_code" :value="JSON.stringify(chartCodes)">
     <input type="hidden" name="chart[image]" id="chart_image" :value="imageUrl">
   </div>
-  <div v-if="editing">
-    <label for="chart_title">title</label>
-    <input type="text" name="chart[title]" id="chart_title" v-model="title">
+  <div v-if="editing" class="chart-title">
+    <label for="chart_title" class="label">Title</label>
+    <input type="text" name="chart[title]" id="chart_title" v-model="title" class="input is-small">
   </div>
-  <p v-else="!editing" class="title">{{ title }}</p>
+  <div v-else="!editing" class="chart-title">
+    <a class="title is-4">{{ title }}</a>
+    <a @click="edit" v-if="!editing && (userId === currentUserId)" class="button edit is-small">edit</a>
+  </div>
   <div id="chart"></div>
-  <div v-show="editing">
-    <div class="trick-select">
-      <p>Trick</p>
-      <label class="radio">
-        <input type="radio" value="baby" v-model="trick" checked="checked">
-        Baby
-      </label>
-      <label class="radio">
-        <input type="radio" value="chirp" v-model="trick">
-        Chirp
-      </label>
-      <label class="radio">
-        <input type="radio" value="slice" v-model="trick">
-        Slice
-      </label>
-      <label class="radio">
-        <input type="radio" value="chop" v-model="trick">
-        Chop
-      </label>
-      <label class="radio">
-        <input type="radio" value="transformer" v-model="trick">
-        Transformer
-      </label>
-      <label class="radio">
-        <input type="radio" value="flare" v-model="trick">
-        Flare
-      </label>
+  <div v-if="editing">
+    <div class="select-container">
+      <div class="select-block">
+        <p class="label">Trick</p>
+        <label class="radio">
+          <input type="radio" value="baby" v-model="trick" checked="checked">
+          Baby
+        </label>
+        <label class="radio">
+          <input type="radio" value="chirp" v-model="trick">
+          Chirp
+        </label>
+        <label class="radio">
+          <input type="radio" value="slice" v-model="trick">
+          Slice
+        </label>
+        <label class="radio">
+          <input type="radio" value="chop" v-model="trick">
+          Chop
+        </label>
+        <label class="radio">
+          <input type="radio" value="transformer" v-model="trick">
+          Transformer
+        </label>
+        <label class="radio">
+          <input type="radio" value="flare" v-model="trick">
+          Flare
+        </label>
+      </div>
+      <div class="select-block">
+        <p class="label">Click Count</p>
+        <label class="radio">
+          <input type="radio" value="1" v-model="clickCount" checked="checked" :disabled="trick !== 'flare'">
+          1
+        </label>
+        <label class="radio">
+          <input type="radio" value="2" v-model="clickCount" :disabled="trick !== 'transformer' && trick !== 'flare'">
+          2
+        </label>
+        <label class="radio">
+          <input type="radio" value="3" v-model="clickCount" :disabled="trick !== 'transformer' && trick !== 'flare'">
+          3
+        </label>
+        <label class="radio">
+          <input type="radio" value="4" v-model="clickCount" :disabled="trick !== 'transformer'">
+          4
+        </label>
+      </div>
+      <div class="select-block">
+        <p class="label">Pattern</p>
+        <label class="radio">
+          <input type="radio" value="forward" v-model="pattern" checked="checked">
+          Forward
+        </label>
+        <label class="radio">
+          <input type="radio" value="backward" v-model="pattern">
+          Backward
+        </label>
+        <label class="radio">
+          <input type="radio" value="orbit" v-model="pattern">
+          Orbit
+        </label>
+      </div>
+      <div class="select-block">
+        <p class="label">Beat Length</p>
+        <label class="radio">
+          <input type="radio" value="6" v-model="beatLength" checked="checked">
+          1
+        </label>
+        <label class="radio">
+          <input type="radio" value="3" v-model="beatLength">
+          1/2
+        </label>
+        <label class="radio">
+          <input type="radio" value="2" v-model="beatLength">
+          1/3
+        </label>
+      </div>
     </div>
-    <div class="click-count-select">
-      <p>Click Count</p>
-      <label class="radio">
-        <input type="radio" value="1" v-model="clickCount" checked="checked" :disabled="trick !== 'flare'">
-        1
-      </label>
-      <label class="radio">
-        <input type="radio" value="2" v-model="clickCount" :disabled="trick !== 'transformer' && trick !== 'flare'">
-        2
-      </label>
-      <label class="radio">
-        <input type="radio" value="3" v-model="clickCount" :disabled="trick !== 'transformer' && trick !== 'flare'">
-        3
-      </label>
-      <label class="radio">
-        <input type="radio" value="4" v-model="clickCount" :disabled="trick !== 'transformer'">
-        4
-      </label>
+    <div class="button-container">
+      <div class="button-row">
+        <p @click='clickAdd' class="button">Add Trick</p>
+        <p @click='addRest' class="button">Add Rest</p>
+        <p @click='allClear' class="button">All Clear</p>
+        <p @click='deleteOne' class="button">Delete</p>
+      </div>
+      <div class="button-row submit">
+        <p @click="convert" class="button">Export</p>
+        <input type="submit" name="commit" value="Save" class="button" data-disable-with="Save">
+      </div>
     </div>
-    <div class="pattern-select">
-      <p>Pattern</p>
-      <label class="radio">
-        <input type="radio" value="forward" v-model="pattern" checked="checked">
-        Forward
-      </label>
-      <label class="radio">
-        <input type="radio" value="backward" v-model="pattern">
-        Backward
-      </label>
-      <label class="radio">
-        <input type="radio" value="orbit" v-model="pattern">
-        Orbit
-      </label>
-    </div>
-    <div class="beat-length-select">
-      <p>Beat Length</p>
-      <label class="radio">
-        <input type="radio" value="6" v-model="beatLength" checked="checked">
-        1
-      </label>
-      <label class="radio">
-        <input type="radio" value="3" v-model="beatLength">
-        1/2
-      </label>
-      <label class="radio">
-        <input type="radio" value="2" v-model="beatLength">
-        1/3
-      </label>
-    </div>
-    <div class="add">
-      <p @click='clickAdd' class="button">add</p>
-      <p @click='addRest' class="button">add rest</p>
-      <p @click='allClear' class="button">all clear</p>
-      <p @click='deleteOne' class="button">delete</p>
-    </div>
-    <p @click="convert" class="button">Export</p>
-  </div>
-  <div class="button-container">
-    <p @click="edit" v-show="!editing && (userId === currentUserId)" class="button">edit</p>
   </div>
   <div v-show="exportImg"><img id="img"></div>
 </template>
@@ -147,7 +154,6 @@ export default {
             this.renderChartCodes(this.chartCodes)
             const lastCode = this.chartCodes[this.chartCodes.length - 1]
             this.currentBeat = lastCode.beatPosition + lastCode.beatLength
-            this.editing = false
             this.loaded = true
           })
           .catch((error) => {

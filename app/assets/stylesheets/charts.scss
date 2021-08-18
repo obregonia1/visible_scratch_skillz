@@ -3,31 +3,51 @@
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
 #js-chart {
-  p, label, .title, .trick-select, .click-count-select, .pattern-select, .beat-length-select, div {
-    text-align: center;
-  }
-  .trick-select, .click-count-select, .pattern-select, .beat-length-select {
+  .select-block {
     margin: 20px 0;
   }
-  .button {
-    margin: 12px 12px;
+
+  .button-container {
+    margin: 12px auto;
   }
-  .trick-select {
+
+  .button-row {
+    display: flex;
+    justify-content: space-between;
+    margin: 12px auto;
+    width: 80%;
+
     p {
-      //text-align: center;
+      flex-basis: 25%;
+      margin: 0 5px;
+    }
+  }
+
+  .button-row.submit {
+    input, p {
+      flex-basis: 50%;
+      margin: 0 5px;
+    }
+  }
+
+  .select-container, .chart-title {
+    margin: 0 auto;
+    width: 80%;
+  }
+
+  .chart-title {
+    a {
+      margin: 0 8px;
     }
   }
 }
 
-.actions {
-text-align: center;
+.konvajs-content {
+  margin: 24px auto;
 }
 
-.konvajs-content {
+.box {
+  width: 60%;
   margin: 0 auto;
 }
 
-.select-container, .add {
-  display: flex;
-  justify-content: center;
-}

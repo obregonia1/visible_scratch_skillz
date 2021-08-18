@@ -1,26 +1,20 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Charts</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
+<nav class="panel">
+  <p class="panel-heading">
+    All Routines
+  </p>
+  <% if @charts.any? %>
     <% @charts.each do |chart| %>
-      <tr>
-        <td><%= chart.title %></td>
-        <td><%= link_to 'Show', chart %></td>
-        <td><%= link_to 'Destroy', chart, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+      <div class="panel-block is-justify-content-flex-end">
+        <div class="chart-title"><%= link_to chart.title, chart %></div>
+        <div class="panel-sub"><%= link_to 'Delete', chart, method: :delete, data: { confirm: 'Are you sure?' } if @user == current_user %></div>
+      </div>
     <% end %>
-  </tbody>
-</table>
-
+  <% else %>
+    <p>There is no routine you saved.</p>
+  <% end %>
+</nav>
 <br>
 
-<%= link_to 'New Chart', new_chart_path %>
+<%= link_to 'New Chart', new_chart_path if @user == current_user %> <!--#TODO-->

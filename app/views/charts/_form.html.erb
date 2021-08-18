@@ -1,4 +1,4 @@
-<%= form_with model: chart, multipart: true do |form| %>
+<%= form_with model: chart, multipart: true, class: 'box' do |form| %>
   <% if chart.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(chart.errors.count, "error") %> prohibited this chart from being saved:</h2>
@@ -17,10 +17,4 @@
       <%= "data-current-user-id=#{current_user.id}" %>
     <% end %>
   ></div>
-
-  <% if params[:action] == 'new' || chart.user == current_user %>
-    <div class="actions">
-      <%= form.submit class: 'button' %>
-    </div>
-  <% end %>
 <% end %>

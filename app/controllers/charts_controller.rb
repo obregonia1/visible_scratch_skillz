@@ -23,7 +23,7 @@ class ChartsController < ApplicationController
 
     respond_to do |format|
       if @chart.save
-        format.html { redirect_to @chart, notice: 'Chart was successfully created.' }
+        format.html { redirect_to user_path(current_user), notice: 'Chart was successfully created.' }
         format.json { render :show, status: :created, location: @chart }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -37,7 +37,7 @@ class ChartsController < ApplicationController
     respond_to do |format|
       if @chart.update(chart_params)
         @chart.attach_blob(image_param)
-        format.html { redirect_to @chart, notice: 'Chart was successfully updated.' }
+        format.html { redirect_to user_path(current_user), notice: 'Chart was successfully updated.' }
         format.json { render :show, status: :ok, location: @chart }
       else
         format.html { render :show, status: :unprocessable_entity }
