@@ -1,6 +1,5 @@
                                   Prefix Verb   URI Pattern                                                                                       Controller#Action
                                     root GET    /                                                                                                 charts#index
-                              users_show GET    /users/show(.:format)                                                                             users#show
                         new_user_session GET    /users/sign_in(.:format)                                                                          users/sessions#new
                             user_session POST   /users/sign_in(.:format)                                                                          users/sessions#create
                     destroy_user_session DELETE /users/sign_out(.:format)                                                                         users/sessions#destroy
@@ -23,6 +22,7 @@
                                          PATCH  /charts/:id(.:format)                                                                             charts#update
                                          PUT    /charts/:id(.:format)                                                                             charts#update
                                          DELETE /charts/:id(.:format)                                                                             charts#destroy
+                                    user GET    /users/:id(.:format)                                                                              users#show
                                api_chart GET    /api/charts/:id(.:format)                                                                         api/charts#show
            rails_postmark_inbound_emails POST   /rails/action_mailbox/postmark/inbound_emails(.:format)                                           action_mailbox/ingresses/postmark/inbound_emails#create
               rails_relay_inbound_emails POST   /rails/action_mailbox/relay/inbound_emails(.:format)                                              action_mailbox/ingresses/relay/inbound_emails#create

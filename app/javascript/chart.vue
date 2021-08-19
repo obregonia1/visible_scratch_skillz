@@ -100,7 +100,7 @@
       </div>
       <div class="button-row submit">
         <a @click="exportImg" class="button">Export</a>
-        <a v-if="!nonLogin" @click="save" class="button" data-disable-with="Save">Save</a>
+        <a v-if="!nonLogin" @click="save" class="button" data-disable-with="Saving">Save</a>
       </div>
     </div>
   </div>
