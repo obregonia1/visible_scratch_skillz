@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const input = this.previousElementSibling
     const url = input.getAttribute('value')
-    this.innerHTML = 'Cpoied!'
+    this.innerHTML = 'Copied!'
 
     tmp.appendChild(pre).textContent = url
     document.body.appendChild(tmp);
@@ -19,7 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.removeChild(tmp);
 
     return result;
-
   }
 
   const copyButtons = document.getElementsByClassName("vss-copy-button")

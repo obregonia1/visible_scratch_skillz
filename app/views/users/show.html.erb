@@ -8,19 +8,21 @@
   </p>
   <% if @charts.any? %>
     <% @charts.each do |chart| %>
-      <div class="panel-block is-justify-content-flex-end">
+      <div class="panel-block is-justify-content-flex-end panel-list">
         <div class="chart-title"><%= link_to chart.title, chart %></div>
-<!--        <div class="panel-sub"><a href="<%#= rails_storage_proxy_url(chart.image) %>">link</a></div>-->
-        <div class="panel-sub vss-image-url">
+        <div class="vss-panel-list_button">
           <input type="hidden" value="<%= rails_storage_proxy_url(chart.image) %>">
-          <button class="vss-copy-button button">Copy</button>
+          <a class="vss-copy-button button">Copy</a>
         </div>
-<!--        <div class="panel-sub"><input type="text" value="test"><button id="copy">Copy</button></div>-->
-        <div class="panel-sub"><%= link_to 'Delete', chart, method: :delete, data: { confirm: 'Are you sure?' } if @user == current_user %></div>
+        <div class="vss-panel-list_button">
+          <input type="hidden" value="<%= to_embed rails_storage_proxy_url(chart.image), chart.title %>">
+          <a class="vss-copy-button button">Copy embed</a>
+        </div>
+        <div class="vss-panel-list_button"><%= link_to 'Delete', chart, method: :delete, data: { confirm: 'Are you sure?' }, class: 'button' if @user == current_user %></div>
       </div>
     <% end %>
   <% else %>
-    <p>There is no routine you saved.</p>
+    <p class="vss-no_charts_message has-text-centered	is-size-4">There is no routine you saved.</p>
   <% end %>
 </nav>
 <br>
