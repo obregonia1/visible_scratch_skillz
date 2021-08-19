@@ -309,7 +309,7 @@ export default {
         if (code.trick !== 'baby') {
           this.drawFaderLine(code, layer)
         }
-      } else if (code.trick === 'rest') {
+      } else if (code.trick === 'rest' && this.editing === true) {
         y1 = 100
         y2 = 100
         strokeWidth = 1
@@ -423,6 +423,7 @@ export default {
     },
     edit() {
       this.editing = true
+      this.renderChartCodes(this.chartCodes)
     },
     save() {
       const convert = this.convert
