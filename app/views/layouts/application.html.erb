@@ -11,17 +11,22 @@
   </head>
 
   <body>
-    <header>
-      <p class="navbar pull-right">
+    <header class="is-flex is-justify-content-flex-end is-align-items-center">
+      <h1>
+        Visible Scratch Skillz
+      </h1>
+      <nav class="is-flex">
         <% if user_signed_in? %>
-          Logged in as <strong><%= current_user.email %></strong>.
-          <%= link_to 'Edit profile', edit_user_registration_path %> |
-          <%= link_to "Logout", destroy_user_session_path, method: :delete %>
+          <strong><%= current_user.email %></strong>
+          <%= link_to 'New', new_chart_path, class: 'navbar-item' %>
+          <%= link_to 'List', user_path(current_user), class: 'navbar-item' %>
+          <%= link_to 'Edit profile', edit_user_registration_path, class: 'navbar-item' %>
+          <%= link_to "Logout", destroy_user_session_path, method: :delete, class: 'navbar-item' %>
         <% else %>
-          <%= link_to "Sign up", new_user_registration_path%> |
+          <%= link_to "Sign up", new_user_registration_path %>
           <%= link_to "Login", new_user_session_path %>
         <% end %>
-      </p>
+      </nav>
     </header>
     <%= yield %>
   </body>
