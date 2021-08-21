@@ -22,7 +22,7 @@
       </div>
     <% end %>
   <div class="is-flex is-justify-content-center">
-    <%= paginate @charts %>
+    <%= paginate @charts, theme: 'bulma' %>
   </div>
   <% else %>
     <p class="vss-no_charts_message has-text-centered	is-size-4">There is no routine you saved.</p>

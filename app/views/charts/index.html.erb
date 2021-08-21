@@ -12,7 +12,7 @@
       </div>
     <% end %>
     <div class="is-flex is-justify-content-center">
-      <%= paginate @charts %>
+      <%= paginate @charts, theme: 'bulma' %>
     </div>
   <% else %>
     <p>There is no routine you saved.</p>

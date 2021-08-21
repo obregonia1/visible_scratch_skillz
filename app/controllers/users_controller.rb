@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   before_action :set_user
 
   def show
-    @charts = @user.charts.order(created_at: :desc).page(params[:page])
+    @charts = @user.charts.order(created_at: :desc).page(params[:page]).per(2)
   end
 
   private
