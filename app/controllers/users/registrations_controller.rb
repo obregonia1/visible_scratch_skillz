@@ -52,13 +52,20 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # The path used after sign up.
   def after_sign_up_path_for(resource)
-    user_path(resource)
+    resource
   end
 
   def after_update_path_for(resource)
-    user_path(resource)
+    resource
   end
 
+  protected
+
+  def update_resource(resource, params)
+    return super if params['password']&.present?
+
+    resource.update_without_password(params.except('current_password'))
+  end
   # The path used after sign up for inactive accounts.
   # def after_inactive_sign_up_path_for(resource)
   #   super(resource)
