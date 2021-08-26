@@ -4,7 +4,7 @@
 
 <nav class="panel">
   <p class="panel-heading">
-    <%= @user.email %>'s Routines
+    <%= @user.username || @user.email %>'s Routines
   </p>
   <% if @charts.any? %>
     <% @charts.each do |chart| %>

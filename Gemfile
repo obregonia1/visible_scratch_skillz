@@ -34,6 +34,9 @@ gem 'bootsnap', '>= 1.4.4', require: false
 gem "bulma-rails", "~> 0.9.1"
 gem 'devise'
 gem 'kaminari'
+gem 'omniauth'
+gem 'omniauth-twitter'
+gem 'omniauth-rails_csrf_protection'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
