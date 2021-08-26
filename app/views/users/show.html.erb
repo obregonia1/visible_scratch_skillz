@@ -18,7 +18,6 @@
           <input type="hidden" value="<%= to_embed rails_storage_proxy_url(chart.image), chart.title %>">
           <a class="vss-copy-button button">Copy embed</a>
         </div>
-        <div class="vss-panel-list_button"><%= link_to 'Delete', chart, method: :delete, data: { confirm: 'Are you sure?' }, class: 'button' if @user == current_user %></div>
       </div>
     <% end %>
     <%= paginate @charts, theme: 'bulma', window: 2 %>
