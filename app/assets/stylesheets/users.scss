@@ -9,6 +9,11 @@
 .panel {
   width: 80%;
   margin: 0 auto;
+
+  .pagination {
+    margin: 8px 12px;
+    padding-bottom: 8px;
+  }
 }
 
 .vss-panel-list_button {

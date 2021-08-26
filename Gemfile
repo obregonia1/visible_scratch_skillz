@@ -33,6 +33,7 @@ gem 'bootsnap', '>= 1.4.4', require: false
 # not default
 gem "bulma-rails", "~> 0.9.1"
 gem 'devise'
+gem 'kaminari'
 gem 'omniauth'
 gem 'omniauth-twitter'
 gem 'omniauth-rails_csrf_protection'

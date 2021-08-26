@@ -21,6 +21,7 @@
         <div class="vss-panel-list_button"><%= link_to 'Delete', chart, method: :delete, data: { confirm: 'Are you sure?' }, class: 'button' if @user == current_user %></div>
       </div>
     <% end %>
+    <%= paginate @charts, theme: 'bulma', window: 2 %>
   <% else %>
     <p class="vss-no_charts_message has-text-centered	is-size-4">There is no routine you saved.</p>
   <% end %>

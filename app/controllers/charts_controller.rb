@@ -5,7 +5,7 @@ class ChartsController < ApplicationController
 
   # GET /charts or /charts.json
   def index
-    @charts = Chart.all
+    @charts = Chart.order(created_at: :desc).page params[:page]
   end
 
   # GET /charts/1 or /charts/1.json

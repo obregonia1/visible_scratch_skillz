@@ -8,9 +8,12 @@
     <% @charts.each do |chart| %>
       <div class="panel-block is-justify-content-flex-end">
         <div class="chart-title"><%= link_to chart.title, chart %></div>
-        <div class="panel-sub"><%= link_to 'Delete', chart, method: :delete, data: { confirm: 'Are you sure?' } if @user == current_user %></div>
+        <div class="panel-sub"><%= link_to 'Delete', chart, method: :delete, data: { confirm: 'Are you sure?' } if chart.user == current_user %></div>
       </div>
     <% end %>
+    <div class="is-flex is-justify-content-center">
+      <%= paginate @charts, theme: 'bulma' %>
+    </div>
   <% else %>
     <p>There is no routine you saved.</p>
   <% end %>
