@@ -9,7 +9,10 @@
   </div>
   <div v-else="!editing" class="chart-title">
     <a class="title is-4">{{ title }}</a>
-    <a @click="edit" v-if="!editing && (userId === currentUserId)" class="button edit is-small">edit</a>
+    <template v-if="!editing && (userId === currentUserId)" >
+      <a @click="edit" class="button edit is-small">Edit</a>
+      <a data-confirm="Are you sure?" class="is-size-7" rel="nofollow" data-method="delete" :href="`/charts/${chartId}`">Delete</a>
+    </template>
   </div>
   <div id="chart"></div>
   <div v-if="editing">
