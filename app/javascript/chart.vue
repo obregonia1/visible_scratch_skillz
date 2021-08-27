@@ -3,11 +3,11 @@
     <input type="hidden" name="chart[chart_code]" id="chart_code" :value="JSON.stringify(chartCodes)">
     <input type="hidden" name="chart[image]" id="chart_image" :value="imageUrl">
   </div>
-  <div v-if="editing" class="chart-title">
+  <div v-if="editing" class="vss-chart-title">
     <label for="chart_title" class="label">Title</label>
     <input type="text" name="chart[title]" id="chart_title" v-model="title" class="input is-small">
   </div>
-  <div v-else="!editing" class="chart-title">
+  <div v-else="!editing" class="vss-chart-title">
     <a class="title is-4">{{ title }}</a>
     <template v-if="!editing && (userId === currentUserId)" >
       <a @click="edit" class="button edit is-small">Edit</a>
@@ -16,8 +16,8 @@
   </div>
   <div id="chart"></div>
   <div v-if="editing">
-    <div class="select-container">
-      <div class="select-block">
+    <div class="vss-select-container">
+      <div class="vss-select-block">
         <p class="label">Trick</p>
         <label class="radio">
           <input type="radio" value="baby" v-model="trick" checked="checked">
@@ -44,7 +44,7 @@
           Flare
         </label>
       </div>
-      <div class="select-block">
+      <div class="vss-select-block">
         <p class="label">Click Count</p>
         <label class="radio">
           <input type="radio" value="1" v-model="clickCount" checked="checked" :disabled="trick !== 'flare'">
@@ -63,7 +63,7 @@
           4
         </label>
       </div>
-      <div class="select-block">
+      <div class="vss-select-block">
         <p class="label">Pattern</p>
         <label class="radio">
           <input type="radio" value="forward" v-model="pattern" checked="checked">
@@ -78,7 +78,7 @@
           Orbit
         </label>
       </div>
-      <div class="select-block">
+      <div class="vss-select-block">
         <p class="label">Beat Length</p>
         <label class="radio">
           <input type="radio" value="6" v-model="beatLength" checked="checked">
@@ -94,16 +94,16 @@
         </label>
       </div>
     </div>
-    <div class="button-container">
-      <div class="button-row">
-        <p @click='clickAdd' class="button">Add Trick</p>
-        <p @click='addRest' class="button">Add Rest</p>
-        <p @click='allClear' class="button">All Clear</p>
-        <p @click='deleteOne' class="button">Delete</p>
+    <div class="vss-button-container">
+      <div class="vss-button-row is-flex is-flex-wrap-wrap columns is-justify-content-space-between">
+        <a @click='clickAdd' class="button column">Add Trick</a>
+        <a @click='addRest' class="button column">Add Rest</a>
+        <a @click='allClear' class="button column">All Clear</a>
+        <a @click='deleteOne' class="button column">Delete</a>
       </div>
-      <div class="button-row submit">
-        <a @click="exportImg" class="button">Export</a>
-        <a v-if="!nonLogin" @click="save" class="button" data-disable-with="Saving">Save</a>
+      <div class="vss-button-row is-flex submit is-justify-content-space-between columns">
+        <a @click="exportImg" class="button column">Export</a>
+        <a v-if="!nonLogin" @click="save" class="button column" data-disable-with="Saving">Save</a>
       </div>
     </div>
   </div>

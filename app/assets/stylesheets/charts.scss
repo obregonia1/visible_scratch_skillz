@@ -1,52 +1,57 @@
-// Place all the styles related to the charts controller here.
-// They will automatically be included in application.scss.
-// You can use Sass (SCSS) here: https://sass-lang.com/
-
-#js-chart {
-  .select-block {
-    margin: 20px 0;
-  }
-
-  .button-container {
-    margin: 12px auto;
-  }
-
-  .button-row {
-    display: flex;
-    justify-content: space-between;
-    margin: 12px auto;
-    width: 80%;
-
-    p {
-      flex-basis: 25%;
-      margin: 0 5px;
-    }
-  }
-
-  .button-row.submit {
-    a, p {
-      flex-basis: 50%;
-      margin: 0 5px;
-    }
-  }
-
-  .select-container, .chart-title {
-    margin: 0 auto;
-    width: 80%;
-  }
-
-  .chart-title {
-    a {
-      margin: 0 8px;
-    }
-  }
-}
-
-.konvajs-content {
-  margin: 24px auto;
-}
+@import "application.scss";
 
 .box {
   width: 60%;
   margin: 0 auto;
+  @media (max-width: $tablet) {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  #js-chart {
+    .vss-select-container, .vss-chart-title {
+      margin: 0 auto;
+      width: 80%;
+      @media (max-width: $tablet) {
+        width: inherit;
+      }
+    }
+
+    .vss-select-block {
+      padding: 0.5rem 0;
+
+      p {
+        margin-bottom: 0.25rem;
+      }
+
+      label.radio {
+        margin-left: 0;
+        padding-right: 1rem;
+      }
+    }
+
+    .vss-button-container {
+      margin: 0 auto;
+      padding: 1rem 1rem;
+
+      .vss-button-row.submit {
+        padding-top: 0.25rem;
+      }
+
+      a {
+        margin: 0.25rem;
+      }
+    }
+
+
+  }
+
+  .konvajs-content {
+    margin: 24px auto;
+
+    canvas {
+      width: inherit;
+    }
+  }
+
 }
