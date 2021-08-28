@@ -304,11 +304,12 @@ export default {
       const faderPositionPx = this.toPixel(code.beatPosition) + this.toPixel(faderPosition)
       const x1 = faderPositionPx - 10
       const x2 = faderPositionPx + 10
+      const chartHeight = this.stageHeight - 10
       if (code.pattern === 'forward') {
-        const y = 100 - faderPosition / code.beatLength * 100
+        const y = chartHeight - faderPosition / code.beatLength * chartHeight
         return [x1, y, x2, y]
       } else if (code.pattern === 'backward') {
-        const y = faderPosition / code.beatLength * 100
+        const y = faderPosition / code.beatLength * chartHeight
         return [x1, y, x2, y]
       }
     },
@@ -318,9 +319,10 @@ export default {
       let strokeWidth = null
       let stroke = null
       let layer = this.codeLayer
+      const chartHeight = this.stageHeight - 10
       if (code.trick !== 'rest') {
-        y1 = code.pattern === 'forward' ? 100 : 0
-        y2 = code.pattern === 'forward' ? 0 : 100
+        y1 = code.pattern === 'forward' ? chartHeight : 0
+        y2 = code.pattern === 'forward' ? 0 : chartHeight
         strokeWidth = 2
         stroke = '#5a5454'
         name = 'code'
@@ -328,8 +330,8 @@ export default {
           this.drawFaderLine(code, layer)
         }
       } else if (code.trick === 'rest' && this.editing === true) {
-        y1 = 100
-        y2 = 100
+        y1 = chartHeight
+        y2 = chartHeight
         strokeWidth = 1
         stroke = 'red'
         name = 'rest'
@@ -372,7 +374,8 @@ export default {
       }
     },
     toPixel(beatPosition) {
-      return beatPosition * 120 / 6
+      const oneBeatWidth = (this.stageWidth - 20) / 4
+      return beatPosition * oneBeatWidth / 6
     },
     convert() {
       this.imageStage = new Konva.Stage({
