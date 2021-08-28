@@ -139,6 +139,7 @@ export default {
       imageStage: null,
       stageWidth: null,
       stageHeight: null,
+      totalBeatCount: 4,
     }
   },
   mounted() {
@@ -187,15 +188,7 @@ export default {
       name: 'bgLine'
     })
 
-    for (let i = 0; i < 25; i++) {
-      const dashedLineWidth = (this.stageWidth - 20) / 24
-      this.addBgDashedLine(i * dashedLineWidth)
-    }
-
-    for (let i = 0; i < 5; i++) {
-      const solidLineWidth = (this.stageWidth -20 ) / 4
-      this.addBgSolidLine(i * solidLineWidth)
-    }
+    this.addBeatBgLine(this.totalBeatCount)
 
     this.bgLineLayer.offsetX(-10)
     this.bgLineLayer.offsetY(-10)
@@ -269,22 +262,32 @@ export default {
         this.clickCount = 1
       }
     },
-    addBgSolidLine(x1) {
+    addBgLine(x, stroke, dash = null) {
       this.bgLine = new Konva.Line({
-        points: [x1, this.stageHeight - 10, x1, 0],
-        stroke: '#c0c0c0',
-        strokeWidth: 1
+        points: [x, this.stageHeight - 10, x, 0],
+        stroke: stroke,
+        strokeWidth: 1,
+        dash: dash ? [3, 3] : null
       })
       this.bgLineLayer.add(this.bgLine)
     },
-    addBgDashedLine(x1) {
-      this.bgLine = new Konva.Line({
-        points: [x1, this.stageHeight - 10, x1, 0],
-        stroke: '#d3d3d3',
-        strokeWidth: 1,
-        dash: [3, 3]
-      })
-      this.bgLineLayer.add(this.bgLine)
+    addBgSolidLine(x) {
+      this.addBgLine(x, '#c0c0c0')
+    },
+    addBgDashedLine(x) {
+      this.addBgLine(x, '#d3d3d3', true)
+    },
+    addBeatBgLine(beatCount) {
+      const solidLineWidth = (this.stageWidth - 20) / 4
+      for (let i = 0; i <= beatCount + 1; i++) {
+        this.addBgSolidLine(i * solidLineWidth)
+      }
+      const dashedLineWidth = (this.stageWidth - 20) / 24
+      for (let i = 1; i <= beatCount * 6; i++) {
+        if (i % 6 !== 0) {
+          this.addBgDashedLine(i * dashedLineWidth)
+        }
+      }
     },
     drawFaderLine(code, layer) {
       code.faderPositions.forEach(faderPosition => {
