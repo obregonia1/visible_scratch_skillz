@@ -4,7 +4,7 @@ body {
   background-color: #ececec;
 }
 
-@media (max-width: $tablet) {
+@media (max-width: $desktop) {
   body {
     .box, .panel {
       width: inherit;

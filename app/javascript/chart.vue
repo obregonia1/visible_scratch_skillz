@@ -137,6 +137,8 @@ export default {
       editing: false,
       userId: '',
       imageStage: null,
+      stageWidth: null,
+      stageHeight: null,
     }
   },
   mounted() {
@@ -168,21 +170,31 @@ export default {
       this.editing = true
     }
 
+    if (window.matchMedia('(max-device-width: 769px)').matches) {
+      this.stageWidth = 320
+      this.stageHeight = 70
+    } else {
+      this.stageWidth = 500
+      this.stageHeight = 110
+    }
+
     this.stage = new Konva.Stage({
       container: 'chart',
-      width: 500,
-      height: 110
+      width: this.stageWidth,
+      height: this.stageHeight
     })
     this.bgLineLayer = new Konva.Layer({
       name: 'bgLine'
     })
 
     for (let i = 0; i < 25; i++) {
-      this.addBgDashedLine(i * 20)
+      const dashedLineWidth = (this.stageWidth - 20) / 24
+      this.addBgDashedLine(i * dashedLineWidth)
     }
 
     for (let i = 0; i < 5; i++) {
-      this.addBgSolidLine(i * 120)
+      const solidLineWidth = (this.stageWidth -20 ) / 4
+      this.addBgSolidLine(i * solidLineWidth)
     }
 
     this.bgLineLayer.offsetX(-10)
@@ -259,7 +271,7 @@ export default {
     },
     addBgSolidLine(x1) {
       this.bgLine = new Konva.Line({
-        points: [x1, 100, x1, 0],
+        points: [x1, this.stageHeight - 10, x1, 0],
         stroke: '#c0c0c0',
         strokeWidth: 1
       })
@@ -267,7 +279,7 @@ export default {
     },
     addBgDashedLine(x1) {
       this.bgLine = new Konva.Line({
-        points: [x1, 100, x1, 0],
+        points: [x1, this.stageHeight - 10, x1, 0],
         stroke: '#d3d3d3',
         strokeWidth: 1,
         dash: [3, 3]
