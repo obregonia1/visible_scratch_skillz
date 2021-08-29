@@ -1,0 +1,31 @@
+<header class="is-flex is-justify-content-flex-end is-align-items-center">
+  <h1>
+    Visible Scratch Skillz
+  </h1>
+  <nav class="is-flex">
+    <%= link_to 'New', new_chart_path, class: 'navbar-item' %>
+    <% if user_signed_in? %>
+      <%= link_to 'List', current_user, class: 'navbar-item' %>
+      <div class="dropdown is-hoverable is-right navbar-item navbar-link">
+        <div class="dropdown-trigger">
+              <span class="icon">
+                <i class="fas fa-user fa-lg" aria-hidden="true"></i>
+              </span>
+        </div>
+        <div class="dropdown-menu" role="usermenu">
+          <div class="dropdown-content is-shadowless">
+            <div class="dropdown-item">
+              <%= link_to 'Edit profile', edit_user_registration_path, class: 'navbar-item' %>
+            </div>
+            <div class="dropdown-item">
+              <%= link_to "Logout", destroy_user_session_path, method: :delete, class: 'navbar-item' %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% else %>
+      <%= link_to "Sign up", new_user_registration_path, class: 'navbar-item' %>
+      <%= link_to "Login", new_user_session_path, class: 'navbar-item' %>
+    <% end %>
+  </nav>
+</header>
