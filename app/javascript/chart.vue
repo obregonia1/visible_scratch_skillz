@@ -140,6 +140,7 @@ export default {
       stageWidth: null,
       stageHeight: null,
       totalBeatCount: 4,
+      mobileView: null,
     }
   },
   mounted() {
@@ -171,7 +172,7 @@ export default {
       this.editing = true
     }
 
-    if (window.matchMedia('(max-device-width: 769px)').matches) {
+    if (this.mobileView = window.matchMedia('(max-device-width: 769px)').matches) {
       this.stageWidth = 320
       this.stageHeight = 70
     } else {
@@ -279,7 +280,7 @@ export default {
     },
     addBeatBgLine(beatCount) {
       const solidLineWidth = (this.stageWidth - 20) / 4
-      for (let i = 0; i <= beatCount + 1; i++) {
+      for (let i = 0; i <= beatCount; i++) {
         this.addBgSolidLine(i * solidLineWidth)
       }
       const dashedLineWidth = (this.stageWidth - 20) / 24
@@ -395,15 +396,33 @@ export default {
       bgColorLayer.add(bgColor)
       this.imageStage.add(bgColorLayer)
       const bgLineLayer = this.bgLineLayer.clone()
-      bgLineLayer.offsetX(-10)
-      bgLineLayer.offsetY(-30)
+      if (this.mobileView) {
+        bgLineLayer.scale({ x: 1.56, y: 1.66})
+      }
       this.imageStage.add(bgLineLayer)
+
+      const codeLayer = this.codeLayer.clone()
+      const restLines = codeLayer.getChildren(line => {
+        return line.attrs.name === 'rest'
+      })
+      restLines.map(line => {
+        line.setAttr('visible', false)
+      })
+      if (this.mobileView) {
+      codeLayer.scale({ x: 1.56, y: 1.66})
+      }
+
+      this.imageStage.add(codeLayer)
+
+      const offsetY = this.mobileView ? -20 : -30
+      bgLineLayer.offsetY(offsetY)
+      codeLayer.offsetY(offsetY)
 
       const textLayer = new Konva.Layer({
         name: 'text'
       })
       const title = new Konva.Text({
-        x: this.stage.width() / 2,
+        x: this.imageStage.width() / 2,
         y: 10,
         text: this.title,
         fill: 'black',
@@ -413,26 +432,15 @@ export default {
       textLayer.add(title)
 
       const appName = new Konva.Text({
-        x: this.stage.width() / 2,
+        x: this.imageStage.width() / 2,
         y: 140,
-        text: '©︎Invisible Scratch Skillz',
+        text: '©︎Visible Scratch Skillz',
         fill: 'black',
         fontSize: 12,
       })
       appName.offsetX(appName.width() / 2)
       textLayer.add(appName)
 
-      const codeLayer = this.codeLayer.clone()
-      codeLayer.offsetX(-10)
-      codeLayer.offsetY(-30)
-      const restLines = codeLayer.getChildren(line => {
-        return line.attrs.name === 'rest'
-      })
-      restLines.map(line => {
-        line.setAttr('visible', false)
-      })
-
-      this.imageStage.add(codeLayer)
       this.imageStage.add(textLayer)
       this.imageUrl = this.imageStage.toDataURL({
         pixelRatio: 2
