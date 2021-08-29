@@ -7,11 +7,11 @@
     <label for="chart_title" class="label">Title</label>
     <input type="text" name="chart[title]" id="chart_title" v-model="title" class="input is-small">
   </div>
-  <div v-else="!editing" class="vss-chart-title">
-    <a class="title is-4">{{ title }}</a>
+  <div v-else="!editing" class="vss-chart-title vss-is-show is-flex is-justify-content-flex-end">
+    <h2 class="title is-size-4">{{ title }}</h2>
     <template v-if="!editing && (userId === currentUserId)" >
       <a @click="edit" class="button edit is-small">Edit</a>
-      <a data-confirm="Are you sure?" class="is-size-7" rel="nofollow" data-method="delete" :href="`/charts/${chartId}`">Delete</a>
+      <a data-confirm="Are you sure?" class="is-size-7 is-align-self-center" rel="nofollow" data-method="delete" :href="`/charts/${chartId}`">Delete</a>
     </template>
   </div>
   <div id="chart"></div>
@@ -117,7 +117,7 @@ export default {
   props: {
     chartId: { type: Number, required: true },
     currentUserId: { type: Number, required: true },
-    nonLogin: { type: Boolean, required: true }
+    nonLogin: { type: String, required: true }
   },
   data() {
     return {

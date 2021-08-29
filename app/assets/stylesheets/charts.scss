@@ -1,4 +1,6 @@
 @import "application.scss";
+$chart-width: 500px;
+$mobile-chart-width: 320px;
 
 .box {
   width: 60%;
@@ -9,11 +11,31 @@
   }
 
   #js-chart {
-    .vss-select-container, .vss-chart-title {
+    .vss-select-container, {
       margin: 0 auto;
       width: 80%;
-      @media (max-width: $tablet) {
-        width: inherit;
+    }
+
+    .vss-chart-title {
+      width: 80%;
+      margin: 0 auto;
+
+      &.vss-is-show {
+        width: $chart-width;
+        height: 2rem;
+        margin: 0 auto;
+        @media (max-width: $tablet) {
+          width: $mobile-chart-width;
+        }
+
+        h2 {
+          margin-right: auto;
+        }
+
+        a {
+          padding: 0 0.5rem;
+          vertical-align: bottom;
+        }
       }
     }
 
@@ -32,6 +54,7 @@
 
     .vss-button-container {
       margin: 0 auto;
+      width: 80%;
       padding: 1rem 1rem;
 
       .vss-button-row.submit {
@@ -43,11 +66,14 @@
       }
     }
 
+  }
 
+  #chart {
+    padding: 1rem 0;
   }
 
   .konvajs-content {
-    margin: 24px auto;
+    margin: 0 auto;
 
     canvas {
       width: inherit;
