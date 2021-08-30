@@ -1,13 +1,19 @@
+@import "application.scss";
+
 header {
   height: 56px;
   background-color: #3e8ed0;
 
-  h1 {
-    color: #363636;
-    font-size: 2rem;
-    font-weight: 600;
-    margin: auto;
-    margin-left: 12px;
+  .vss-burger-menu {
+    margin-left: auto;
+  }
+
+  #burger-checkbox {
+    display: none;
+  }
+
+  #burger-checkbox:checked ~ div.dropdown-menu {
+    display: block;
   }
 
   nav {
