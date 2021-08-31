@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('turbolinks:load', () => {
   function copy() {
     const tmp = document.createElement("div");
     const pre = document.createElement('pre');

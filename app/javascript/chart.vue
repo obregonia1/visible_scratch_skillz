@@ -3,21 +3,23 @@
     <input type="hidden" name="chart[chart_code]" id="chart_code" :value="JSON.stringify(chartCodes)">
     <input type="hidden" name="chart[image]" id="chart_image" :value="imageUrl">
   </div>
-  <div v-if="editing" class="chart-title">
+  <div v-if="editing" class="vss-chart-title">
     <label for="chart_title" class="label">Title</label>
     <input type="text" name="chart[title]" id="chart_title" v-model="title" class="input is-small">
   </div>
-  <div v-else="!editing" class="chart-title">
-    <a class="title is-4">{{ title }}</a>
+  <div v-else="!editing" class="vss-chart-title vss-is-show is-flex is-justify-content-flex-end">
+    <h2 class="title is-size-4">{{ title }}</h2>
     <template v-if="!editing && (userId === currentUserId)" >
       <a @click="edit" class="button edit is-small">Edit</a>
-      <a data-confirm="Are you sure?" class="is-size-7" rel="nofollow" data-method="delete" :href="`/charts/${chartId}`">Delete</a>
+      <a data-confirm="Are you sure?" class="is-size-7 is-align-self-center" rel="nofollow" data-method="delete" :href="`/charts/${chartId}`">Delete</a>
     </template>
   </div>
-  <div id="chart"></div>
-  <div v-if="editing">
-    <div class="select-container">
-      <div class="select-block">
+  <div class="vss-chart-wrapper">
+    <div id="chart"></div>
+  </div>
+  <template v-if="editing">
+    <div class="vss-select-container">
+      <div class="vss-select-block">
         <p class="label">Trick</p>
         <label class="radio">
           <input type="radio" value="baby" v-model="trick" checked="checked">
@@ -44,7 +46,7 @@
           Flare
         </label>
       </div>
-      <div class="select-block">
+      <div class="vss-select-block">
         <p class="label">Click Count</p>
         <label class="radio">
           <input type="radio" value="1" v-model="clickCount" checked="checked" :disabled="trick !== 'flare'">
@@ -63,7 +65,7 @@
           4
         </label>
       </div>
-      <div class="select-block">
+      <div class="vss-select-block">
         <p class="label">Pattern</p>
         <label class="radio">
           <input type="radio" value="forward" v-model="pattern" checked="checked">
@@ -78,7 +80,7 @@
           Orbit
         </label>
       </div>
-      <div class="select-block">
+      <div class="vss-select-block">
         <p class="label">Beat Length</p>
         <label class="radio">
           <input type="radio" value="6" v-model="beatLength" checked="checked">
@@ -94,20 +96,20 @@
         </label>
       </div>
     </div>
-    <div class="button-container">
-      <div class="button-row">
-        <p @click='clickAdd' class="button">Add Trick</p>
-        <p @click='addRest' class="button">Add Rest</p>
-        <p @click='allClear' class="button">All Clear</p>
-        <p @click='deleteOne' class="button">Delete</p>
+    <div class="vss-button-container">
+      <div class="vss-button-row is-flex is-flex-wrap-wrap columns is-justify-content-space-between">
+        <a @click='clickAdd' class="button column">Add Trick</a>
+        <a @click='addRest' class="button column">Add Rest</a>
+        <a @click='allClear' class="button column">All Clear</a>
+        <a @click='deleteOne' class="button column">Delete</a>
       </div>
-      <div class="button-row submit">
-        <a @click="exportImg" class="button">Export</a>
-        <a v-if="!nonLogin" @click="save" class="button" data-disable-with="Saving">Save</a>
+      <div class="vss-button-row is-flex submit is-justify-content-space-between columns">
+        <a @click="exportImg" class="button column">Export</a>
+        <a v-if="!nonLogin" @click="save" class="button column" data-disable-with="Saving">Save</a>
       </div>
     </div>
-  </div>
-  <div v-show="exportImg"><img id="img"></div>
+  </template>
+  <div v-show="exportImg" class="vss-img-wrapper"><img id="img"></div>
 </template>
 
 <script>
@@ -117,7 +119,7 @@ export default {
   props: {
     chartId: { type: Number, required: true },
     currentUserId: { type: Number, required: true },
-    nonLogin: { type: Boolean, required: true }
+    nonLogin: { type: String, required: true }
   },
   data() {
     return {
@@ -137,6 +139,9 @@ export default {
       editing: false,
       userId: '',
       imageStage: null,
+      stageWidth: 500,
+      stageHeight: 110,
+      totalBeatCount: 4,
     }
   },
   mounted() {
@@ -170,29 +175,23 @@ export default {
 
     this.stage = new Konva.Stage({
       container: 'chart',
-      width: 500,
-      height: 110
+      width: this.stageWidth,
+      height: this.stageHeight
     })
     this.bgLineLayer = new Konva.Layer({
       name: 'bgLine'
     })
 
-    for (let i = 0; i < 25; i++) {
-      this.addBgDashedLine(i * 20)
-    }
-
-    for (let i = 0; i < 5; i++) {
-      this.addBgSolidLine(i * 120)
-    }
+    this.addBeatBgLine(this.totalBeatCount)
 
     this.bgLineLayer.offsetX(-10)
-    this.bgLineLayer.offsetY(-10)
+    this.bgLineLayer.offsetY(-5)
     this.codeLayer = new Konva.Layer({
       name: 'code'
     })
 
     this.codeLayer.offsetX(-10)
-    this.codeLayer.offsetY(-10)
+    this.codeLayer.offsetY(-5)
     this.stage.add(this.bgLineLayer)
     this.stage.draw()
   },
@@ -257,22 +256,32 @@ export default {
         this.clickCount = 1
       }
     },
-    addBgSolidLine(x1) {
+    addBgLine(x, stroke, dash = null) {
       this.bgLine = new Konva.Line({
-        points: [x1, 100, x1, 0],
-        stroke: '#c0c0c0',
-        strokeWidth: 1
+        points: [x, this.stageHeight - 10, x, 0],
+        stroke: stroke,
+        strokeWidth: 1,
+        dash: dash ? [3, 3] : null
       })
       this.bgLineLayer.add(this.bgLine)
     },
-    addBgDashedLine(x1) {
-      this.bgLine = new Konva.Line({
-        points: [x1, 100, x1, 0],
-        stroke: '#d3d3d3',
-        strokeWidth: 1,
-        dash: [3, 3]
-      })
-      this.bgLineLayer.add(this.bgLine)
+    addBgSolidLine(x) {
+      this.addBgLine(x, '#c0c0c0')
+    },
+    addBgDashedLine(x) {
+      this.addBgLine(x, '#d3d3d3', true)
+    },
+    addBeatBgLine(beatCount) {
+      const solidLineWidth = (this.stageWidth - 20) / 4
+      for (let i = 0; i <= beatCount; i++) {
+        this.addBgSolidLine(i * solidLineWidth)
+      }
+      const dashedLineWidth = (this.stageWidth - 20) / 24
+      for (let i = 1; i <= beatCount * 6; i++) {
+        if (i % 6 !== 0) {
+          this.addBgDashedLine(i * dashedLineWidth)
+        }
+      }
     },
     drawFaderLine(code, layer) {
       code.faderPositions.forEach(faderPosition => {
@@ -289,11 +298,12 @@ export default {
       const faderPositionPx = this.toPixel(code.beatPosition) + this.toPixel(faderPosition)
       const x1 = faderPositionPx - 10
       const x2 = faderPositionPx + 10
+      const chartHeight = this.stageHeight - 10
       if (code.pattern === 'forward') {
-        const y = 100 - faderPosition / code.beatLength * 100
+        const y = chartHeight - faderPosition / code.beatLength * chartHeight
         return [x1, y, x2, y]
       } else if (code.pattern === 'backward') {
-        const y = faderPosition / code.beatLength * 100
+        const y = faderPosition / code.beatLength * chartHeight
         return [x1, y, x2, y]
       }
     },
@@ -303,9 +313,10 @@ export default {
       let strokeWidth = null
       let stroke = null
       let layer = this.codeLayer
+      const chartHeight = this.stageHeight - 10
       if (code.trick !== 'rest') {
-        y1 = code.pattern === 'forward' ? 100 : 0
-        y2 = code.pattern === 'forward' ? 0 : 100
+        y1 = code.pattern === 'forward' ? chartHeight : 0
+        y2 = code.pattern === 'forward' ? 0 : chartHeight
         strokeWidth = 2
         stroke = '#5a5454'
         name = 'code'
@@ -313,8 +324,8 @@ export default {
           this.drawFaderLine(code, layer)
         }
       } else if (code.trick === 'rest' && this.editing === true) {
-        y1 = 100
-        y2 = 100
+        y1 = chartHeight
+        y2 = chartHeight
         strokeWidth = 1
         stroke = 'red'
         name = 'rest'
@@ -357,17 +368,18 @@ export default {
       }
     },
     toPixel(beatPosition) {
-      return beatPosition * 120 / 6
+      const oneBeatWidth = (this.stageWidth - 20) / 4
+      return beatPosition * oneBeatWidth / 6
     },
     convert() {
       this.imageStage = new Konva.Stage({
         container: 'img',
-        width: 500,
-        height: 160,
+        width: this.stageWidth,
+        height: this.stageHeight + 50,
       })
       const bgColor = new Konva.Rect({
-        width: 500,
-        height: 160,
+        width: this.stageWidth,
+        height: this.stageHeight + 50,
         fill: 'white'
       })
 
@@ -377,15 +389,25 @@ export default {
       bgColorLayer.add(bgColor)
       this.imageStage.add(bgColorLayer)
       const bgLineLayer = this.bgLineLayer.clone()
-      bgLineLayer.offsetX(-10)
-      bgLineLayer.offsetY(-30)
       this.imageStage.add(bgLineLayer)
+
+      const codeLayer = this.codeLayer.clone()
+      const restLines = codeLayer.getChildren(line => {
+        return line.attrs.name === 'rest'
+      })
+      restLines.map(line => {
+        line.setAttr('visible', false)
+      })
+      this.imageStage.add(codeLayer)
+
+      bgLineLayer.offsetY(-30)
+      codeLayer.offsetY(-30)
 
       const textLayer = new Konva.Layer({
         name: 'text'
       })
       const title = new Konva.Text({
-        x: this.stage.width() / 2,
+        x: this.imageStage.width() / 2,
         y: 10,
         text: this.title,
         fill: 'black',
@@ -395,26 +417,15 @@ export default {
       textLayer.add(title)
 
       const appName = new Konva.Text({
-        x: this.stage.width() / 2,
+        x: this.imageStage.width() / 2,
         y: 140,
-        text: '©︎Invisible Scratch Skillz',
+        text: '©︎Visible Scratch Skillz',
         fill: 'black',
         fontSize: 12,
       })
       appName.offsetX(appName.width() / 2)
       textLayer.add(appName)
 
-      const codeLayer = this.codeLayer.clone()
-      codeLayer.offsetX(-10)
-      codeLayer.offsetY(-30)
-      const restLines = codeLayer.getChildren(line => {
-        return line.attrs.name === 'rest'
-      })
-      restLines.map(line => {
-        line.setAttr('visible', false)
-      })
-
-      this.imageStage.add(codeLayer)
       this.imageStage.add(textLayer)
       this.imageUrl = this.imageStage.toDataURL({
         pixelRatio: 2

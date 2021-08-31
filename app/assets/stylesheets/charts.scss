@@ -1,52 +1,103 @@
-// Place all the styles related to the charts controller here.
-// They will automatically be included in application.scss.
-// You can use Sass (SCSS) here: https://sass-lang.com/
-
-#js-chart {
-  .select-block {
-    margin: 20px 0;
-  }
-
-  .button-container {
-    margin: 12px auto;
-  }
-
-  .button-row {
-    display: flex;
-    justify-content: space-between;
-    margin: 12px auto;
-    width: 80%;
-
-    p {
-      flex-basis: 25%;
-      margin: 0 5px;
-    }
-  }
-
-  .button-row.submit {
-    a, p {
-      flex-basis: 50%;
-      margin: 0 5px;
-    }
-  }
-
-  .select-container, .chart-title {
-    margin: 0 auto;
-    width: 80%;
-  }
-
-  .chart-title {
-    a {
-      margin: 0 8px;
-    }
-  }
-}
-
-.konvajs-content {
-  margin: 24px auto;
-}
+@import "application.scss";
 
 .box {
   width: 60%;
   margin: 0 auto;
+  @media (max-width: $tablet) {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  #js-chart {
+    .vss-select-container, {
+      margin: 0 auto;
+      width: 80%;
+    }
+
+    .vss-chart-title {
+      width: 80%;
+      margin: 0 auto;
+
+      &.vss-is-show {
+        width: 80%;
+        height: 2rem;
+        margin: 0 auto;
+
+        h2 {
+          margin-right: auto;
+        }
+
+        a {
+          padding: 0 0.5rem;
+          vertical-align: bottom;
+        }
+      }
+    }
+
+    .vss-select-block {
+      padding: 0.5rem 0;
+
+      label.radio {
+        margin-left: 0;
+        padding-right: 1rem;
+      }
+    }
+
+    .vss-button-container {
+      margin: 0 auto;
+      width: 80%;
+      padding: 1rem 1rem;
+
+      .vss-button-row.submit {
+        padding-top: 0.25rem;
+      }
+
+      a {
+        margin: 0.25rem;
+      }
+    }
+
+    .vss-img-wrapper {
+      text-align: center;
+
+      #img {
+        width: 80%;
+      }
+    }
+
+    .vss-chart-wrapper {
+      position: relative;
+      width: 100%;
+      padding-bottom: 1.5rem;
+
+      &:before {
+        content: "";
+        display: block;
+        padding-top: 20%;
+      }
+
+      #chart {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+      }
+
+      .konvajs-content {
+        width: inherit !important;
+
+        canvas {
+          width: 80% !important;
+          height: auto !important;
+          position: absolute;
+          top: 1rem !important;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          margin: 0 auto !important;
+        }
+      }
+    }
+  }
 }

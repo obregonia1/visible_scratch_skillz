@@ -1,0 +1,20 @@
+@import "application.scss";
+
+body {
+  background-color: #ececec;
+}
+
+@media (max-width: $desktop) {
+  body {
+    .box, .panel {
+      width: inherit;
+      margin-left: 1rem;
+      margin-right: 1rem;
+    }
+  }
+}
+
+#notice {
+  width: 80%;
+  margin: 0 auto;
+}
