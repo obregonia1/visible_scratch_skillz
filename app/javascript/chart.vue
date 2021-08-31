@@ -14,8 +14,10 @@
       <a data-confirm="Are you sure?" class="is-size-7 is-align-self-center" rel="nofollow" data-method="delete" :href="`/charts/${chartId}`">Delete</a>
     </template>
   </div>
-  <div id="chart"></div>
-  <div v-if="editing">
+  <div class="vss-chart-wrapper">
+    <div id="chart"></div>
+  </div>
+  <template v-if="editing">
     <div class="vss-select-container">
       <div class="vss-select-block">
         <p class="label">Trick</p>
@@ -106,8 +108,8 @@
         <a v-if="!nonLogin" @click="save" class="button column" data-disable-with="Saving">Save</a>
       </div>
     </div>
-  </div>
-  <div v-show="exportImg"><img id="img"></div>
+  </template>
+  <div v-show="exportImg" class="vss-img-wrapper"><img id="img"></div>
 </template>
 
 <script>
@@ -137,10 +139,9 @@ export default {
       editing: false,
       userId: '',
       imageStage: null,
-      stageWidth: null,
-      stageHeight: null,
+      stageWidth: 500,
+      stageHeight: 110,
       totalBeatCount: 4,
-      mobileView: null,
     }
   },
   mounted() {
@@ -172,14 +173,6 @@ export default {
       this.editing = true
     }
 
-    if (this.mobileView = window.matchMedia('(max-device-width: 769px)').matches) {
-      this.stageWidth = 320
-      this.stageHeight = 70
-    } else {
-      this.stageWidth = 500
-      this.stageHeight = 110
-    }
-
     this.stage = new Konva.Stage({
       container: 'chart',
       width: this.stageWidth,
@@ -192,13 +185,13 @@ export default {
     this.addBeatBgLine(this.totalBeatCount)
 
     this.bgLineLayer.offsetX(-10)
-    this.bgLineLayer.offsetY(-10)
+    this.bgLineLayer.offsetY(-5)
     this.codeLayer = new Konva.Layer({
       name: 'code'
     })
 
     this.codeLayer.offsetX(-10)
-    this.codeLayer.offsetY(-10)
+    this.codeLayer.offsetY(-5)
     this.stage.add(this.bgLineLayer)
     this.stage.draw()
   },
@@ -381,12 +374,12 @@ export default {
     convert() {
       this.imageStage = new Konva.Stage({
         container: 'img',
-        width: 500,
-        height: 160,
+        width: this.stageWidth,
+        height: this.stageHeight + 50,
       })
       const bgColor = new Konva.Rect({
-        width: 500,
-        height: 160,
+        width: this.stageWidth,
+        height: this.stageHeight + 50,
         fill: 'white'
       })
 
@@ -396,9 +389,6 @@ export default {
       bgColorLayer.add(bgColor)
       this.imageStage.add(bgColorLayer)
       const bgLineLayer = this.bgLineLayer.clone()
-      if (this.mobileView) {
-        bgLineLayer.scale({ x: 1.56, y: 1.66})
-      }
       this.imageStage.add(bgLineLayer)
 
       const codeLayer = this.codeLayer.clone()
@@ -408,15 +398,10 @@ export default {
       restLines.map(line => {
         line.setAttr('visible', false)
       })
-      if (this.mobileView) {
-      codeLayer.scale({ x: 1.56, y: 1.66})
-      }
-
       this.imageStage.add(codeLayer)
 
-      const offsetY = this.mobileView ? -20 : -30
-      bgLineLayer.offsetY(offsetY)
-      codeLayer.offsetY(offsetY)
+      bgLineLayer.offsetY(-30)
+      codeLayer.offsetY(-30)
 
       const textLayer = new Konva.Layer({
         name: 'text'

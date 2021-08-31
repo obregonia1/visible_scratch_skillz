@@ -1,6 +1,4 @@
 @import "application.scss";
-$chart-width: 500px;
-$mobile-chart-width: 320px;
 
 .box {
   width: 60%;
@@ -21,12 +19,9 @@ $mobile-chart-width: 320px;
       margin: 0 auto;
 
       &.vss-is-show {
-        width: $chart-width;
+        width: 80%;
         height: 2rem;
         margin: 0 auto;
-        @media (max-width: $tablet) {
-          width: $mobile-chart-width;
-        }
 
         h2 {
           margin-right: auto;
@@ -41,10 +36,6 @@ $mobile-chart-width: 320px;
 
     .vss-select-block {
       padding: 0.5rem 0;
-
-      p {
-        margin-bottom: 0.25rem;
-      }
 
       label.radio {
         margin-left: 0;
@@ -66,18 +57,47 @@ $mobile-chart-width: 320px;
       }
     }
 
-  }
+    .vss-img-wrapper {
+      text-align: center;
 
-  #chart {
-    padding: 1rem 0;
-  }
+      #img {
+        width: 80%;
+      }
+    }
 
-  .konvajs-content {
-    margin: 0 auto;
+    .vss-chart-wrapper {
+      position: relative;
+      width: 100%;
+      padding-bottom: 1.5rem;
 
-    canvas {
-      width: inherit;
+      &:before {
+        content: "";
+        display: block;
+        padding-top: 20%;
+      }
+
+      #chart {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+      }
+
+      .konvajs-content {
+        width: inherit !important;
+
+        canvas {
+          width: 80% !important;
+          height: auto !important;
+          position: absolute;
+          top: 1rem !important;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          margin: 0 auto !important;
+        }
+      }
     }
   }
-
 }
