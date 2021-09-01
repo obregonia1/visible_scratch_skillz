@@ -21,6 +21,8 @@ header {
     }
 
     .navbar-burger {
+      margin-top: 48px;
+
       @media (min-width: $tablet) {
         display: none;
       }
