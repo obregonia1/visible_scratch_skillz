@@ -1,7 +1,7 @@
 <header>
   <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-      <%= link_to image_tag('vss_logo.png'), root_path %>
+      <%= link_to image_tag('vss_logo.png'), root_path, class: 'vss-logo-image' %>
       <div class="dropdown is-right vss-burger-menu">
         <input type="checkbox" id="burger-checkbox">
         <label for="burger-checkbox">
@@ -29,9 +29,9 @@
 
     <div class="navbar-menu">
       <div class="navbar-end">
-        <%= link_to 'New', new_chart_path, class: 'navbar-item' %>
+        <%= link_to 'New', new_chart_path, class: ['navbar-item', 'has-text-weight-bold'] %>
         <% if user_signed_in? %>
-          <%= link_to 'List', current_user, class: 'navbar-item' %>
+          <%= link_to 'List', current_user, class: ['navbar-item', 'has-text-weight-bold'] %>
           <div class="dropdown is-hoverable is-right navbar-item navbar-link">
             <div class="dropdown-trigger">
               <span class="icon">
@@ -41,13 +41,13 @@
             <div class="dropdown-menu" role="usermenu">
               <div class="dropdown-content is-shadowless">
                 <%= link_to 'Edit profile', edit_user_registration_path, class: 'dropdown-item' %>
-                <%= link_to "Logout", destroy_user_session_path, method: :delete, class: 'dropdown-item' %>
+                <%= link_to 'Logout', destroy_user_session_path, method: :delete, class: 'dropdown-item' %>
               </div>
             </div>
           </div>
         <% else %>
-          <%= link_to "Sign up", new_user_registration_path, class: 'navbar-item' %>
-          <%= link_to "Login", new_user_session_path, class: 'navbar-item' %>
+          <%= link_to "Sign up", new_user_registration_path, class: ['navbar-item', 'has-text-weight-bold'] %>
+          <%= link_to "Login", new_user_session_path, class: ['navbar-item', 'has-text-weight-bold'] %>
         <% end %>
       </div>
     </div>

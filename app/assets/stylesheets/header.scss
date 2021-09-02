@@ -1,4 +1,5 @@
 @import "application.scss";
+
 $header-height: 120px;
 $mobile-header-height: 100px;
 
@@ -10,7 +11,7 @@ header {
   }
 
   .navbar {
-    background-color: #cccccc;
+    background-color: $header-color;
   }
 
   .vss-burger-menu {
@@ -25,6 +26,10 @@ header {
 
       @media (min-width: $tablet) {
         display: none;
+      }
+
+      span {
+        color: $background-color;
       }
     }
   }
@@ -54,6 +59,18 @@ header {
             align-self: center;
             align-items: center;
             height: 42px;
+            margin: 0 0.25rem;
+            color: $background-color;
+          }
+
+          .dropdown.is-hoverable.is-right.navbar-item.navbar-link {
+            &::after {
+              border-color: $background-color;
+            }
+          }
+
+          .dropdown-content {
+            text-align: left;
           }
         }
       }
@@ -62,28 +79,25 @@ header {
     div.navbar-brand {
       height: inherit;
 
-      a {
-        padding-left: 10%;
+      a.vss-logo-image {
+        margin-left: 15%;
+        height: $header-height - 20px;
+
 
         @media (max-width: $tablet) {
-          paddin-left: 5%
+          margin-left: 5%
         }
 
         img {
-          height: $header-height - 20px;
+          object-fit: contain;
 
           @media (max-width: $tablet) {
             height: $mobile-header-height - 20px;
           }
-          width: auto;
+
           margin: 10px 0;
         }
       }
-    }
-
-
-    a {
-      height: 100%;
     }
   }
 }
