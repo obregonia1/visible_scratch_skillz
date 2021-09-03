@@ -10,7 +10,7 @@
   <div v-else="!editing" class="vss-chart-title vss-is-show is-flex is-justify-content-flex-end">
     <h2 class="title is-size-4">{{ title }}</h2>
     <template v-if="!editing && (userId === currentUserId)" >
-      <a @click="edit" class="button edit is-small">Edit</a>
+      <a @click="edit" class="button edit is-small has-text-weight-bold">Edit</a>
       <a data-confirm="Are you sure?" class="is-size-7 is-align-self-center" rel="nofollow" data-method="delete" :href="`/charts/${chartId}`">Delete</a>
     </template>
   </div>

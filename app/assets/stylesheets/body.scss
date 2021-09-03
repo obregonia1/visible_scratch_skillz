@@ -1,7 +1,7 @@
 @import "application.scss";
 
 body {
-  background-color: #ececec;
+  background-color: $background-color;
 }
 
 @media (max-width: $desktop) {

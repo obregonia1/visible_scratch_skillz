@@ -3,6 +3,11 @@
 .box {
   width: 60%;
   margin: 0 auto;
+
+  h2, label, a, .label {
+    color: $header-color;
+  }
+
   @media (max-width: $tablet) {
     padding-left: 0.75rem;
     padding-right: 0.75rem;
@@ -30,6 +35,17 @@
         a {
           padding: 0 0.5rem;
           vertical-align: bottom;
+
+          &.edit {
+            border: 1px solid $header-color;
+            border-radius: 4px;
+            transition: .1s;
+
+            &:hover {
+              background-color: $header-color;
+              color: white;
+            }
+          }
         }
       }
     }
