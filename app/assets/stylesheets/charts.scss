@@ -21,11 +21,11 @@
 
     .vss-chart-title {
       width: 80%;
+      height: 4rem;
       margin: 0 auto;
 
       &.vss-is-show {
         width: 80%;
-        height: 2rem;
         margin: 0 auto;
 
         h2 {
@@ -34,7 +34,6 @@
 
         a {
           padding: 0 0.5rem;
-          vertical-align: bottom;
 
           &.edit {
             border: 1px solid $header-color;
@@ -64,12 +63,30 @@
       width: 80%;
       padding: 1rem 1rem;
 
-      .vss-button-row.submit {
-        padding-top: 0.25rem;
-      }
-
       a {
         margin: 0.25rem;
+        padding-top: 6px;
+        transition: .2s;
+        border: 1px solid $header-color;
+
+        &:hover {
+          border-color: $background-color;
+        }
+      }
+
+
+      .vss-button-row.submit {
+        padding-top: 0.25rem;
+
+        .vss-save {
+          color: $vss-yellow;
+          background-color: $header-color;
+
+          &:hover {
+            opacity: 0.8;
+          }
+        }
+
       }
     }
 

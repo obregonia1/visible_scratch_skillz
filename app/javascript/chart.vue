@@ -7,12 +7,12 @@
     <label for="chart_title" class="label">Title</label>
     <input type="text" name="chart[title]" id="chart_title" v-model="title" class="input is-small">
   </div>
-  <div v-else="!editing" class="vss-chart-title vss-is-show is-flex is-justify-content-flex-end">
-    <h2 class="title is-size-4">{{ title }}</h2>
-    <template v-if="!editing && (userId === currentUserId)" >
+  <div v-else="!editing" class="vss-chart-title vss-is-show is-flex is-justify-content-flex-end is-align-items-flex-end">
+    <h2 class="has-text-weight-bold is-size-4">{{ title }}</h2>
+    <div v-if="!editing && (userId === currentUserId)" >
       <a @click="edit" class="button edit is-small has-text-weight-bold">Edit</a>
-      <a data-confirm="Are you sure?" class="is-size-7 is-align-self-center" rel="nofollow" data-method="delete" :href="`/charts/${chartId}`">Delete</a>
-    </template>
+      <a data-confirm="Are you sure?" class="is-size-7" rel="nofollow" data-method="delete" :href="`/charts/${chartId}`">Delete</a>
+    </div>
   </div>
   <div class="vss-chart-wrapper">
     <div id="chart"></div>
@@ -97,15 +97,15 @@
       </div>
     </div>
     <div class="vss-button-container">
-      <div class="vss-button-row is-flex is-flex-wrap-wrap columns is-justify-content-space-between">
+      <div class="vss-button-row columns is-flex-wrap-wrap is-justify-content-space-between is-align-items-center is-mobile">
         <a @click='clickAdd' class="button column">Add Trick</a>
         <a @click='addRest' class="button column">Add Rest</a>
         <a @click='allClear' class="button column">All Clear</a>
         <a @click='deleteOne' class="button column">Delete</a>
       </div>
-      <div class="vss-button-row is-flex submit is-justify-content-space-between columns">
-        <a @click="exportImg" class="button column">Export</a>
-        <a v-if="!nonLogin" @click="save" class="button column" data-disable-with="Saving">Save</a>
+      <div class="vss-button-row submit is-justify-content-space-between columns is-mobile">
+        <a @click="exportImg" class="button column has-text-weight-bold">Export <fa icon="image" /></a>
+        <a v-if="!nonLogin" @click="save" class="button column vss-save has-text-weight-bold" data-disable-with="Saving">Save</a>
       </div>
     </div>
   </template>
