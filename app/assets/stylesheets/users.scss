@@ -1,27 +1,54 @@
-// Place all the styles related to the Users controller here.
-// They will automatically be included in application.scss.
-// You can use Sass (SCSS) here: https://sass-lang.com/
-
-.chart-title {
-  margin-right: auto;
-}
+@import "application.scss";
 
 .panel {
-  width: 80%;
+  width: 60%;
+  margin: 1rem auto 0 auto;
+
+  .panel-heading, .panel-block, .vss-no_charts_message {
+    background-color: white;
+  }
+
+  .panel-heading {
+    color: $header-color;
+  }
+
+  .panel-block {
+    .chart-title {
+      margin-right: auto;
+      overflow-wrap: anywhere;
+    }
+
+    .vss-panel-list_button {
+      a {
+        margin: 0 4px;
+      }
+    }
+  }
+
+
+  .vss-no_charts_message {
+    padding: 0.75em 1em;
+    margin: 0 auto;
+  }
+}
+
+.pagination {
+  width: 60%;
   margin: 0 auto;
+  padding-bottom: 8px;
 
-  .pagination {
-    margin: 8px 12px;
-    padding-bottom: 8px;
+  .pagination-link.is-current {
+    background-color: $header-color;
+    border-color: $header-color;
+    color: $background-color;
   }
-}
 
-.vss-panel-list_button {
-  a {
-    margin: 0 4px;
+  @media (max-width: $tablet) {
+    width: inherit;
+    margin: 0 1rem;
+
+    .pagination-previous, .pagination-next {
+      max-width: 25%;
+    }
   }
-}
-
-.vss-no_charts_message {
-  padding: 0.75em 1em;
 }

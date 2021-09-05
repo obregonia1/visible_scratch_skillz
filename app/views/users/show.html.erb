@@ -1,28 +1,38 @@
-<p id="notice"><%= notice %></p>
+<% if notice %>
+  <div class="notification is-primary is-light">
+    <p id="notice"><strong><%= notice %></strong></p>
+  </div>
+<% end %>
 
 <%= javascript_pack_tag 'charts_index' %>
 
-<nav class="panel">
+<div class="panel is-shadowless">
   <p class="panel-heading">
     <%= @user.username || @user.email %>'s Routines
   </p>
   <% if @charts.any? %>
-    <% @charts.each do |chart| %>
-      <div class="panel-block is-justify-content-flex-end panel-list">
-        <div class="chart-title"><%= link_to chart.title, chart %></div>
-        <div class="vss-panel-list_button">
-          <input type="hidden" value="<%= rails_storage_proxy_url(chart.image) %>">
-          <a class="vss-copy-button button">Copy</a>
+    <nav>
+      <% @charts.each do |chart| %>
+        <div class="panel-block is-justify-content-flex-end panel-list">
+          <div class="chart-title"><%= link_to chart.title, chart %></div>
+          <div class="vss-panel-list_button">
+            <input type="hidden" value="<%= rails_storage_proxy_url(chart.image) %>">
+            <a class="vss-copy-button button is-small"><i class="fas fa-clipboard"></i>
+            </a>
+          </div>
+          <div class="vss-panel-list_button">
+            <input type="hidden" value="<%= to_embed rails_storage_proxy_url(chart.image), chart.title %>">
+            <a class="vss-copy-button button is-small"><i class="fas fa-code"></i>
+            </a>
+          </div>
         </div>
-        <div class="vss-panel-list_button">
-          <input type="hidden" value="<%= to_embed rails_storage_proxy_url(chart.image), chart.title %>">
-          <a class="vss-copy-button button">Copy embed</a>
-        </div>
-      </div>
-    <% end %>
-    <%= paginate @charts, theme: 'bulma', window: 2 %>
+      <% end %>
+      <%#= paginate @charts, theme: 'bulma', window: 2 %>
+    </nav>
   <% else %>
-    <p class="vss-no_charts_message has-text-centered	is-size-4">There is no routine you saved.</p>
+    <div class="panel-block panel-list">
+      <p class="vss-no_charts_message has-text-centered	is-size-4">There is no routine you saved.</p>
+    </div>
   <% end %>
-</nav>
-<br>
+</div>
+<%= paginate @charts, theme: 'bulma', window: 2 %>

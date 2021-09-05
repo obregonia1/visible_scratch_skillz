@@ -3,6 +3,8 @@
 class Chart < ApplicationRecord
   belongs_to :user
   has_one_attached :image
+  validates :title, length: { maximum: 50 }
+  validates :title, presence: true
 
   def attach_blob(image_params)
     image_extension = to_extension(image_params)

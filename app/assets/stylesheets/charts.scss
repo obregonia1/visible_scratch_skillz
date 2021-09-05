@@ -2,15 +2,20 @@
 
 .box {
   width: 60%;
-  margin: 0 auto;
+  margin: 1rem auto 0 auto;
 
   h2, label, a, .label {
     color: $header-color;
+    overflow-wrap: anywhere;
   }
 
   @media (max-width: $tablet) {
     padding-left: 0.75rem;
     padding-right: 0.75rem;
+
+    h2 {
+      font-size: 1rem !important;
+    }
   }
 
   #js-chart {
@@ -32,8 +37,13 @@
           margin-right: auto;
         }
 
+        div {
+          margin-left: 0.5rem;
+        }
+
         a {
           padding: 0 0.5rem;
+          width: 50px;
 
           &.edit {
             border: 1px solid $header-color;
@@ -74,7 +84,6 @@
         }
       }
 
-
       .vss-button-row.submit {
         padding-top: 0.25rem;
 
@@ -86,7 +95,6 @@
             opacity: 0.8;
           }
         }
-
       }
     }
 
@@ -131,6 +139,21 @@
           margin: 0 auto !important;
         }
       }
+    }
+  }
+}
+
+#error_explanation {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+
+  ul {
+    width: 60%;
+    margin:0 auto;
+
+    @media(max-width: $tablet) {
+      width: inherit;
+      margin: 0 1rem;
     }
   }
 }

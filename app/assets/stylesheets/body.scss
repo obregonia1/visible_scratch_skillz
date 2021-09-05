@@ -4,6 +4,10 @@ body {
   background-color: $background-color;
 }
 
+html, body {
+  height: 100%;
+}
+
 @media (max-width: $desktop) {
   body {
     .box, .panel {
@@ -14,7 +18,17 @@ body {
   }
 }
 
-#notice {
-  width: 80%;
-  margin: 0 auto;
+.notification {
+  padding-top: 0.75rem !important;
+  padding-bottom: 0.75rem !important;
+
+  #notice {
+    width: 60%;
+    margin: 0 auto;
+
+    @media (max-width: $tablet) {
+      width: inherit;
+      margin: 0 1rem;
+    }
+  }
 }

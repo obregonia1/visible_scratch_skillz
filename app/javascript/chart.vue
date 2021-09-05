@@ -5,7 +5,7 @@
   </div>
   <div v-if="editing" class="vss-chart-title">
     <label for="chart_title" class="label">Title</label>
-    <input type="text" name="chart[title]" id="chart_title" v-model="title" class="input is-small">
+    <input type="text" name="chart[title]" id="chart_title" v-model="title" class="input is-small" required maxlength="50">
   </div>
   <div v-else="!editing" class="vss-chart-title vss-is-show is-flex is-justify-content-flex-end is-align-items-flex-end">
     <h2 class="has-text-weight-bold is-size-4">{{ title }}</h2>
