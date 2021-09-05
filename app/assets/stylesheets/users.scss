@@ -25,7 +25,6 @@
     }
   }
 
-
   .vss-no_charts_message {
     padding: 0.75em 1em;
     margin: 0 auto;
@@ -49,6 +48,48 @@
 
     .pagination-previous, .pagination-next {
       max-width: 25%;
+    }
+  }
+}
+
+.vss-devise-form {
+  width: 40%;
+
+  .button {
+    width: 100%;
+    margin: 0.5rem 0 !important;
+  }
+
+  a.button {
+    color: white;
+    background-color: $twitter-blue;
+    border-style: none;
+
+    i {
+      margin-right: 0.5rem;
+    }
+  }
+
+  .actions, .vss-devise-links {
+    text-align: center;
+  }
+
+  hr {
+    margin: 0.75rem 0;
+  }
+
+  .actions {
+    input.button {
+      color: $background-color;
+      background-color: $header-color;
+      margin: 0.25rem;
+      padding-top: 6px;
+      transition: .2s;
+      border-style: none;
+
+      &:hover {
+        opacity: 0.8;
+      }
     }
   }
 }
