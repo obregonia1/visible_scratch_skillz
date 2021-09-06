@@ -55,6 +55,10 @@
 .vss-devise-form {
   width: 40%;
 
+  h2 {
+    padding-bottom: 0.5rem;
+  }
+
   .button {
     width: 100%;
     margin: 0.5rem 0 !important;
@@ -79,8 +83,12 @@
   }
 
   .actions {
+    input.button.has-text-weight-bold {
+      color: $vss-yellow;
+    }
+
     input.button {
-      color: $background-color;
+      color: $background;
       background-color: $header-color;
       margin: 0.25rem;
       padding-top: 6px;
@@ -90,6 +98,13 @@
       &:hover {
         opacity: 0.8;
       }
+    }
+  }
+
+  #error_explanation {
+    width: inherit;
+    ul {
+      margin: 0;
     }
   }
 }
