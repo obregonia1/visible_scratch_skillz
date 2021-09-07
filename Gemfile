@@ -54,6 +54,10 @@ group :development do
   gem 'rubocop-fjord', require: false
   gem 'rubocop-rails', require: false
   gem 'spring'
+
+  # not default
+  gem 'letter_opener'
+  gem 'letter_opener_web', '~> 1.0'
 end
 
 group :test do
