@@ -2,7 +2,11 @@
 
 .panel {
   width: 60%;
-  margin: 1rem auto 0 auto;
+  margin: 2rem auto 0 auto;
+
+  @media(max-width: $desktop) {
+    margin-top: 1rem;
+  }
 
   .panel-heading, .panel-block, .vss-no_charts_message {
     background-color: white;
@@ -68,6 +72,11 @@
     color: white;
     background-color: $twitter-blue;
     border-style: none;
+    transition: .2s;
+
+    &:hover {
+      opacity: 0.8;
+    }
 
     i {
       margin-right: 0.5rem;

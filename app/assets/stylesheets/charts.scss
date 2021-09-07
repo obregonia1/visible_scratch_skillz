@@ -2,7 +2,11 @@
 
 .box {
   width: 60%;
-  margin: 1rem auto 0 auto;
+  margin: 2rem auto 0 auto;
+
+  @media(max-width: $desktop) {
+    margin-top: 1rem;
+  }
 
   h2, label, a, .label {
     color: $header-color;
@@ -83,12 +87,17 @@
       .vss-button-row.submit {
         padding-top: 0.25rem;
 
+        a.button:not(.vss-save) {
+          background-color: $background-color;
+        }
+
         .vss-save {
           color: $vss-yellow;
           background-color: $header-color;
 
           &:hover {
             opacity: 0.8;
+            border:1px solid $header-color;
           }
         }
       }
@@ -139,7 +148,7 @@
   }
 }
 
-#error_explanation {
+#error_explanation.notification {
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
 
