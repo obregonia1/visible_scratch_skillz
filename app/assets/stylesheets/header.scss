@@ -1,15 +1,37 @@
 @import "application.scss";
 
+$header-height: 120px;
+$mobile-header-height: 100px;
+
 header {
-  height: 56px;
-  background-color: #3e8ed0;
+  height: $header-height;
+
+  @media (max-width: $tablet) {
+    height: $mobile-header-height;
+  }
+
+  .navbar {
+    background-color: $header-color;
+  }
 
   .vss-burger-menu {
     margin-left: auto;
-  }
 
-  #burger-checkbox {
-    display: none;
+    #burger-checkbox {
+      display: none;
+    }
+
+    .navbar-burger {
+      margin-top: 48px;
+
+      @media (min-width: $tablet) {
+        display: none;
+      }
+
+      span {
+        color: $background-color;
+      }
+    }
   }
 
   #burger-checkbox:checked ~ div.dropdown-menu {
@@ -19,8 +41,98 @@ header {
   nav {
     height: 100%;
 
-    a {
-      height: 100%;
+    @media (min-width: $tablet) {
+      &.navbar, .navbar-menu, .navbar-end, .navbar-item {
+        display: flex;
+      }
+
+      .navbar-menu {
+        margin-left: auto;
+        background-color: transparent;
+        padding: 0.5rem 0;
+        box-shadow: none;
+
+        .navbar-end {
+          align-items: center;
+
+          a {
+            border-radius: 4px;
+            border: 1px solid transparent;
+            transition: .2s;
+          }
+
+          a:hover:not(.vss-sign-up) {
+            border: 1px solid $background-color;
+            background-color: transparent;
+          }
+
+          a.vss-login:hover:not(.vss-sign-up) {
+            border: 1px solid $vss-yellow;
+            background-color: transparent;
+          }
+
+          .navbar-item {
+            align-self: center;
+            align-items: center;
+            height: 42px;
+            margin: 0 0.25rem;
+            color: $background-color;
+
+            &.vss-sign-up {
+              color: $header-color;
+              background-color: $vss-yellow;
+
+              &:hover {
+                opacity: 0.8;
+              }
+            }
+
+            &.vss-login {
+              color: $vss-yellow;
+            }
+
+            &.dropdown {
+              &:hover {
+                background-color: transparent;
+              }
+            }
+          }
+
+          .dropdown.is-hoverable.is-right.navbar-item.navbar-link {
+            &::after {
+              border-color: $background-color;
+            }
+          }
+
+          .dropdown-content {
+            text-align: left;
+          }
+        }
+      }
+    }
+
+    div.navbar-brand {
+      height: inherit;
+
+      a.vss-logo-image {
+        margin-left: 15%;
+        height: $header-height - 20px;
+
+
+        @media (max-width: $tablet) {
+          margin-left: 5%
+        }
+
+        img {
+          object-fit: contain;
+
+          @media (max-width: $tablet) {
+            height: $mobile-header-height - 20px;
+          }
+
+          margin: 10px 0;
+        }
+      }
     }
   }
 }

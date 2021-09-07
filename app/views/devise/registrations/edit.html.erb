@@ -1,5 +1,5 @@
-<div class="box">
-  <h2 class="is-size-3">Edit <%= resource_name.to_s.humanize %></h2>
+<div class="box vss-devise-form">
+  <h2 class="is-size-4">Edit <%= resource_name.to_s.humanize %></h2>
 
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
     <%= render "devise/shared/error_messages", resource: resource %>
@@ -9,16 +9,17 @@
       <%= f.text_field :username, autofocus: true, autocomplete: "name", class: 'input' %>
     </div>
 
-    <div class="field">
-      <%= f.label :email, class: 'label' %>
-      <%= f.email_field :email, autocomplete: "email", class: 'input' %>
-    </div>
 
     <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
       <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
     <% end %>
 
     <% unless current_user.no_password %>
+      <div class="field">
+        <%= f.label :email, class: 'label' %>
+        <%= f.email_field :email, autocomplete: "email", class: 'input' %>
+      </div>
+
       <div class="field">
         <%= f.label :password, class: 'label' %> <i>(leave blank if you don't want to change it)</i><br />
         <%= f.password_field :password, autocomplete: "new-password", class: 'input' %>
@@ -34,7 +35,7 @@
       </div>
 
       <div class="field">
-        <%= f.label :current_password, class: 'label' %> <i>(we need your current password to confirm your changes)</i><br />
+        <%= f.label :current_password, class: 'label' %>
         <%= f.password_field :current_password, autocomplete: "current-password", class: 'input' %>
       </div>
     <% end %>
@@ -43,9 +44,8 @@
       <%= f.submit "Update", class: 'button' %>
     </div>
   <% end %>
-  <br />
-  <h3 class="is-size-4">Cancel my account</h3>
+  <hr />
 
-  <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: 'button' %>
+  <%= button_to "Delete account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: 'button is-danger is-light' %>
 
 </div>

@@ -2,7 +2,17 @@
 
 .box {
   width: 60%;
-  margin: 0 auto;
+  margin: 2rem auto 0 auto;
+
+  @media(max-width: $desktop) {
+    margin-top: 1rem;
+  }
+
+  h2, label, a, .label {
+    color: $header-color;
+    overflow-wrap: anywhere;
+  }
+
   @media (max-width: $tablet) {
     padding-left: 0.75rem;
     padding-right: 0.75rem;
@@ -16,20 +26,35 @@
 
     .vss-chart-title {
       width: 80%;
+      height: 4rem;
       margin: 0 auto;
 
       &.vss-is-show {
         width: 80%;
-        height: 2rem;
         margin: 0 auto;
 
         h2 {
           margin-right: auto;
         }
 
+        div {
+          margin-left: 0.5rem;
+        }
+
         a {
           padding: 0 0.5rem;
-          vertical-align: bottom;
+          width: 50px;
+
+          &.edit {
+            border: 1px solid $header-color;
+            border-radius: 4px;
+            transition: .1s;
+
+            &:hover {
+              background-color: $header-color;
+              color: white;
+            }
+          }
         }
       }
     }
@@ -48,12 +73,33 @@
       width: 80%;
       padding: 1rem 1rem;
 
-      .vss-button-row.submit {
-        padding-top: 0.25rem;
-      }
-
       a {
         margin: 0.25rem;
+        padding-top: 6px;
+        transition: .2s;
+        border: 1px solid $header-color;
+
+        &:hover {
+          border-color: $background-color;
+        }
+      }
+
+      .vss-button-row.submit {
+        padding-top: 0.25rem;
+
+        a.button:not(.vss-save) {
+          background-color: $background-color;
+        }
+
+        .vss-save {
+          color: $vss-yellow;
+          background-color: $header-color;
+
+          &:hover {
+            opacity: 0.8;
+            border:1px solid $header-color;
+          }
+        }
       }
     }
 
@@ -98,6 +144,21 @@
           margin: 0 auto !important;
         }
       }
+    }
+  }
+}
+
+#error_explanation.notification {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+
+  ul {
+    width: 60%;
+    margin:0 auto;
+
+    @media(max-width: $tablet) {
+      width: inherit;
+      margin: 0 1rem;
     }
   }
 }
