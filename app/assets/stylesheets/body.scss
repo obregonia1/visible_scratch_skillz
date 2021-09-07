@@ -2,9 +2,10 @@
 
 body {
   background-color: $background-color;
+  min-height: 100vh;
 }
 
-html, body {
+html {
   height: 100%;
 }
 
