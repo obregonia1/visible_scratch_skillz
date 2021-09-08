@@ -2,7 +2,7 @@
 
 .box {
   width: 60%;
-  margin: 2rem auto 0 auto;
+  margin: 3rem auto 3rem auto !important;
 
   @media(max-width: $desktop) {
     margin-top: 1rem;
@@ -89,6 +89,11 @@
 
         a.button:not(.vss-save) {
           background-color: $background-color;
+
+          &:hover {
+            color: $header-color;
+            opacity: 0.8;
+          }
         }
 
         .vss-save {

@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
   root to: 'home#index'
+  get 'privacy_policy', to: 'home#privacy_policy'
+  get 'tos', to: 'home#tos'
+
   devise_for :users, controllers: {
     registrations: 'users/registrations',
     sessions: 'users/sessions',

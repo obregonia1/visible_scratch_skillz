@@ -2,7 +2,7 @@
 
 .panel {
   width: 60%;
-  margin: 2rem auto 0 auto;
+  margin: 3rem auto 3rem auto !important;
 
   @media(max-width: $desktop) {
     margin-top: 1rem;
