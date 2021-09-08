@@ -1,0 +1,21 @@
+@import "application.scss";
+
+footer.footer {
+  background-color: $background-color;
+  border-top: 1px dotted $header-color;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+
+  a, i, span {
+    color: $header-color;
+  }
+
+  a {
+    margin-right: 0.5rem;
+    margin-left: 0.5rem;
+  }
+
+  .content.has-text-centered {
+    margin-bottom: 1rem;
+  }
+}

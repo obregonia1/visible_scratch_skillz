@@ -1,0 +1,20 @@
+<footer class="footer">
+  <div class="content has-text-centered">
+    <%= link_to 'Term of Service', tos_path %> |
+    <%= link_to 'Privacy Policy', privacy_policy_path %>
+  </div>
+  <div class="content has-text-centered">
+    <%= link_to 'https://github.com/obregonia1/visible_scratch_skillz' do %>
+      <i class="fab fa-github fa-lg"></i>
+    <% end %>
+    <%= link_to 'https://twitter.com/obregonia1' do %>
+      <i class="fab fa-twitter fa-lg"></i>
+    <% end %>
+  </div>
+  <div class="content has-text-centered">
+    <i class="far fa-copyright"></i>
+    <span>
+      2021<%= - Time.zone.now.year if Time.zone.now.year != 2021 %> obregonia1
+    </span>
+  </div>
+</footer>
