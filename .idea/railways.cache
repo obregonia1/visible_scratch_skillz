@@ -1,6 +1,6 @@
                                   Prefix Verb     URI Pattern                                                                                       Controller#Action
                                     root GET      /                                                                                                 home#index
-                                     coc GET      /coc(.:format)                                                                                    home#coc
+                          privacy_policy GET      /privacy_policy(.:format)                                                                         home#privacy_policy
                                      tos GET      /tos(.:format)                                                                                    home#tos
                         new_user_session GET      /users/sign_in(.:format)                                                                          users/sessions#new
                             user_session POST     /users/sign_in(.:format)                                                                          users/sessions#create
