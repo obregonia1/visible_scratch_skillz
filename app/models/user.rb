@@ -7,6 +7,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :omniauthable, omniauth_providers: %i[twitter]
 
+  validates :email, presence: true
+
   has_many :charts, dependent: :destroy
 
   def no_password
