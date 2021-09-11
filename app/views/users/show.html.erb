@@ -8,7 +8,7 @@
 
 <div class="panel is-shadowless">
   <p class="panel-heading">
-    <%= @user.username || @user.email %>'s Routines
+    <%= @user.username.present? ? @user.username : @user.email %>'s Routines
   </p>
   <% if @charts.any? %>
     <nav>
