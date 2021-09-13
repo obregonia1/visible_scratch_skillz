@@ -109,7 +109,7 @@
       </div>
     </div>
   </template>
-  <div v-show="exportImg" class="vss-img-wrapper"><img id="img"></div>
+  <div v-show="displayImg" class="vss-img-wrapper"><img id="img"></div>
 </template>
 
 <script>
