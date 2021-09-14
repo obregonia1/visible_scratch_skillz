@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require "rails_helper"
+require 'rails_helper'
 
-RSpec.feature "Chart", type: :system do
-  context "ログイン無しで作成" do
+RSpec.feature 'Chart', type: :system do
+  context 'ログイン無しで作成' do
     background { visit new_chart_path }
 
     scenario 'Saveボタンの非表示' do
@@ -11,7 +11,7 @@ RSpec.feature "Chart", type: :system do
     end
 
     scenario '画像エクスポートボタンをクリック' do
-      fill_in 'Title', with: "Baby"
+      fill_in 'Title', with: 'Baby'
       first('.vss-button-row.submit a').click
       expect(find_by_id('img').visible?).to be_truthy
     end
@@ -23,8 +23,8 @@ RSpec.feature "Chart", type: :system do
       user = FactoryBot.create(:user)
       fill_in 'Email', with: user.email
       fill_in 'Password', with: user.password
-      within ".actions" do
-        click_button "Log in"
+      within '.actions' do
+        click_button 'Log in'
       end
       visit new_chart_path
     end
@@ -51,10 +51,10 @@ RSpec.feature "Chart", type: :system do
       end
 
       scenario 'Chartの編集、更新の成功' do
-        within ".chart-title" do
+        within '.chart-title' do
           click_on 'Baby'
         end
-        within ".vss-chart-edit" do
+        within '.vss-chart-edit' do
           first(:css, '.edit').click
         end
         fill_in('Title', with: 'Chirp', fill_options: { clear: :backspace })
@@ -63,10 +63,10 @@ RSpec.feature "Chart", type: :system do
       end
 
       scenario 'Chartの削除成功', js: true do
-        within ".chart-title" do
+        within '.chart-title' do
           click_on 'Baby'
         end
-        within ".vss-chart-edit" do
+        within '.vss-chart-edit' do
           click_on 'Delete'
         end
         page.accept_confirm
@@ -75,4 +75,3 @@ RSpec.feature "Chart", type: :system do
     end
   end
 end
-

@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe ImageBlob, type: :model do
   before do
-    image = "#{Rails.root}/spec/fixtures/files/baby.png"
+    image = Rails.root.join('/spec/fixtures/files/baby.png').to_s
     @encoded_image = Base64.encode64(image)
     mime_type = 'image/png'
     @image_data_url = "data:#{mime_type};base64,#{@encoded_image}"
