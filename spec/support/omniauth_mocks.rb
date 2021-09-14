@@ -7,9 +7,9 @@ module OmniauthMocks
                                provider: 'twitter',
                                uid: '123545',
                                info: {
-                                 name: "Twitter",
-                                 email: "alice@example.com",
-                               },
+                                 name: 'Twitter',
+                                 email: 'alice@example.com'
+                               }
                              })
   end
 end

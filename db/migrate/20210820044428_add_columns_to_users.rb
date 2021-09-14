@@ -1,7 +1,11 @@
+# frozen_string_literal: true
+
 class AddColumnsToUsers < ActiveRecord::Migration[6.1]
   def change
-    add_column :users, :provider, :string
-    add_column :users, :uid, :string
-    add_column :users, :username, :string
+    change_table :users, bulk: true do |t|
+      t.string :users, :provider
+      t.string :users, :uid
+      t.string :users, :username
+    end
   end
 end
