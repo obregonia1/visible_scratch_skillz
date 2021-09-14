@@ -9,7 +9,7 @@
   </div>
   <div v-else="!editing" class="vss-chart-title vss-is-show is-flex is-justify-content-flex-end is-align-items-flex-end">
     <h2 class="has-text-weight-bold is-size-4">{{ title }}</h2>
-    <div v-if="!editing && (userId === currentUserId)" >
+    <div class='vss-chart-edit' v-if="!editing && (userId === currentUserId)" >
       <a @click="edit" class="button edit is-small has-text-weight-bold">Edit</a>
       <a data-confirm="Are you sure?" class="is-size-7" rel="nofollow" data-method="delete" :href="`/charts/${chartId}`">Delete</a>
     </div>
@@ -109,7 +109,7 @@
       </div>
     </div>
   </template>
-  <div v-show="exportImg" class="vss-img-wrapper"><img id="img"></div>
+  <div v-show="displayImg" class="vss-img-wrapper"><img id="img"></div>
 </template>
 
 <script>

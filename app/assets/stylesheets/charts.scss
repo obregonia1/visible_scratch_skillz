@@ -2,10 +2,12 @@
 
 .box {
   width: 60%;
-  margin: 3rem auto 3rem auto !important;
+  margin: 3rem auto 0 auto;
+  margin-bottom: 3rem !important;
 
   @media(max-width: $desktop) {
     margin-top: 1rem;
+    margin-bottom: 1rem !important;
   }
 
   h2, label, a, .label {

@@ -7,6 +7,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :omniauthable, omniauth_providers: %i[twitter]
 
+  validates :email, presence: true
+
   has_many :charts, dependent: :destroy
 
   def no_password
@@ -16,12 +18,10 @@ class User < ApplicationRecord
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email || User.dummy_email(auth)
-      user.password = Devise.friendly_token[0,20]
+      user.password = Devise.friendly_token[0, 20]
       user.username = auth.info.name
     end
   end
-
-  private
 
   def self.dummy_email(auth)
     "#{auth.uid}-#{auth.provider}@example.com"
