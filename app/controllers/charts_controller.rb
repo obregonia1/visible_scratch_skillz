@@ -19,7 +19,7 @@ class ChartsController < ApplicationController
   # POST /charts or /charts.json
   def create
     @chart = Chart.new(chart_params)
-    @chart.attach_blob(image_param)
+    @chart.attach_blob(image_data_url)
 
     respond_to do |format|
       if @chart.save
@@ -36,7 +36,7 @@ class ChartsController < ApplicationController
   def update
     respond_to do |format|
       if @chart.update(chart_params)
-        @chart.attach_blob(image_param)
+        @chart.attach_blob(image_data_url)
         format.html { redirect_to current_user, notice: 'Updated!' }
         format.json { render :show, status: :ok, location: @chart }
       else
@@ -67,7 +67,7 @@ class ChartsController < ApplicationController
     params.require(:chart).permit(:title, :chart_code).merge(user_id: current_user.id)
   end
 
-  def image_param
+  def image_data_url
     params.require(:chart).permit(:image)[:image]
   end
 end
