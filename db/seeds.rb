@@ -1,8 +1,21 @@
 # frozen_string_literal: true
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+
+require 'factory_bot'
+
+2.times { FactoryBot.create(:user) }
+
+3.times do |n|
+  FactoryBot.create(:chart, title: "Baby_#{1 + n}", user: User.last)
+  FactoryBot.create(
+    :chart,
+    title: "Chirp_#{1 + n}",
+    user: User.first,
+    chart_code:
+      <<~CODE
+        [{\"trick\":\"chirp\",\"pattern\":\"forward\",\"beatLength\":6,\"beatPosition\":0,\"faderPositions\":[6]},
+        {\"trick\":\"chirp\",\"pattern\":\"backward\",\"beatLength\":6,\"beatPosition\":6,\"faderPositions\":[0]},
+        {\"trick\":\"chirp\",\"pattern\":\"forward\",\"beatLength\":6,\"beatPosition\":12,\"faderPositions\":[6]},
+        {\"trick\":\"chirp\",\"pattern\":\"backward\",\"beatLength\":6,\"beatPosition\":18,\"faderPositions\":[0]}]
+      CODE
+  )
+end
