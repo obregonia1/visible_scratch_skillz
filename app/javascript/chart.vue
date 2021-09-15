@@ -456,6 +456,8 @@ export default {
       this.displayImg = true
       const img = document.getElementById("img")
       img.src = this.imageUrl
+      const canvas = document.querySelector('.konvajs-content');
+      window.scroll(0, canvas.clientWidth);
     }
   }
 }
