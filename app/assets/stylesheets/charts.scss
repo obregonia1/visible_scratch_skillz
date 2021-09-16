@@ -90,7 +90,8 @@
         padding-top: 0.25rem;
 
         a.button:not(.vss-save) {
-          background-color: $background-color;
+          background-color: $vss-yellow;
+          border-style: none;
 
           &:hover {
             color: $header-color;

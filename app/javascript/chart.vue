@@ -131,7 +131,7 @@ export default {
       currentBeat: 0,
       codeLayer: null,
       faderPositions: null,
-      clickCount: null,
+      clickCount: 1,
       displayImg: false,
       title: '',
       imageUrl: '',
@@ -243,18 +243,6 @@ export default {
       this.chartCodes.push(code)
       this.currentBeat += Number(this.beatLength)
       this.addCodeLine(code)
-    },
-    transformer() {
-      this.trick = 'transformer'
-      if (!this.clickCount || this.clickCount === 1) {
-        this.clickCount = 2
-      }
-    },
-    flare() {
-      this.trick = 'flare'
-      if (!this.clickCount || this.clickCount === 4) {
-        this.clickCount = 1
-      }
     },
     addBgLine(x, stroke, dash = null) {
       this.bgLine = new Konva.Line({
@@ -456,6 +444,8 @@ export default {
       this.displayImg = true
       const img = document.getElementById("img")
       img.src = this.imageUrl
+      const canvas = document.querySelector('.konvajs-content');
+      window.scroll(0, canvas.clientWidth);
     }
   }
 }

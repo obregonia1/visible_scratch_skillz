@@ -2,6 +2,7 @@
                                     root GET      /                                                                                                 home#index
                           privacy_policy GET      /privacy_policy(.:format)                                                                         home#privacy_policy
                                      tos GET      /tos(.:format)                                                                                    home#tos
+                                 welcome GET      /welcome(.:format)                                                                                welcome#index
                         new_user_session GET      /users/sign_in(.:format)                                                                          users/sessions#new
                             user_session POST     /users/sign_in(.:format)                                                                          users/sessions#create
                     destroy_user_session DELETE   /users/sign_out(.:format)                                                                         users/sessions#destroy
