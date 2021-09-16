@@ -50,4 +50,12 @@
     </div>
     <%= image_tag 'blog_example.png', size: '400x400', class: 'column' %>
   </div>
+
+  <div class="vss-welcome-links">
+    <div>
+      <%= link_to "Sign up", new_user_registration_path, class: ['has-text-weight-bold', 'vss-sign-up', 'button', 'is-medium'] %>
+      <%= link_to "Login", new_user_session_path, class: ['has-text-weight-bold', 'vss-login', 'button', 'is-medium'] %>
+    </div>
+    <%= link_to 'Start without a login', new_chart_path, class: 'has-text-weight-bold' %>
+  </div>
 </div>

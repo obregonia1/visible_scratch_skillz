@@ -26,4 +26,31 @@
   h1, h2 {
     color: $header-color;
   }
+
+  .vss-welcome-links {
+    text-align: center;
+
+    a {
+      margin: 1rem 0.5rem;
+      transition: .2s;
+      color: $header-color;
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+    .vss-sign-up {
+      background-color: $vss-yellow;
+
+      &:hover {
+        border-color: transparent;
+        opacity: 0.8;
+      }
+    }
+
+    .vss-login {
+      background-color: transparent;
+      border-color: $header-color;
+    }
+  }
 }
