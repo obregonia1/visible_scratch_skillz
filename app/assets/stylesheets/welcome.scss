@@ -1,0 +1,29 @@
+@import "application.scss";
+
+.vss-welcome-container {
+  width: 70%;
+  margin: 3rem auto;
+
+  h1 {
+    margin: 2rem 0;
+    text-align: center;
+  }
+
+  .column {
+   padding-bottom: 2rem;
+  }
+
+  @media(max-width: $tablet) {
+    div.column {
+      padding-bottom: 1rem;
+    }
+  }
+
+  img {
+    margin:0 auto;
+  }
+
+  h1, h2 {
+    color: $header-color;
+  }
+}
