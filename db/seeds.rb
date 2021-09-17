@@ -2,11 +2,11 @@
 
 require 'factory_bot'
 
-2.times { FactoryBot.create(:user) }
+2.times { create(:user) }
 
 3.times do |n|
-  FactoryBot.create(:chart, title: "Baby_#{1 + n}", user: User.first)
-  FactoryBot.create(
+  create(:chart, title: "Baby_#{1 + n}", user: User.first)
+  create(
     :chart,
     title: "Chirp_#{1 + n}",
     user: User.first,

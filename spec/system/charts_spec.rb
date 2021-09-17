@@ -20,7 +20,7 @@ RSpec.feature 'Chart', type: :system do
   context 'ログインユーザー' do
     background do
       visit new_user_session_path
-      user = FactoryBot.create(:user)
+      user = create(:user)
       fill_in 'Email', with: user.email
       fill_in 'Password', with: user.password
       within '.actions' do
