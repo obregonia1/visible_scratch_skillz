@@ -23,4 +23,9 @@ RSpec.describe User, type: :model do
     user = FactoryBot.build(:user, username: nil)
     expect(user).to be_valid
   end
+
+  it 'ユーザー名がない場合はname_or_emailはメールアドレスを返す' do
+    user = FactoryBot.build(:user, username: '')
+    expect(user.name_or_email).to eq user.email
+  end
 end
