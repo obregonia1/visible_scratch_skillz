@@ -27,7 +27,7 @@ html {
     width: 60%;
     margin: 0 auto;
 
-    @media (max-width: $tablet) {
+    @media (max-width: $desktop) {
       width: inherit;
       margin: 0 1rem;
     }
