@@ -50,67 +50,67 @@
     border-color: $header-color;
     color: $background-color;
   }
+}
 
-  .vss-devise-form {
-    width: 40%;
+.vss-devise-form {
+  width: 40%;
 
-    h2 {
-      padding-bottom: 0.5rem;
+  h2 {
+    padding-bottom: 0.5rem;
+  }
+
+  .button {
+    width: 100%;
+    margin: 0.5rem 0 !important;
+  }
+
+  a.button {
+    color: white;
+    background-color: $twitter-blue;
+    border-style: none;
+    transition: .2s;
+
+    &:hover {
+      opacity: 0.8;
     }
 
-    .button {
-      width: 100%;
-      margin: 0.5rem 0 !important;
+    i {
+      margin-right: 0.5rem;
+    }
+  }
+
+  .actions, .vss-devise-links {
+    text-align: center;
+  }
+
+  hr {
+    margin: 0.75rem 0;
+  }
+
+  .actions {
+    input.button.has-text-weight-bold {
+      color: $vss-yellow;
     }
 
-    a.button {
-      color: white;
-      background-color: $twitter-blue;
-      border-style: none;
+    input.button {
+      color: $background;
+      background-color: $header-color;
+      margin: 0.25rem;
+      padding-top: 6px;
       transition: .2s;
+      border-style: none;
 
       &:hover {
         opacity: 0.8;
       }
-
-      i {
-        margin-right: 0.5rem;
-      }
     }
+  }
 
-    .actions, .vss-devise-links {
-      text-align: center;
-    }
+  #error_explanation {
+    width: inherit;
 
-    hr {
-      margin: 0.75rem 0;
-    }
-
-    .actions {
-      input.button.has-text-weight-bold {
-        color: $vss-yellow;
-      }
-
-      input.button {
-        color: $background;
-        background-color: $header-color;
-        margin: 0.25rem;
-        padding-top: 6px;
-        transition: .2s;
-        border-style: none;
-
-        &:hover {
-          opacity: 0.8;
-        }
-      }
-    }
-
-    #error_explanation {
-      width: inherit;
-
-      ul {
-        margin: 0;
-      }
+    ul {
+      margin: 0;
     }
   }
 }
