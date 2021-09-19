@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :omniauthable, omniauth_providers: %i[twitter]
@@ -13,6 +11,10 @@ class User < ApplicationRecord
 
   def no_password
     !!provider
+  end
+
+  def name_or_email
+    username.present? ? username : email
   end
 
   class << self

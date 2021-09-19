@@ -18,7 +18,7 @@ RSpec.feature 'User', type: :system do
   end
 
   scenario 'メールアドレスとパスワードでログイン' do
-    user = FactoryBot.create(:user)
+    user = create(:user)
     visit new_user_session_path
     expect(current_path).to eq '/users/sign_in'
     fill_in 'Email', with: user.email

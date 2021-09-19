@@ -1,3 +1,5 @@
+<% provide :title, @user.name_or_email %>
+
 <% if notice %>
   <div class="notification is-primary is-light">
     <p id="notice"><strong><%= notice %></strong></p>
@@ -8,7 +10,7 @@
 
 <div class="panel is-shadowless">
   <p class="panel-heading">
-    <%= @user.username.present? ? @user.username : @user.email %>'s Routines
+    <%= @user.name_or_email %>'s Routines
   </p>
   <% if @charts.any? %>
     <nav>
@@ -33,5 +35,5 @@
       <p class="vss-no_charts_message has-text-centered	is-size-4">There is no routine you saved.</p>
     </div>
   <% end %>
+  <%= paginate @charts, theme: 'bulma', window: 2 %>
 </div>
-<%= paginate @charts, theme: 'bulma', window: 2 %>

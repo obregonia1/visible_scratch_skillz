@@ -1,7 +1,20 @@
 <!DOCTYPE html>
-<html>
+<html prefix="og: https://ogp.me/ns#">
   <head>
-    <title>VisibleScratchSkillz</title>
+    <meta charset="utf-8">
+    <meta name="description" content="application for creating scratch chart">
+    <meta property="og:title" content="<%= full_title yield(:title) %>">
+    <meta property="og:description" content="application for creating scratch chart">
+    <meta property="og:type" content="website">
+<!--    #TODO-->
+    <meta property="og:url" content="">
+    <meta property="og:site_name" content="Visible Scratch Skillz">
+<!--    #TODO-->
+    <meta property="og:image" content="">
+    <meta property="og" content="">
+    <link rel="icon" href="/assets/favicon.ico" id="favicon">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+    <title><%= full_title yield(:title) %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>

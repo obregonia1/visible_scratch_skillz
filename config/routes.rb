@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     sessions: 'users/sessions',
     omniauth_callbacks: 'users/omniauth_callbacks'
   }
-  resources :charts, except: %i(edit)
+  resources :charts, except: %i(edit index)
   resources :users, only: %i(show)
 
   namespace "api" do

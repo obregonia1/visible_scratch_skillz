@@ -38,23 +38,17 @@
 }
 
 .pagination {
-  width: 60%;
-  margin: 0 auto;
-  padding-bottom: 8px;
+  padding-top: 1rem;
+
+  @media (min-width: $desktop) {
+    width: 80%;
+    margin: 0 auto !important;
+  }
 
   .pagination-link.is-current {
     background-color: $header-color;
     border-color: $header-color;
     color: $background-color;
-  }
-
-  @media (max-width: $tablet) {
-    width: inherit;
-    margin: 0 1rem;
-
-    .pagination-previous, .pagination-next {
-      max-width: 25%;
-    }
   }
 }
 
@@ -114,6 +108,7 @@
 
   #error_explanation {
     width: inherit;
+
     ul {
       margin: 0;
     }
