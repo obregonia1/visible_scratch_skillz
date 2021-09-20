@@ -16,7 +16,8 @@ jobs:
     strategy:
       matrix:
         ruby-version: ['3.0']
-        
+    env:
+      RAILS_ENV: test
     services:
       postgres:
         image: postgres
@@ -25,13 +26,13 @@ jobs:
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: password
-          POSTGRES_DB: test
+          POSTGRES_DB: visible_scratch_skillz_test
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-          
+
     steps:
     - uses: actions/checkout@v2
     - name: Set up Ruby
@@ -42,5 +43,7 @@ jobs:
       with:
         ruby-version: ${{ matrix.ruby-version }}
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+    - name: yarn install
+      run: yarn install --check-files
     - name: Run tests
       run: bundle exec rspec
