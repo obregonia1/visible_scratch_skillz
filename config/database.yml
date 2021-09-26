@@ -86,3 +86,4 @@ production:
   database: vss_production
   username: postgres
   password: <%= Rails.application.credentials.data_base_password %>
+  host: <%= Rails.application.credentials.db_host %>
