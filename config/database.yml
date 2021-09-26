@@ -83,6 +83,6 @@ test:
 #
 production:
   <<: *default
-  database: visible_scratch_skillz_production
-  username: visible_scratch_skillz
-  password: <%= ENV['VISIBLE_SCRATCH_SKILLZ_DATABASE_PASSWORD'] %>
+  database: vss_production
+  username: postgres
+  password: <%= Rails.application.credentials.data_base_password %>
