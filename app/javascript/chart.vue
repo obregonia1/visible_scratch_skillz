@@ -108,6 +108,7 @@
         <a v-if="!nonLogin" @click="save" class="button column vss-save has-text-weight-bold" data-disable-with="Saving">Save</a>
       </div>
     </div>
+      <p v-if="nonLogin" class="has-text-centered"><a href="/users/sign_in" class="has-text-weight-bold">Login</a> to save chart you made.</p>
   </template>
   <div v-show="displayImg" class="vss-img-wrapper"><img id="img"></div>
 </template>

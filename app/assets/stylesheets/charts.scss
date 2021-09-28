@@ -75,14 +75,16 @@
       width: 80%;
       padding: 1rem 1rem;
 
-      a {
-        margin: 0.25rem;
-        padding-top: 6px;
-        transition: .2s;
-        border: 1px solid $header-color;
+      .vss-button-row {
+        a {
+          margin: 0.25rem;
+          padding-top: 6px;
+          transition: .2s;
+          border: 1px solid $header-color;
 
-        &:hover {
-          border-color: $background-color;
+          &:hover {
+            border-color: $background-color;
+          }
         }
       }
 
