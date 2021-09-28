@@ -42,4 +42,4 @@ pidfile ENV.fetch("PIDFILE") { "tmp/pids/server.pid" }
 # Allow puma to be restarted by `rails restart` command.
 plugin :tmp_restart
 
-bind "unix://#{Rails.root}/tmp/sockets/visible_scratch_skillz-puma.sock"
+bind "unix://#{Rails.root}/tmp/sockets/visible_scratch_skillz-puma.sock" if ENV['RAILS_ENV'] == 'production'
