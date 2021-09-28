@@ -12,8 +12,8 @@
 <!--    #TODO-->
     <meta property="og:image" content="">
     <meta property="og" content="">
-    <link rel="icon" href="/assets/favicon.ico" id="favicon">
-    <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+    <%= favicon_link_tag %>
+    <%= favicon_link_tag 'apple-touch-icon.png', rel: 'apple-touch-icon' %>
     <title><%= full_title yield(:title) %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
