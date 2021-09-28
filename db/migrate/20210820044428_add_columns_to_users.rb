@@ -3,9 +3,9 @@
 class AddColumnsToUsers < ActiveRecord::Migration[6.1]
   def change
     change_table :users, bulk: true do |t|
-      t.string :users, :provider
-      t.string :users, :uid
-      t.string :users, :username
+      t.string :provider
+      t.string :uid
+      t.string :username
     end
   end
 end
