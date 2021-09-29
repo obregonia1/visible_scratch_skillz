@@ -98,10 +98,10 @@
     </div>
     <div class="vss-button-container">
       <div class="vss-button-row columns is-flex-wrap-wrap is-justify-content-space-between is-align-items-center is-mobile">
-        <a @click='clickAdd' class="button column">Add Trick</a>
+        <a @click='addTrick' class="button column">Add Trick</a>
         <a @click='addRest' class="button column">Add Rest</a>
         <a @click='allClear' class="button column">All Clear</a>
-        <a @click='deleteOne' class="button column">Delete</a>
+        <a @click='delete' class="button column">Delete</a>
       </div>
       <div class="vss-button-row submit is-justify-content-space-between columns is-mobile">
         <a @click="exportImg" class="button column has-text-weight-bold">Export <fa icon="image" /></a>
@@ -183,7 +183,7 @@ export default {
       name: 'bgLine'
     })
 
-    this.addBeatBgLine(this.totalBeatCount)
+    this.addBgLines(this.totalBeatCount)
 
     this.bgLineLayer.offsetX(-10)
     this.bgLineLayer.offsetY(-5)
@@ -196,105 +196,12 @@ export default {
     this.stage.add(this.bgLineLayer)
     this.stage.draw()
   },
-  computed: {},
   methods: {
-    addRest() {
-      const code = {
-        trick: 'rest',
-        pattern: null,
-        beatLength: this.beatLength,
-        beatPosition: this.currentBeat
-      }
-      this.chartCodes.push(code)
-      this.currentBeat += Number(this.beatLength)
-      this.addCodeLine(code)
-    },
-    allClear() {
-      this.chartCodes.splice(0)
-      this.codeLayer.destroy()
-      this.currentBeat = 0
-    },
-    deleteOne() {
-      if (this.chartCodes.length > 0) {
-        const lastCode = this.chartCodes.pop()
-        this.codeLayer.destroy()
-        this.renderChartCodes(this.chartCodes)
-        this.stage.draw()
-        this.currentBeat -= lastCode.beatLength
-      }
-    },
-    clickAdd() {
-      if (this.currentBeat < 24) {
-        if (this.pattern === 'orbit') {
-          this.drawAddTrick('forward')
-          this.drawAddTrick('backward')
-        } else if (this.pattern !== 'orbit') {
-          this.drawAddTrick(this.pattern)
-        }
-      }
-    },
-    drawAddTrick(pattern) {
-      const code = {
-        trick: this.trick,
-        pattern: pattern,
-        beatLength: Number(this.beatLength),
-        beatPosition: this.currentBeat,
-        faderPositions: this.calcFaderPositions(pattern),
-      }
-      this.chartCodes.push(code)
-      this.currentBeat += Number(this.beatLength)
-      this.addCodeLine(code)
-    },
-    addBgLine(x, stroke, dash = null) {
-      this.bgLine = new Konva.Line({
-        points: [x, this.stageHeight - 10, x, 0],
-        stroke: stroke,
-        strokeWidth: 1,
-        dash: dash ? [3, 3] : null
+    renderChartCodes(chartCodes) {
+      chartCodes.forEach((code) => {
+        this.addCodeLine(code)
       })
-      this.bgLineLayer.add(this.bgLine)
-    },
-    addBgSolidLine(x) {
-      this.addBgLine(x, '#c0c0c0')
-    },
-    addBgDashedLine(x) {
-      this.addBgLine(x, '#d3d3d3', true)
-    },
-    addBeatBgLine(beatCount) {
-      const solidLineWidth = (this.stageWidth - 20) / 4
-      for (let i = 0; i <= beatCount; i++) {
-        this.addBgSolidLine(i * solidLineWidth)
-      }
-      const dashedLineWidth = (this.stageWidth - 20) / 24
-      for (let i = 1; i <= beatCount * 6; i++) {
-        if (i % 6 !== 0) {
-          this.addBgDashedLine(i * dashedLineWidth)
-        }
-      }
-    },
-    drawFaderLine(code, layer) {
-      code.faderPositions.forEach(faderPosition => {
-        const faderLine = new Konva.Line({
-          points: this.faderPoints(code, faderPosition),
-          stroke: '#5a5454',
-          strokeWidth: 1,
-          name: 'fader',
-        })
-        layer.add(faderLine)
-      })
-    },
-    faderPoints(code, faderPosition) {
-      const faderPositionPx = this.toPixel(code.beatPosition) + this.toPixel(faderPosition)
-      const x1 = faderPositionPx - 10
-      const x2 = faderPositionPx + 10
-      const chartHeight = this.stageHeight - 10
-      if (code.pattern === 'forward') {
-        const y = chartHeight - faderPosition / code.beatLength * chartHeight
-        return [x1, y, x2, y]
-      } else if (code.pattern === 'backward') {
-        const y = faderPosition / code.beatLength * chartHeight
-        return [x1, y, x2, y]
-      }
+      this.stage.draw()
     },
     addCodeLine(code) {
       let y1 = null
@@ -302,7 +209,7 @@ export default {
       let strokeWidth = null
       let stroke = null
       let layer = this.codeLayer
-      const chartHeight = this.stageHeight - 10
+      const chartHeight = this.chartHeight()
       if (code.trick !== 'rest') {
         y1 = code.pattern === 'forward' ? chartHeight : 0
         y2 = code.pattern === 'forward' ? 0 : chartHeight
@@ -320,7 +227,12 @@ export default {
         name = 'rest'
       }
       const line = new Konva.Line({
-        points: [this.toPixel(code.beatPosition), y1, this.toPixel(code.beatPosition) + this.toPixel(code.beatLength), y2],
+        points: [
+          this.toPixel(code.beatPosition),
+          y1,
+          this.toPixel(code.beatPosition) + this.toPixel(code.beatLength),
+          y2
+        ],
         stroke: stroke,
         strokeWidth: strokeWidth,
         name: name,
@@ -329,11 +241,51 @@ export default {
       this.stage.add(layer)
       this.stage.draw()
     },
-    renderChartCodes(chartCodes) {
-      chartCodes.forEach((code) => {
-        this.addCodeLine(code)
+    drawFaderLine(code, layer) {
+      code.faderPositions.forEach(faderPosition => {
+        const faderLine = new Konva.Line({
+          points: this.faderPoints(code, faderPosition),
+          stroke: '#5a5454',
+          strokeWidth: 1,
+          name: 'fader',
+        })
+        layer.add(faderLine)
       })
-      this.stage.draw()
+    },
+    chartHeight() {
+      return this.stageHeight - 10
+    },
+    chartWidth() {
+      return this.stageWidth - 20
+    },
+    toPixel(beatPosition) {
+      const oneBeatWidth = this.chartWidth() / 4
+      return beatPosition * oneBeatWidth / 6
+    },
+    faderPoints(code, faderPosition) {
+      const faderPositionPx = this.toPixel(code.beatPosition) + this.toPixel(faderPosition)
+      const x1 = faderPositionPx - 10
+      const x2 = faderPositionPx + 10
+      const chartHeight = this.chartHeight()
+      if (code.pattern === 'forward') {
+        const y = chartHeight - faderPosition / code.beatLength * chartHeight
+        return [x1, y, x2, y]
+      } else if (code.pattern === 'backward') {
+        const y = faderPosition / code.beatLength * chartHeight
+        return [x1, y, x2, y]
+      }
+    },
+    drawAddTrick(pattern) {
+      const code = {
+        trick: this.trick,
+        pattern: pattern,
+        beatLength: Number(this.beatLength),
+        beatPosition: this.currentBeat,
+        faderPositions: this.calcFaderPositions(pattern),
+      }
+      this.chartCodes.push(code)
+      this.currentBeat += Number(this.beatLength)
+      this.addCodeLine(code)
     },
     calcFaderPositions(pattern) {
       if (this.trick === 'chirp') {
@@ -356,9 +308,69 @@ export default {
         return faderPositions
       }
     },
-    toPixel(beatPosition) {
-      const oneBeatWidth = (this.stageWidth - 20) / 4
-      return beatPosition * oneBeatWidth / 6
+    addTrick() {
+      if (this.currentBeat < 24) {
+        if (this.pattern === 'orbit') {
+          this.drawAddTrick('forward')
+          this.drawAddTrick('backward')
+        } else {
+          this.drawAddTrick(this.pattern)
+        }
+      }
+    },
+    addRest() {
+      const code = {
+        trick: 'rest',
+        pattern: null,
+        beatLength: this.beatLength,
+        beatPosition: this.currentBeat
+      }
+      this.chartCodes.push(code)
+      this.currentBeat += Number(this.beatLength)
+      this.addCodeLine(code)
+    },
+    allClear() {
+      this.chartCodes.splice(0)
+      this.codeLayer.destroy()
+      this.currentBeat = 0
+    },
+    delete() {
+      if (this.chartCodes.length > 0) {
+        const lastCode = this.chartCodes.pop()
+        this.codeLayer.destroy()
+        this.renderChartCodes(this.chartCodes)
+        this.stage.draw()
+        this.currentBeat -= lastCode.beatLength
+      }
+    },
+    addBgLines(beatCount) {
+      // 1小節のchartWidthを4分割して1拍の幅にする
+      const solidLineWidth = this.chartWidth() / 4
+      for (let i = 0; i <= beatCount; i++) {
+        this.addBgSolidLine(i * solidLineWidth)
+      }
+      // 1拍を6分割した基準線をつくる
+      const dashedLineWidth = solidLineWidth / 6
+      for (let i = 1; i <= beatCount * 6; i++) {
+        if (i % 6 !== 0) {
+          this.addBgDashedLine(i * dashedLineWidth)
+        }
+      }
+    },
+    addBgSolidLine(x) {
+      this.addBgLine(x, '#c0c0c0')
+    },
+    addBgDashedLine(x) {
+      this.addBgLine(x, '#d3d3d3', true)
+    },
+    addBgLine(x, stroke, dash = null) {
+      this.bgLine = new Konva.Line({
+        points: [x, this.chartHeight(), x, 0],
+        stroke: stroke,
+        strokeWidth: 1,
+        dash: dash ? [3, 3] : null
+      })
+      this.bgLineLayer.add(this.bgLine)
     },
     convert() {
       this.imageStage = new Konva.Stage({
@@ -420,17 +432,9 @@ export default {
         pixelRatio: 2
       })
     },
-    token() {
-      const meta = document.querySelector('meta[name="csrf-token"]')
-      return meta ? meta.getAttribute('content') : ''
-    },
-    edit() {
-      this.editing = true
-      this.renderChartCodes(this.chartCodes)
-    },
     save() {
       const convert = this.convert
-      const promise = new Promise(function(resolve){
+      const promise = new Promise(function(resolve) {
         convert()
         resolve()
       })
@@ -447,6 +451,14 @@ export default {
       img.src = this.imageUrl
       const canvas = document.querySelector('.konvajs-content');
       window.scroll(0, canvas.clientWidth);
+    },
+    token() {
+      const meta = document.querySelector('meta[name="csrf-token"]')
+      return meta ? meta.getAttribute('content') : ''
+    },
+    edit() {
+      this.editing = true
+      this.renderChartCodes(this.chartCodes)
     }
   }
 }

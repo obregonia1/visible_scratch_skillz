@@ -8,7 +8,7 @@
   </div>
 <% end %>
 
-<%= form_with model: chart, multipart: true, class: ['box', 'is-shadowless'], id: 'form' do |form| %>
+<%= form_with model: chart, multipart: true, class: 'box is-shadowless', id: 'form' do %>
   <div id="js-chart"
     <% if chart.id %>
       <%= "data-chart-id=#{chart.id}" %>

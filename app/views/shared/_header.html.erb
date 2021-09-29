@@ -29,9 +29,9 @@
 
     <div class="navbar-menu">
       <div class="navbar-end">
-        <%= link_to 'New', new_chart_path, class: ['navbar-item', 'has-text-weight-bold'] %>
+        <%= link_to 'New', new_chart_path, class: 'navbar-item has-text-weight-bold' %>
         <% if user_signed_in? %>
-          <%= link_to 'List', current_user, class: ['navbar-item', 'has-text-weight-bold'] %>
+          <%= link_to 'List', current_user, class: 'navbar-item has-text-weight-bold' %>
           <div class="dropdown is-hoverable is-right navbar-item navbar-link">
             <div class="dropdown-trigger">
               <span class="icon">
@@ -46,8 +46,8 @@
             </div>
           </div>
         <% else %>
-          <%= link_to "Sign up", new_user_registration_path, class: ['navbar-item', 'has-text-weight-bold', 'vss-sign-up'] %>
-          <%= link_to "Login", new_user_session_path, class: ['navbar-item', 'has-text-weight-bold', 'vss-login'] %>
+          <%= link_to "Sign up", new_user_registration_path, class: 'navbar-item has-text-weight-bold vss-sign-up' %>
+          <%= link_to "Login", new_user_session_path, class: 'navbar-item has-text-weight-bold vss-login' %>
         <% end %>
       </div>
     </div>
