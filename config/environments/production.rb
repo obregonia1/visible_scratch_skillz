@@ -75,12 +75,12 @@ Rails.application.configure do
   config.action_mailer.default_options = { from: Rails.application.credentials.email }
   config.action_mailer.smtp_settings = {
     address: Rails.application.credentials.smtp_server,
-    port: 587,
+    port: 465,
     authetication: :login,
     user_name: Rails.application.credentials.smtp_user_name,
-    domain: Rails.application.credentials.email_domain,
     password: Rails.application.credentials.smtp_password,
-    enable_starttls_auto: true
+    ssl:  true,
+    tls: true
   }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
