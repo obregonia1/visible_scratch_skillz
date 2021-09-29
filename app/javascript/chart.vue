@@ -246,7 +246,7 @@ export default {
     },
     addBgLine(x, stroke, dash = null) {
       this.bgLine = new Konva.Line({
-        points: [x, this.stageHeight - 10, x, 0],
+        points: [x, this.chartHeight(), x, 0],
         stroke: stroke,
         strokeWidth: 1,
         dash: dash ? [3, 3] : null
@@ -261,6 +261,9 @@ export default {
     },
     chartWidth() {
       return this.stageWidth - 20
+    },
+    chartHeight() {
+      return this.stageHeight - 10
     },
     addBgLines(beatCount) {
       const solidLineWidth = (this.chartWidth()) / 4
@@ -289,7 +292,7 @@ export default {
       const faderPositionPx = this.toPixel(code.beatPosition) + this.toPixel(faderPosition)
       const x1 = faderPositionPx - 10
       const x2 = faderPositionPx + 10
-      const chartHeight = this.stageHeight - 10
+      const chartHeight = this.chartHeight()
       if (code.pattern === 'forward') {
         const y = chartHeight - faderPosition / code.beatLength * chartHeight
         return [x1, y, x2, y]
@@ -304,7 +307,7 @@ export default {
       let strokeWidth = null
       let stroke = null
       let layer = this.codeLayer
-      const chartHeight = this.stageHeight - 10
+      const chartHeight = this.chartHeight()
       if (code.trick !== 'rest') {
         y1 = code.pattern === 'forward' ? chartHeight : 0
         y2 = code.pattern === 'forward' ? 0 : chartHeight
@@ -322,7 +325,12 @@ export default {
         name = 'rest'
       }
       const line = new Konva.Line({
-        points: [this.toPixel(code.beatPosition), y1, this.toPixel(code.beatPosition) + this.toPixel(code.beatLength), y2],
+        points: [
+            this.toPixel(code.beatPosition),
+            y1,
+            this.toPixel(code.beatPosition) + this.toPixel(code.beatLength),
+            y2
+        ],
         stroke: stroke,
         strokeWidth: strokeWidth,
         name: name,
