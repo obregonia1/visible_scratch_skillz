@@ -8,10 +8,8 @@
   - 保存した画像のURLをワンクリックでクリップボードにコピー
   - 保存した画像のembedタグをワンクリックでクリップボードにコピー
 
-
-![image](https://user-images.githubusercontent.com/75117116/135072406-a642d222-65d9-4816-a2e7-6cf9ce2b44bb.png)
-![image](https://user-images.githubusercontent.com/75117116/135074078-1685dcdd-1e06-4e2e-81cd-7a270e428010.png)
-
+![image](https://user-images.githubusercontent.com/75117116/135206827-4d38f220-b0e1-4cc4-8b3b-9c0c4a117113.png)
+![image](https://user-images.githubusercontent.com/75117116/135206690-40851caf-f11f-427b-80ee-a544bd6a735f.png)
 
 ## URL
 ```
