@@ -64,9 +64,23 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
+  config.action_mailer.delivery_method = :smtp
+
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
-  # config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.raise_delivery_errors = true
+
+  config.action_mailer.default_url_options = { host: Rails.application.credentials.email_domain }
+  config.action_mailer.default_options = { from: Rails.application.credentials.email }
+  config.action_mailer.smtp_settings = {
+    address: Rails.application.credentials.email,
+    port: 587,
+    authetication: :login,
+    user_name: Rails.application.credentials.smtp_user_name,
+    domain: Rails.application.credentials.email_domain,
+    password: Rails.application.credentials.smtp_password,
+    enable_starttls_auto: true
+  }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
