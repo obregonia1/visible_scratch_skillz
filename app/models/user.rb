@@ -14,13 +14,13 @@ class User < ApplicationRecord
   end
 
   def name_or_email
-    username.present? ? username : email
+    username.presence || email
   end
 
   class << self
     def from_omniauth(auth)
       where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
-        user.email = auth.info.email || self.dummy_email(auth)
+        user.email = auth.info.email || dummy_email(auth)
         user.password = Devise.friendly_token[0, 20]
         user.username = auth.info.name
       end
