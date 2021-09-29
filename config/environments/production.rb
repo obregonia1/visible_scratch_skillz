@@ -69,11 +69,12 @@ Rails.application.configure do
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.perform_deliveries = true
 
   config.action_mailer.default_url_options = { host: Rails.application.credentials.email_domain }
   config.action_mailer.default_options = { from: Rails.application.credentials.email }
   config.action_mailer.smtp_settings = {
-    address: Rails.application.credentials.email,
+    address: Rails.application.credentials.smtp_server,
     port: 587,
     authetication: :login,
     user_name: Rails.application.credentials.smtp_user_name,
