@@ -183,7 +183,7 @@ export default {
       name: 'bgLine'
     })
 
-    this.addBeatBgLine(this.totalBeatCount)
+    this.addBgLines(this.totalBeatCount)
 
     this.bgLineLayer.offsetX(-10)
     this.bgLineLayer.offsetY(-5)
@@ -196,7 +196,6 @@ export default {
     this.stage.add(this.bgLineLayer)
     this.stage.draw()
   },
-  computed: {},
   methods: {
     addRest() {
       const code = {
@@ -228,7 +227,7 @@ export default {
         if (this.pattern === 'orbit') {
           this.drawAddTrick('forward')
           this.drawAddTrick('backward')
-        } else if (this.pattern !== 'orbit') {
+        } else {
           this.drawAddTrick(this.pattern)
         }
       }
@@ -260,12 +259,15 @@ export default {
     addBgDashedLine(x) {
       this.addBgLine(x, '#d3d3d3', true)
     },
-    addBeatBgLine(beatCount) {
-      const solidLineWidth = (this.stageWidth - 20) / 4
+    chartWidth() {
+      return this.stageWidth - 20
+    },
+    addBgLines(beatCount) {
+      const solidLineWidth = (this.chartWidth()) / 4
       for (let i = 0; i <= beatCount; i++) {
         this.addBgSolidLine(i * solidLineWidth)
       }
-      const dashedLineWidth = (this.stageWidth - 20) / 24
+      const dashedLineWidth = (this.chartWidth()) / 24
       for (let i = 1; i <= beatCount * 6; i++) {
         if (i % 6 !== 0) {
           this.addBgDashedLine(i * dashedLineWidth)
@@ -357,7 +359,7 @@ export default {
       }
     },
     toPixel(beatPosition) {
-      const oneBeatWidth = (this.stageWidth - 20) / 4
+      const oneBeatWidth = (this.chartWidth()) / 4
       return beatPosition * oneBeatWidth / 6
     },
     convert() {
@@ -430,7 +432,7 @@ export default {
     },
     save() {
       const convert = this.convert
-      const promise = new Promise(function(resolve){
+      const promise = new Promise(function(resolve) {
         convert()
         resolve()
       })
