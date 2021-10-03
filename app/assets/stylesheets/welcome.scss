@@ -20,7 +20,12 @@
   }
 
   img {
+    object-fit: contain;
     margin:0 auto;
+
+    @media(min-width: $tablet) {
+      max-width: 400px;
+    }
   }
 
   h1, h2 {
