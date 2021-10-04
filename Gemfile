@@ -26,6 +26,14 @@ group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
 
   # not default
+  gem 'bcrypt_pbkdf'
+  gem 'capistrano'
+  gem 'capistrano-bundler'
+  gem 'capistrano3-puma'
+  gem 'capistrano-rails'
+  gem 'capistrano-rbenv'
+  gem 'capistrano-rbenv-vars'
+  gem 'ed25519'
   gem 'factory_bot_rails'
   gem 'rspec-rails', '~> 5.0.0'
 end
