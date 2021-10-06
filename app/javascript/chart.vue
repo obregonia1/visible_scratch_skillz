@@ -280,8 +280,8 @@ export default {
     },
     faderPoints(code, faderPosition) {
       const faderPositionPx = this.toPixel(code.beatPosition) + this.toPixel(faderPosition)
-      const x1 = faderPositionPx - 10
-      const x2 = faderPositionPx + 10
+      const x1 = faderPositionPx - 7
+      const x2 = faderPositionPx + 7
       const chartHeight = this.chartHeight()
       if (code.pattern === 'forward') {
         const y = chartHeight - faderPosition / code.beatLength * chartHeight
