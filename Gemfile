@@ -15,6 +15,7 @@ gem 'turbolinks', '~> 5'
 gem 'webpacker', '~> 5.0'
 
 # not default
+gem 'aws-sdk-s3', require: false
 gem 'bulma-rails', '~> 0.9.1'
 gem 'devise'
 gem 'kaminari'
