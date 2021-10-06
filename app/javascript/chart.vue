@@ -87,12 +87,28 @@
           1
         </label>
         <label class="radio">
+          <input type="radio" value="4" v-model="beatLength">
+          2/3
+        </label>
+        <label class="radio">
           <input type="radio" value="3" v-model="beatLength">
           1/2
         </label>
         <label class="radio">
           <input type="radio" value="2" v-model="beatLength">
           1/3
+        </label>
+        <label class="radio">
+          <input type="radio" value="1.5" v-model="beatLength">
+          1/4
+        </label>
+        <label class="radio">
+          <input type="radio" value="1" v-model="beatLength">
+          1/6
+        </label>
+        <label class="radio">
+          <input type="radio" value="0.75" v-model="beatLength">
+          1/8
         </label>
       </div>
     </div>
