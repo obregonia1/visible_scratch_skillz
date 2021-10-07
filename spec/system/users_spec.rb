@@ -39,4 +39,24 @@ RSpec.feature 'User', type: :system do
     twitter_login_user = User.find_by(provider: 'twitter')
     expect(page).to have_content("#{twitter_login_user.username}'s Routines")
   end
+
+  scenario 'ユーザー名が無いユーザーは自身で見るとメールアドレスが表示されるが、他ユーザーが見るとメールアドレスが表示されない' do
+    user1, user2 = create_list(:user, 2, username: nil)
+    user3 = create(:user)
+    visit new_user_session_path
+    expect(current_path).to eq '/users/sign_in'
+
+    fill_in 'Email', with: user1.email
+    fill_in 'Password', with: user1.password
+    within '.actions' do
+      click_button 'Log in'
+    end
+    expect(page).to have_content("#{user1.email}'s Routines")
+
+    visit user_path(user2)
+    expect(page).to have_content("Someone's Routines")
+
+    visit user_path(user3)
+    expect(page).to have_content("#{user3.username}'s Routines")
+  end
 end
