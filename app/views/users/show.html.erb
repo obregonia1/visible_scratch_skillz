@@ -1,4 +1,4 @@
-<% provide :title, @user.name_or_email %>
+<% provide :title, @user.username.presence %>
 
 <% if notice %>
   <div class="notification is-primary is-light">
@@ -10,7 +10,7 @@
 
 <div class="panel is-shadowless">
   <p class="panel-heading">
-    <%= @user.name_or_email %>'s Routines
+    <%= current_user == @user ? @user.name_or_email : @user.username.presence || 'Someone' %>'s Routines
   </p>
   <% if @charts.any? %>
     <nav>
