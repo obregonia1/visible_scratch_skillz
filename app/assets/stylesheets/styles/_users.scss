@@ -1,24 +1,37 @@
 @charset "utf-8";
 
 .panel {
-  width: 60%;
-  margin: 3rem auto 0 auto;
-  margin-bottom: 3rem !important;
+  width: 680px;
+  max-width: calc(100% - 32px);
 
-  @media(max-width: $desktop) {
-    margin-top: 1rem;
-    margin-bottom: 1rem !important;
-  }
-
-  .panel-heading, .panel-block, .vss-no_charts_message {
+  .panel-heading,
+  .panel-block,
+  .vss-no_charts_message {
     background-color: white;
   }
 
   .panel-heading {
     color: $header-color;
+    border-bottom: 1px solid #ededed;
+    @include mobile {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+    @include tablet {
+      padding-left: 32px;
+      padding-right: 32px;
+    }
   }
 
   .panel-block {
+    @include mobile {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+    @include tablet {
+      padding-left: 32px;
+      padding-right: 32px;
+    }
     .chart-title {
       margin-right: auto;
       overflow-wrap: anywhere;
@@ -37,31 +50,19 @@
   }
 }
 
-.pagination {
-  padding-top: 1rem;
-
-  @media (min-width: $desktop) {
-    width: 80%;
-    margin: 0 auto !important;
-  }
-
-  .pagination-link.is-current {
-    background-color: $header-color;
-    border-color: $header-color;
-    color: $background-color;
-  }
-}
-
 .vss-devise-form {
-  width: 40%;
-
+  width: 480px;
+  max-width: calc(100% - 24px);
   h2 {
-    padding-bottom: 0.5rem;
+    padding-bottom: 8px;
+    border-bottom: solid 1px whitesmoke;
+    margin-bottom: 16px;
   }
 
   .button {
     width: 100%;
-    margin: 0.5rem 0 !important;
+    margin: 8px 0 !important;
+    max-width: 320px;
   }
 
   a.button {
@@ -75,28 +76,27 @@
     }
 
     i {
-      margin-right: 0.5rem;
+      margin-right: 8px;
     }
   }
 
-  .actions, .vss-devise-links {
+  .actions,
+  .vss-devise-links {
     text-align: center;
   }
 
   hr {
-    margin: 0.75rem 0;
+    margin: 12px 0;
   }
 
   .actions {
-    input.button.has-text-weight-bold {
+    .button.has-text-weight-bold {
       color: $vss-yellow;
     }
 
-    input.button {
+    .button {
       color: $background;
       background-color: $header-color;
-      margin: 0.25rem;
-      padding-top: 6px;
       transition: .2s;
       border-style: none;
 
@@ -112,5 +112,17 @@
     ul {
       margin: 0;
     }
+  }
+}
+
+.is-muted-text-link {
+  text-decoration: none;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #999;
+  &:hover {
+    text-decoration: underline;
+    color: $danger;
   }
 }

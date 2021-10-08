@@ -1,26 +1,27 @@
 @charset "utf-8";
 
 .terms {
-  width: 80%;
-  margin: 2rem auto;
+  width: 720px;
+  max-width: 100%;
+  margin: 32px auto;
 
   h1 {
-    padding-bottom: 1rem;
+    padding-bottom: 16px;
   }
   h2 {
-    padding: 1rem 0 0.5rem 0;
+    padding: 16px 0 8px 0;
   }
 
   h3 {
-    padding: 0.5rem 0 0.25rem 0;
+    padding: 8px 0 4px 0;
   }
 
   ul {
-    padding: 0.5rem 0;
+    padding: 8px 0;
   }
 
   li {
     list-style: square;
-    margin-left: 1.5rem;
+    margin-left: 24px;
   }
 }

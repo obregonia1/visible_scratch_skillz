@@ -1,174 +1,288 @@
 @charset "utf-8";
 
 .box {
-  width: 60%;
-  margin: 3rem auto 0 auto;
-  margin-bottom: 3rem !important;
-
-  @media(max-width: $desktop) {
-    margin-top: 1rem;
-    margin-bottom: 1rem !important;
-  }
-
-  h2, label, a, .label {
+  width: 680px;
+  max-width: calc(100% - 32px);
+  h2,
+  .label {
     color: $header-color;
     overflow-wrap: anywhere;
   }
+}
 
-  @media (max-width: $tablet) {
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
-  }
-
-  #js-chart {
-    .vss-select-container, {
-      margin: 0 auto;
-      width: 80%;
+.vss-chart-title {
+  &.vss-is-show {
+    h2 {
+      flex: 1;
     }
-
-    .vss-chart-title {
-      width: 80%;
-      height: 4rem;
-      margin: 0 auto;
-
-      &.vss-is-show {
-        width: 80%;
-        margin: 0 auto;
-
-        h2 {
-          margin-right: auto;
-        }
-
-        div {
-          margin-left: 0.5rem;
-        }
-
-        a {
-          padding: 0 0.5rem;
-          width: 50px;
-
-          &.edit {
-            border: 1px solid $header-color;
-            border-radius: 4px;
-            transition: .1s;
-
-            &:hover {
-              background-color: $header-color;
-              color: white;
-            }
-          }
-        }
-      }
+    div {
+      margin-left: 8px;
     }
-
-    .vss-select-block {
-      padding: 0.5rem 0;
-
-      label.radio {
-        margin-left: 0;
-        padding-right: 1rem;
-      }
-    }
-
-    .vss-button-container {
-      margin: 0 auto;
-      width: 80%;
-      padding: 1rem 1rem;
-
-      .vss-button-row {
-        a {
-          margin: 0.25rem;
-          padding-top: 6px;
-          transition: .2s;
-          border: 1px solid $header-color;
-
-          &:hover {
-            border-color: $background-color;
-          }
-        }
-      }
-
-      .vss-button-row.submit {
-        padding-top: 0.25rem;
-
-        a.button:not(.vss-save) {
-          background-color: $vss-yellow;
-          border-style: none;
-
-          &:hover {
-            color: $header-color;
-            opacity: 0.8;
-          }
-        }
-
-        .vss-save {
-          color: $vss-yellow;
+    a {
+      padding: 0 8px;
+      width: 50px;
+      &.edit {
+        border: 1px solid $header-color;
+        border-radius: 4px;
+        transition: .1s;
+        &:hover {
           background-color: $header-color;
-
-          &:hover {
-            opacity: 0.8;
-            border:1px solid $header-color;
-          }
-        }
-      }
-    }
-
-    .vss-img-wrapper {
-      text-align: center;
-
-      #img {
-        width: 80%;
-      }
-    }
-
-    .vss-chart-wrapper {
-      position: relative;
-      width: 100%;
-      padding-bottom: 1.5rem;
-
-      &:before {
-        content: "";
-        display: block;
-        padding-top: 20%;
-      }
-
-      #chart {
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-      }
-
-      .konvajs-content {
-        width: inherit !important;
-
-        canvas {
-          width: 80% !important;
-          height: auto !important;
-          position: absolute;
-          top: 1rem !important;
-          right: 0;
-          bottom: 0;
-          left: 0;
-          margin: 0 auto !important;
+          color: white;
         }
       }
     }
   }
 }
 
-#error_explanation.notification {
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
+.vss-select-container {
+  margin: 0 auto;
+}
 
-  ul {
-    width: 60%;
-    margin:0 auto;
-
-    @media(max-width: $tablet) {
-      width: inherit;
-      margin: 0 1rem;
+.vss-button-row.submit {
+  padding-top: 4px;
+  .button {
+    display: flex;
+    width: 100%;
+  }
+  .vss-export {
+    background-color: $vss-yellow;
+    border-style: none;
+    svg {
+      margin-left: .25em;
     }
+    &:hover {
+      color: $header-color;
+      opacity: 0.8;
+    }
+  }
+}
+
+.vss-select-block__inner {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -4px -8px;
+}
+
+.vss-select-block {
+  .vss-select-block + & {
+    margin-top: 16px;
+  }
+  .radio {
+    cursor: default;
+    @include tablet {
+      width: 20%;
+    }
+    @include mobile {
+      width: 33.33%;
+    }
+    padding: 0 4px 8px;
+    margin: 0;
+    input {
+      opacity: 0;
+      position: absolute;
+    }
+  }
+  span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 32px;
+    border: solid 1px #dbdbdb;
+    color: #969696;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all .2s ease-out;
+    @include tablet {
+      font-size: 13px;
+    }
+    @include mobile {
+      font-size: 12px;
+    }
+    &:hover {
+      background-color: #f4faff;
+    }
+  }
+  input:checked + span {
+    border-color: $header-color;
+    color: $header-color;
+    background-color: #e5f0fb;
+    pointer-events: none;
+  }
+  input:disabled + span {
+    border-color: #e2e2e2;
+    color: #bbb;
+    background-color: #e2e2e2;
+    pointer-events: none;
+  }
+}
+
+
+.vss-chart-wrapper {
+  margin: 12px auto;
+}
+
+.vss-button-container {
+  margin-top: 40px;
+  .vss-button-container + & {
+    margin-top: 24px;
+  }
+  & + p {
+    margin-top: 12px;
+    a {
+      text-decoration: underline;
+    }
+  }
+}
+
+.vss-button-column {
+  padding: 0 4px 8px;
+  flex: 1;
+  max-width: 360px;
+}
+
+.vss-button-row {
+  display: flex;
+  justify-content: center;
+  margin: 0 -4px -8px;
+}
+
+.vss-bordered-button {
+  width: 100%;
+  transition: .2s;
+  color: $header-color;
+  border: 1px solid $header-color;
+  &:hover {
+    background-color: #fff8e6;
+    color: $header-color;
+    border: 1px solid $header-color;
+  }
+}
+
+.vss-save {
+  color: $vss-yellow;
+  background-color: $header-color;
+  border-color: $header-color;
+  &:hover {
+    opacity: 0.8;
+    color: $vss-yellow;
+    border: 1px solid $header-color;
+  }
+}
+
+.konvajs-content {
+  width: 100% !important;
+  height: auto !important;
+  padding-top: 22%;
+  canvas {
+    width: 100% !important;
+    height: auto !important;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
+
+#error_explanation.notification {
+  padding: 12px 16px;
+  ul {
+    width: 680px;
+    max-width: 100%;
+    margin:0 auto;
+  }
+}
+
+.vss-img-wrapper {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.vss-img-wrapper__inner {
+  display: none;
+  padding: 16px;
+  border-radius: 4px;
+  transform: translate(-50%, -50%);
+  width: 560px;
+  max-width: calc(100% - 24px);
+  background-color: white;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 2;
+  pointer-events: all;
+  input:checked + & {
+    display: block;
+  }
+}
+
+.vss-img-wrapper__overlay {
+  display: none;
+  background-color: rgba(black, .7);
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  pointer-events: all;
+  input:checked ~ & {
+    display: block;
+  }
+}
+
+.vss-img-wrapper__action {
+  display: flex;
+  justify-content: center;
+  .button {
+    max-width: 360px;
+    margin: 0 auto;
+    background-color: $vss-yellow;
+    border-style: none;
+    display: flex;
+    width: 100%;
+    &:hover {
+      color: $header-color;
+      opacity: 0.8;
+    }
+  }
+}
+
+.vss-img-wrapper__close {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  position: absolute;
+  cursor: pointer;
+  top: -32px;
+  @include tablet {
+    right: -32px;
+  }
+  @include mobile {
+    right: 0;
+  }
+  span::before,
+  span::after {
+    content: "";
+    width: 100%;
+    height: 1px;
+    display: block;
+    background-color: #fff;
+    position: absolute;
+    top: 50%;
+  }
+  span::before {
+    transform: rotate(45deg);
+    left: 0;
+  }
+  span::after {
+    transform: rotate(-45deg);
+    right: 0;
   }
 }
