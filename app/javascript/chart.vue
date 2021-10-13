@@ -395,7 +395,7 @@ export default {
       }
     },
     addBgSolidLine(x) {
-      this.addBgLine(x, '#c0c0c0')
+      this.addBgLine(x, '#2c2c2c')
     },
     addBgDashedLine(x) {
       this.addBgLine(x, '#d3d3d3', true)
