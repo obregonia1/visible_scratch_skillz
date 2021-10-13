@@ -9,27 +9,25 @@ html {
   height: 100%;
 }
 
-@media (max-width: $desktop) {
-  body {
-    .box, .panel {
-      width: inherit;
-      margin-left: 1rem;
-      margin-right: 1rem;
-    }
+.box,
+.panel {
+  @include mobile {
+    padding-left: 16px;
+    padding-right: 16px;
+    margin: 16px auto;
+  }
+  @include tablet {
+    padding-left: 32px;
+    padding-right: 32px;
+    margin: 48px auto;
   }
 }
 
 .notification {
-  padding-top: 0.75rem !important;
-  padding-bottom: 0.75rem !important;
-
+  padding: 12px 16px !important;
   #notice {
-    width: 60%;
+    width: 680px;
+    max-width: 100%;
     margin: 0 auto;
-
-    @media (max-width: $desktop) {
-      width: inherit;
-      margin: 0 1rem;
-    }
   }
 }

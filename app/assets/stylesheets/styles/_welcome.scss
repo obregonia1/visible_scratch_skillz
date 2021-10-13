@@ -1,61 +1,71 @@
 @charset "utf-8";
 
 .vss-welcome-container {
-  width: 70%;
-  margin: 3rem auto;
-
+  width: 980px;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 48px 16px;
   h1 {
-    margin: 2rem 0;
+    margin: 48px 0;
     text-align: center;
   }
-
-  .column {
-   padding-bottom: 2rem;
-  }
-
-  @media(max-width: $tablet) {
-    div.column {
-      padding-bottom: 1rem;
-    }
-  }
-
-  img {
-    object-fit: contain;
-    margin:0 auto;
-
-    @media(min-width: $tablet) {
-      max-width: 400px;
-    }
-  }
-
   h1, h2 {
     color: $header-color;
   }
+  img {
+    padding: 16px;
+    border-radius: 4px;
+    background-color: #fff;
+  }
+  .columns + .columns {
+    margin-top: 32px;
+  }
+  h2 + p {
+    margin-top: 8px;
+  }
+  > *:first-child {
+    margin-top: 0;
+  }
+  > *:last-child {
+    margin-bottom: 0;
+  }
+}
 
-  .vss-welcome-links {
-    text-align: center;
-
-    a {
-      margin: 1rem 0.5rem;
-      transition: .2s;
-      color: $header-color;
-
-      &:hover {
-        opacity: 0.8;
-      }
+.vss-welcome-links {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto;
+  a {
+    margin: 8px;
+    transition: .2s;
+    color: $header-color;
+    flex: 1;
+    &:hover {
+      opacity: 0.8;
     }
-    .vss-sign-up {
-      background-color: $vss-yellow;
-
-      &:hover {
-        border-color: transparent;
-        opacity: 0.8;
-      }
+  }
+  .vss-sign-up {
+    background-color: $vss-yellow;
+    &:hover {
+      border-color: transparent;
+      opacity: 0.8;
     }
+  }
+  .vss-login {
+    background-color: transparent;
+    border-color: $header-color;
+  }
+}
 
-    .vss-login {
-      background-color: transparent;
-      border-color: $header-color;
+.vss-welcome-links__start {
+  display: flex;
+  margin-bottom: 16px;
+  a {
+    &:first-child {
+      margin-left: 0;
+    }
+    &:last-child {
+      margin-right: 0;
     }
   }
 }

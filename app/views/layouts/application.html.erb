@@ -22,8 +22,14 @@
   </head>
 
   <body>
-    <%= render 'shared/header' %>
-    <%= yield %>
-    <%= render 'shared/footer' %>
+    <div class="wrapper">
+      <div class="wrapper__start">
+        <%= render 'shared/header' %>
+        <%= yield %>
+      </div>
+      <div class="wrapper__end">
+        <%= render 'shared/footer' %>
+      </div>
+    </div>
   </body>
 </html>

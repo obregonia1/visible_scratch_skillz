@@ -1,0 +1,12 @@
+.pagination {
+  padding-top: 16px;
+  width: 680px;
+  max-width: calc(100% - 16px);
+  margin: 0 auto !important;
+}
+
+.pagination-link.is-current {
+  background-color: $header-color;
+  border-color: $header-color;
+  color: $background-color;
+}
