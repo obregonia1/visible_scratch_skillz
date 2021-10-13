@@ -142,7 +142,7 @@
     <div class="vss-img-wrapper__inner">
       <img id="img">
       <div class="vss-img-wrapper__action">
-        <a id="downloadImg" download="vss.png" class="button vss-download has-text-weight-bold">Download</a>
+        <a id="downloadImg" :download="title" class="button vss-download has-text-weight-bold">Download</a>
       </div>
       <label class="vss-img-wrapper__close" for="vss-img"><span></span></label>
     </div>
