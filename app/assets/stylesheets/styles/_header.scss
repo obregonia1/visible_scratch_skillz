@@ -42,6 +42,17 @@ header {
   flex: 1;
 }
 
+@include tablet {
+  .navbar, .navbar-menu, .navbar-end, .navbar-item {
+    display: flex;
+  }
+
+  .navbar-menu {
+    justify-content: flex-end;
+    box-shadow: none;
+  }
+}
+
 .navbar-item {
   align-self: center;
   align-items: center;
@@ -103,6 +114,8 @@ header {
 }
 
 .vss-burger-menu {
+  margin-left: auto;
+
   #burger-checkbox {
     display: none;
   }
