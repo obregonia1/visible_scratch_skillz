@@ -142,7 +142,7 @@
     <div class="vss-img-wrapper__inner">
       <img id="img">
       <div class="vss-img-wrapper__action">
-        <a id="downloadImg" download="vss.png" class="button vss-download has-text-weight-bold">Download</a>
+        <a id="downloadImg" :download="title" class="button vss-download has-text-weight-bold">Download</a>
       </div>
       <label class="vss-img-wrapper__close" for="vss-img"><span></span></label>
     </div>
@@ -395,7 +395,7 @@ export default {
       }
     },
     addBgSolidLine(x) {
-      this.addBgLine(x, '#c0c0c0')
+      this.addBgLine(x, '#2c2c2c')
     },
     addBgDashedLine(x) {
       this.addBgLine(x, '#d3d3d3', true)
@@ -486,8 +486,6 @@ export default {
       this.displayImg = true
       const img = document.getElementById("img")
       img.src = this.imageUrl
-      const canvas = document.querySelector('.konvajs-content');
-      window.scroll(0, canvas.clientWidth);
       const downloadImg = document.getElementById("downloadImg")
       downloadImg.href = this.imageUrl
     },

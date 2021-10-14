@@ -31,9 +31,11 @@
       <% end %>
     </nav>
   <% else %>
-    <div class="panel-block panel-list">
-      <p class="vss-no_charts_message has-text-centered	is-size-4">There is no routine you saved.</p>
+    <div class="panel-block panel-list is-block">
+      <p class="vss-no_charts_message has-text-centered is-size-4">There is no routine you saved.
+      </p>
+      <p class="has-text-centered vss-no_charts_link is-size-6"><%= link_to 'Create New Chart', new_chart_path %></p>
     </div>
-  <% end %>
+<% end %>
   <%= paginate @charts, theme: 'bulma', window: 2 %>
 </div>

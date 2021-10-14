@@ -12,7 +12,7 @@ RSpec.feature 'Chart', type: :system do
 
     scenario '画像エクスポートボタンをクリック' do
       fill_in 'Title', with: 'Baby'
-      first('.vss-button-row.submit a').click
+      first('.vss-export').click
       expect(find_by_id('img').visible?).to be_truthy
     end
   end
