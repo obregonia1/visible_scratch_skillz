@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::ChartsController < Api::BaseController
+class API::ChartsController < API::BaseController
   def show
     @chart = Chart.find(params[:id])
   end
