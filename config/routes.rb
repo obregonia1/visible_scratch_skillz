@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  unauthenticated :user do
+    root to: 'welcome#index', as: :unauthenticated_root
+    get 'welcome', to: redirect('/')
+  end
   root to: 'home#index'
   get 'privacy_policy', to: 'home#privacy_policy'
   get 'tos', to: 'home#tos'
