@@ -35,7 +35,7 @@ RSpec.feature 'Chart', type: :system do
 
     scenario 'Titleが空文字の場合保存できない' do
       first(:css, '.vss-save').click
-      expect(page).to have_content("Title can't be blank")
+      expect(page).to have_content("Title is too short")
     end
 
     scenario 'Chartの保存成功' do

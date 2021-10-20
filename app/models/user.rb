@@ -9,7 +9,7 @@ class User < ApplicationRecord
 
   has_many :charts, dependent: :destroy
 
-  def no_password
+  def no_password?
     !!provider
   end
 
