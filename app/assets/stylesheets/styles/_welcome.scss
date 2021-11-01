@@ -74,11 +74,12 @@
   position: relative;
   height: 0;
   overflow: hidden;
+  padding-bottom: 20%;
   @include mobile {
-    padding-bottom:25%;
+    padding-bottom: 45%;
   }
   @include tablet {
-    padding-bottom:25%;
+    padding-bottom: 35%;
   }
 
   iframe {
