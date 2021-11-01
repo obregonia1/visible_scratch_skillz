@@ -70,12 +70,29 @@
   }
 }
 
-.vss-chart_sample {
-  max-width: 500px;
-  margin: 0 auto;
+.vss-demo_movie {
+  position: relative;
+  height: 0;
+  overflow: hidden;
+  @include mobile {
+    padding-bottom:25%;
+  }
+  @include tablet {
+    padding-bottom:25%;
+  }
+
+  iframe {
+    max-width: 480px;
+    max-height: 270px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
 }
 
 .vss-copy-example {
-  text-decoration:underline;
+  text-decoration: underline;
   font-weight: normal;
 }
