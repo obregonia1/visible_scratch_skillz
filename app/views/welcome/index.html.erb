@@ -1,6 +1,11 @@
 <% if notice %>
-  <div class="notification is-light <%= notice == 'Requested page required login.' ? 'is-warning' : 'is-primary' %>">
+  <div class="notification is-light is-primary">
     <p id="notice"><strong><%= notice %></strong></p>
+  </div>
+<% end %>
+<% if alert %>
+  <div class="notification is-light is-warning">
+    <p id="alert"><strong><%= alert %></strong></p>
   </div>
 <% end %>
 <div class="vss-welcome-container">

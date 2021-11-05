@@ -4,7 +4,7 @@ class ChartsController < ApplicationController
   before_action :set_chart, only: %i[show update destroy]
 
   def show
-    redirect_to root_path, notice: 'Requested page required login.' unless user_signed_in?
+    redirect_to root_path, alert: 'Requested page required login.' unless user_signed_in?
   end
 
   def new
