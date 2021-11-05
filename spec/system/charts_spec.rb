@@ -74,4 +74,12 @@ RSpec.feature 'Chart', type: :system do
       end
     end
   end
+
+  context '非ログインユーザー' do
+    scenario 'chart詳細ページにアクセス' do
+      chart = create(:chart)
+      visit chart_path(chart)
+      expect(page).to have_content('Requested page required login.')
+    end
+  end
 end
