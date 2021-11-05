@@ -3,11 +3,9 @@
 class ChartsController < ApplicationController
   before_action :set_chart, only: %i[show update destroy]
 
-  def index
-    @charts = Chart.order(created_at: :desc).page params[:page]
+  def show
+    redirect_to root_path, alert: 'Requested page required login.' unless user_signed_in?
   end
-
-  def show; end
 
   def new
     @chart = Chart.new
