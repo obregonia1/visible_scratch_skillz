@@ -7,7 +7,9 @@ class ChartsController < ApplicationController
     @charts = Chart.order(created_at: :desc).page params[:page]
   end
 
-  def show; end
+  def show
+    redirect_to root_path, notice: 'Requested page required login.' unless user_signed_in?
+  end
 
   def new
     @chart = Chart.new
