@@ -1,0 +1,13 @@
+---
+EnableDefaultLinters: true
+linters:
+  ErbSafety:
+    enabled: true
+    better_html_config: .better-html.yml
+  Rubocop:
+    enabled: true
+    rubocop_config:
+      Style/FrozenStringLiteralComment:
+        Enabled: false
+      inherit_from:
+        - .rubocop.yml
