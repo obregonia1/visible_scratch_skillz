@@ -46,6 +46,7 @@ group :development do
   gem 'web-console', '>= 4.1.0'
 
   # not default
+  gem 'erb_lint', require: false
   gem 'letter_opener'
   gem 'letter_opener_web', '~> 1.0'
   gem 'rubocop-fjord', require: false
