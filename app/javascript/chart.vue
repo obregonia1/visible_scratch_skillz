@@ -2,6 +2,7 @@
   <div>
     <input type="hidden" name="chart[chart_code]" id="chart_code" :value="JSON.stringify(chartCodes)">
     <input type="hidden" name="chart[image]" id="chart_image" :value="imageUrl">
+    <input type="hidden" name="chart[is_public]" id="chart_is_public" :value="isPublic">
   </div>
   <div v-if="editing" class="vss-chart-title">
     <label for="chart_title" class="label">Title</label>
@@ -118,6 +119,14 @@
           </label>
         </div>
       </div>
+
+      <div class="vss-select-block">
+        <p class="label">Public</p>
+        <label class="checkbox">
+          <input type="checkbox" v-model="isPublic">
+          Is Public
+        </label>
+      </div>
     </div>
 
     <div class="vss-button-container">
@@ -180,6 +189,7 @@ export default {
       stageWidth: 500,
       stageHeight: 110,
       totalBeatCount: 4,
+      isPublic: false,
     }
   },
   mounted() {
@@ -198,6 +208,7 @@ export default {
           .then((json) => {
             this.userId = json.user_id
             this.title = json.title
+            this.isPublic = json.is_public || false
             this.chartCodes = JSON.parse(json.chart_code)
             this.renderChartCodes(this.chartCodes)
             const lastCode = this.chartCodes[this.chartCodes.length - 1]

@@ -43,7 +43,7 @@ class ChartsController < ApplicationController
   end
 
   def chart_params
-    params.require(:chart).permit(:title, :chart_code).merge(user_id: current_user.id)
+    params.require(:chart).permit(:title, :chart_code, :is_public).merge(user_id: current_user.id)
   end
 
   def image_data_url
