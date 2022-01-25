@@ -11,7 +11,10 @@ document.addEventListener('turbolinks:load', () => {
   const chart = document.querySelector(selector)
   if (chart) {
     const chartId = Number(chart.getAttribute('data-chart-id'))
-    const currentUserId = Number(chart.getAttribute('data-current-user-id'))
+    // currentUserId is nullable: number | null
+    const currentUserId = chart.getAttribute('data-current-user-id')
+      ? Number(chart.getAttribute('data-current-user-id'))
+      : null
     const nonLogin = chart.getAttribute('non-login')
     const app = createApp(Chart, { chartId: chartId, currentUserId: currentUserId, nonLogin: nonLogin })
     app.component('fa', FontAwesomeIcon)
