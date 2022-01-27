@@ -14,3 +14,13 @@ linters:
         Enabled: false
       inherit_from:
         - .rubocop.yml
+      Layout/InitialIndentation:
+        Enabled: false
+      Layout/TrailingEmptyLines:
+        Enabled: false
+      Layout/TrailingWhitespace:
+        Enabled: false
+      Rails/OutputSafety:
+        Enabled: false
+      Style/BlockComments:
+        Enabled: false
