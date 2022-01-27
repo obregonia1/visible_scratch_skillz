@@ -3,8 +3,15 @@
 class ChartsController < ApplicationController
   before_action :set_chart, only: %i[show update destroy]
 
+  def index
+    @charts = Chart.in_public
+                   .with_attached_image
+                   .order(created_at: :desc)
+                   .page(params[:page])
+  end
+
   def show
-    redirect_to root_path, alert: 'Requested page required login.' unless user_signed_in?
+    redirect_to root_path, alert: 'Requested page required login.' unless user_signed_in? || @chart.is_public
   end
 
   def new
@@ -43,7 +50,7 @@ class ChartsController < ApplicationController
   end
 
   def chart_params
-    params.require(:chart).permit(:title, :chart_code).merge(user_id: current_user.id)
+    params.require(:chart).permit(:title, :chart_code, :is_public).merge(user_id: current_user.id)
   end
 
   def image_data_url

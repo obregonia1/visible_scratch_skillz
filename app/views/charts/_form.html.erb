@@ -12,7 +12,9 @@
   <div id="js-chart"
     <% if chart.id %>
       <%= "data-chart-id=#{chart.id}" %>
-      <%= "data-current-user-id=#{current_user.id}" %>
+      <% if current_user %>
+        <%= "data-current-user-id=#{current_user.id}" %>
+      <% end %>
     <% elsif !user_signed_in? %>
       <%= 'non-login=true' %>
     <% end %>
