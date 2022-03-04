@@ -24,3 +24,5 @@ linters:
         Enabled: false
       Style/BlockComments:
         Enabled: false
+      Layout/LeadingEmptyLines:
+        Enabled: false
