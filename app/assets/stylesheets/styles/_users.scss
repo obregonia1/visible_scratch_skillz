@@ -13,10 +13,12 @@
   .panel-heading {
     color: $header-color;
     border-bottom: 1px solid #ededed;
+
     @include mobile {
       padding-left: 16px;
       padding-right: 16px;
     }
+
     @include tablet {
       padding-left: 32px;
       padding-right: 32px;
@@ -28,10 +30,12 @@
       padding-left: 16px;
       padding-right: 16px;
     }
+
     @include tablet {
       padding-left: 32px;
       padding-right: 32px;
     }
+
     .chart-title {
       margin-right: auto;
       overflow-wrap: anywhere;
@@ -54,7 +58,6 @@
   }
 
   .vss-no_charts_link {
-
     a {
       color: $header-color;
       text-decoration: underline;
@@ -65,6 +68,7 @@
 .vss-devise-form {
   width: 480px;
   max-width: calc(100% - 24px);
+
   h2 {
     padding-bottom: 8px;
     border-bottom: solid 1px whitesmoke;
@@ -81,7 +85,7 @@
     color: white;
     background-color: $twitter-blue;
     border-style: none;
-    transition: .2s;
+    transition: 0.2s;
 
     &:hover {
       opacity: 0.8;
@@ -109,7 +113,7 @@
     .button {
       color: $background;
       background-color: $header-color;
-      transition: .2s;
+      transition: 0.2s;
       border-style: none;
 
       &:hover {
@@ -133,6 +137,7 @@
   background: none;
   cursor: pointer;
   color: #999;
+
   &:hover {
     text-decoration: underline;
     color: $danger;
