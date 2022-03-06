@@ -26,7 +26,7 @@
     />
   </div>
   <div
-    v-else="!editing"
+    v-else
     class="vss-chart-title vss-is-show is-flex is-justify-content-flex-end is-align-items-flex-end"
   >
     <h2 class="has-text-weight-bold is-size-4">{{ title }}</h2>
@@ -200,7 +200,7 @@
           <a @click="allClear" class="button vss-bordered-button">All Clear</a>
         </div>
         <div class="vss-button-column">
-          <a @click="delete" class="button vss-bordered-button">Delete</a>
+          <a @click="destroy" class="button vss-bordered-button">Delete</a>
         </div>
       </div>
     </div>
@@ -212,7 +212,7 @@
             for="vss-img"
             @click="exportImg"
             class="button vss-export has-text-weight-bold"
-            >Export <fa icon="image"
+            >Export <font-awesome-icon icon="image"
           /></label>
         </div>
         <div v-if="!nonLogin" class="vss-button-column">
@@ -474,7 +474,7 @@ export default {
       this.codeLayer.destroy();
       this.currentBeat = 0;
     },
-    delete() {
+    destroy() {
       if (this.chartCodes.length > 0) {
         const lastCode = this.chartCodes.pop();
         this.codeLayer.destroy();

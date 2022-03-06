@@ -18,7 +18,7 @@ document.addEventListener('turbolinks:load', () => {
       currentUserId: currentUserId,
       nonLogin: nonLogin,
     });
-    app.component('fa', FontAwesomeIcon);
+    app.component('font-awesome-icon', FontAwesomeIcon);
 
     app.config.productionTip = false;
     app.mount(selector);
