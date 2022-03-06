@@ -13,6 +13,7 @@
     "eslint-config-prettier": "^8.5.0",
     "konva": "^8.1.1",
     "stylelint": "^14.5.3",
+    "stylelint-config-standard": "^25.0.0",
     "turbolinks": "^5.2.0",
     "vue": "^3.1.5",
     "vue-loader": "^16.2.0",
