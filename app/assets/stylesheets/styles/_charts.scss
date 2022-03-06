@@ -150,6 +150,7 @@
   & + p {
     margin-top: 12px;
 
+    /* stylelint-disable-next-line no-descending-specificity */
     a {
       text-decoration: underline;
     }
@@ -269,6 +270,7 @@
   display: flex;
   justify-content: center;
 
+  /* stylelint-disable-next-line no-descending-specificity */
   .button {
     max-width: 360px;
     margin: 0 auto;

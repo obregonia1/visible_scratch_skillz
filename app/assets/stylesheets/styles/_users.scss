@@ -41,6 +41,20 @@
       overflow-wrap: anywhere;
     }
 
+    .vss-no_charts {
+      &_message {
+        padding: 0.75em 1em;
+        margin: 0 auto;
+      }
+
+      &_link {
+        a {
+          color: $header-color;
+          text-decoration: underline;
+        }
+      }
+    }
+
     .vss-panel-list_button {
       a {
         margin: 0 4px;
@@ -48,20 +62,8 @@
     }
   }
 
-  .vss-no_charts_message {
-    padding: 0.75em 1em;
-    margin: 0 auto;
-  }
-
   p {
     padding-bottom: 0.75rem;
-  }
-
-  .vss-no_charts_link {
-    a {
-      color: $header-color;
-      text-decoration: underline;
-    }
   }
 }
 
