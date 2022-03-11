@@ -29,8 +29,8 @@ group :development, :test do
   # not default
   gem 'bcrypt_pbkdf'
   gem 'capistrano'
-  gem 'capistrano-bundler'
   gem 'capistrano3-puma'
+  gem 'capistrano-bundler'
   gem 'capistrano-rails'
   gem 'capistrano-rbenv'
   gem 'capistrano-rbenv-vars'
