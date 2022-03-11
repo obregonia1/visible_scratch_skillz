@@ -194,13 +194,13 @@
           <a class="button vss-bordered-button" @click="addTrick">Add Trick</a>
         </div>
         <div class="vss-button-column">
-          <a lass="button vss-bordered-button"  @click="addRest">Add Rest</a>
+          <a class="button vss-bordered-button" @click="addRest">Add Rest</a>
         </div>
         <div class="vss-button-column">
           <a class="button vss-bordered-button" @click="allClear">All Clear</a>
         </div>
         <div class="vss-button-column">
-          <a lass="button vss-bordered-button"  @click="destroy">Delete</a>
+          <a class="button vss-bordered-button" @click="destroy">Delete</a>
         </div>
       </div>
     </div>
