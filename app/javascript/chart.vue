@@ -1,25 +1,25 @@
 <template>
   <div>
     <input
+      id="chart_code"
       type="hidden"
       name="chart[chart_code]"
-      id="chart_code"
       :value="JSON.stringify(chartCodes)"
     />
     <input
+      id="chart_image"
       type="hidden"
       name="chart[image]"
-      id="chart_image"
       :value="imageUrl"
     />
   </div>
   <div v-if="editing" class="vss-chart-title">
     <label for="chart_title" class="label">Title</label>
     <input
-      type="text"
-      name="chart[title]"
       id="chart_title"
       v-model="title"
+      type="text"
+      name="chart[title]"
       class="input is-small"
       required
       maxlength="50"
@@ -30,8 +30,8 @@
     class="vss-chart-title vss-is-show is-flex is-justify-content-flex-end is-align-items-flex-end"
   >
     <h2 class="has-text-weight-bold is-size-4">{{ title }}</h2>
-    <div class="vss-chart-edit" v-if="!editing && userId === currentUserId">
-      <a @click="edit" class="button edit is-small has-text-weight-bold"
+    <div v-if="!editing && userId === currentUserId" class="vss-chart-edit">
+      <a class="button edit is-small has-text-weight-bold" @click="edit"
         >Edit</a
       >
       <a
@@ -54,31 +54,31 @@
         <div class="vss-select-block__inner">
           <label class="radio">
             <input
+              v-model="trick"
               type="radio"
               value="baby"
-              v-model="trick"
               checked="checked"
             />
             <span>Baby</span>
           </label>
           <label class="radio">
-            <input type="radio" value="chirp" v-model="trick" />
+            <input v-model="trick" type="radio" value="chirp" />
             <span>Chirp</span>
           </label>
           <label class="radio">
-            <input type="radio" value="slice" v-model="trick" />
+            <input v-model="trick" type="radio" value="slice" />
             <span>Slice</span>
           </label>
           <label class="radio">
-            <input type="radio" value="chop" v-model="trick" />
+            <input v-model="trick" type="radio" value="chop" />
             <span>Chop</span>
           </label>
           <label class="radio">
-            <input type="radio" value="transformer" v-model="trick" />
+            <input v-model="trick" type="radio" value="transformer" />
             <span>Transformer</span>
           </label>
           <label class="radio">
-            <input type="radio" value="flare" v-model="trick" />
+            <input v-model="trick" type="radio" value="flare" />
             <span>Flare</span>
           </label>
         </div>
@@ -89,9 +89,9 @@
         <div class="vss-select-block__inner">
           <label class="radio">
             <input
+              v-model="clickCount"
               type="radio"
               value="1"
-              v-model="clickCount"
               checked="checked"
               :disabled="trick !== 'flare'"
             />
@@ -99,27 +99,27 @@
           </label>
           <label class="radio">
             <input
+              v-model="clickCount"
               type="radio"
               value="2"
-              v-model="clickCount"
               :disabled="trick !== 'transformer' && trick !== 'flare'"
             />
             <span>2</span>
           </label>
           <label class="radio">
             <input
+              v-model="clickCount"
               type="radio"
               value="3"
-              v-model="clickCount"
               :disabled="trick !== 'transformer' && trick !== 'flare'"
             />
             <span>3</span>
           </label>
           <label class="radio">
             <input
+              v-model="clickCount"
               type="radio"
               value="4"
-              v-model="clickCount"
               :disabled="trick !== 'transformer'"
             />
             <span>4</span>
@@ -132,19 +132,19 @@
         <div class="vss-select-block__inner">
           <label class="radio">
             <input
+              v-model="pattern"
               type="radio"
               value="forward"
-              v-model="pattern"
               checked="checked"
             />
             <span>Forward</span>
           </label>
           <label class="radio">
-            <input type="radio" value="backward" v-model="pattern" />
+            <input v-model="pattern" type="radio" value="backward" />
             <span>Backward</span>
           </label>
           <label class="radio">
-            <input type="radio" value="orbit" v-model="pattern" />
+            <input v-model="pattern" type="radio" value="orbit" />
             <span>Orbit</span>
           </label>
         </div>
@@ -155,31 +155,31 @@
         <div class="vss-select-block__inner">
           <label class="radio">
             <input
+              v-model="beatLength"
               type="radio"
               value="6"
-              v-model="beatLength"
               checked="checked"
             />
             <span>1</span>
           </label>
           <label class="radio">
-            <input type="radio" value="3" v-model="beatLength" />
+            <input v-model="beatLength" type="radio" value="3" />
             <span>1/2</span>
           </label>
           <label class="radio">
-            <input type="radio" value="2" v-model="beatLength" />
+            <input v-model="beatLength" type="radio" value="2" />
             <span>1/3</span>
           </label>
           <label class="radio">
-            <input type="radio" value="1.5" v-model="beatLength" />
+            <input v-model="beatLength" type="radio" value="1.5" />
             <span>1/4</span>
           </label>
           <label class="radio">
-            <input type="radio" value="1" v-model="beatLength" />
+            <input v-model="beatLength" type="radio" value="1" />
             <span>1/6</span>
           </label>
           <label class="radio">
-            <input type="radio" value="0.75" v-model="beatLength" />
+            <input v-model="beatLength" type="radio" value="0.75" />
             <span>1/8</span>
           </label>
         </div>
@@ -191,16 +191,16 @@
         class="vss-button-row is-flex-wrap-wrap is-align-items-center is-mobile"
       >
         <div class="vss-button-column">
-          <a @click="addTrick" class="button vss-bordered-button">Add Trick</a>
+          <a class="button vss-bordered-button" @click="addTrick">Add Trick</a>
         </div>
         <div class="vss-button-column">
-          <a @click="addRest" class="button vss-bordered-button">Add Rest</a>
+          <a lass="button vss-bordered-button"  @click="addRest">Add Rest</a>
         </div>
         <div class="vss-button-column">
-          <a @click="allClear" class="button vss-bordered-button">All Clear</a>
+          <a class="button vss-bordered-button" @click="allClear">All Clear</a>
         </div>
         <div class="vss-button-column">
-          <a @click="destroy" class="button vss-bordered-button">Delete</a>
+          <a lass="button vss-bordered-button"  @click="destroy">Delete</a>
         </div>
       </div>
     </div>
@@ -210,16 +210,16 @@
         <div class="vss-button-column">
           <label
             for="vss-img"
-            @click="exportImg"
             class="button vss-export has-text-weight-bold"
+            @click="exportImg"
             >Export <font-awesome-icon icon="image"
           /></label>
         </div>
         <div v-if="!nonLogin" class="vss-button-column">
           <a
-            @click="save"
             class="button vss-save has-text-weight-bold"
             data-disable-with="Saving"
+            @click="save"
             >Save</a
           >
         </div>
@@ -231,7 +231,7 @@
     </p>
   </template>
   <div v-show="displayImg" class="vss-img-wrapper">
-    <input type="checkbox" id="vss-img" />
+    <input id="vss-img" type="checkbox" />
     <div class="vss-img-wrapper__inner">
       <img id="img" />
       <div class="vss-img-wrapper__action">

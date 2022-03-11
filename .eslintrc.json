@@ -23,6 +23,7 @@
         "no-global-assign": ["error", {
             "exceptions": ["name"]
         }],
-        "vue/no-multiple-template-root": "off"
+        "vue/no-multiple-template-root": "off",
+        "vue/component-definition-name-casing":  ["error", "kebab-case"]
     }
 }
