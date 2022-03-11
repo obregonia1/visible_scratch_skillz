@@ -2,9 +2,12 @@
   "name": "visible-scratch-skillz",
   "private": true,
   "scripts": {
-    "lint": "run-p lint:*",
-    "lint:eslint": "eslint 'app/javascript/**/*.{js,vue}' --max-warnings=0",
-    "lint:prettier": "prettier app/javascript/**/*.{js,vue} --check"
+    "lint:check": "run-p lint:check:*",
+    "lint:check:eslint": "eslint 'app/javascript/**/*.{js,vue}' --max-warnings=0",
+    "lint:check:prettier": "prettier app/javascript/**/*.{js,vue} --check",
+    "lint:fix": "run-p lint:fix:*",
+    "lint:fix:eslint": "eslint 'app/javascript/**/*.{js,vue}' --max-warnings=0 --fix",
+    "lint:fix:prettier": "prettier app/javascript/**/*.{js,vue} -w"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
