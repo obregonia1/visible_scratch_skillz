@@ -1,6 +1,11 @@
 {
   "name": "visible-scratch-skillz",
   "private": true,
+  "scripts": {
+    "lint": "run-p lint:*",
+    "lint:eslint": "eslint 'app/javascript/**/*.{js,vue}' --max-warnings=0",
+    "lint:prettier": "prettier app/javascript/**/*.{js,vue} --check"
+  },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
