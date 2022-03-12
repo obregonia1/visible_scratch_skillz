@@ -1,7 +1,17 @@
 <template>
   <div>
-    <input id="chart_code" type="hidden" name="chart[chart_code]" :value="JSON.stringify(chartCodes)">
-    <input id="chart_image" type="hidden" name="chart[image]" :value="imageUrl">
+    <input
+      id="chart_code"
+      type="hidden"
+      name="chart[chart_code]"
+      :value="JSON.stringify(chartCodes)"
+    />
+    <input
+      id="chart_image"
+      type="hidden"
+      name="chart[image]"
+      :value="imageUrl"
+    />
   </div>
   <div v-if="editing" class="vss-chart-title">
     <label for="chart_title" class="label">Title</label>
@@ -178,7 +188,7 @@
       <div class="vss-select-block">
         <p class="label">Public</p>
         <label class="checkbox">
-          <input v-model="isPublic" type="checkbox">
+          <input v-model="isPublic" type="checkbox" />
           Is Public
         </label>
       </div>
@@ -276,7 +286,7 @@ export default {
       stageWidth: 500,
       stageHeight: 110,
       totalBeatCount: 4,
-    }
+    };
   },
   mounted() {
     if (this.chartId) {
@@ -284,9 +294,9 @@ export default {
         method: 'GET',
         headers: {
           'X-Requested-With': 'XMLHttpRequest',
-          'X-CSRF-Token': this.token()
+          'X-CSRF-Token': this.token(),
         },
-        credentials: 'same-origin'
+        credentials: 'same-origin',
       })
         .then((response) => {
           return response.json();
