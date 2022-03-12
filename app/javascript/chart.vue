@@ -1,7 +1,7 @@
 <template>
   <div>
-    <input type="hidden" name="chart[chart_code]" id="chart_code" :value="JSON.stringify(chartCodes)">
-    <input type="hidden" name="chart[image]" id="chart_image" :value="imageUrl">
+    <input id="chart_code" type="hidden" name="chart[chart_code]" :value="JSON.stringify(chartCodes)">
+    <input id="chart_image" type="hidden" name="chart[image]" :value="imageUrl">
   </div>
   <div v-if="editing" class="vss-chart-title">
     <label for="chart_title" class="label">Title</label>
@@ -178,7 +178,7 @@
       <div class="vss-select-block">
         <p class="label">Public</p>
         <label class="checkbox">
-          <input type="checkbox" v-model="isPublic">
+          <input v-model="isPublic" type="checkbox">
           Is Public
         </label>
       </div>
