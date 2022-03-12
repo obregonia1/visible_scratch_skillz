@@ -39,4 +39,4 @@ jobs:
         run: bundle exec erblint app/views/
 
       - name: JS Lint
-        run: bin/yarn lint
+        run: bin/yarn lint:check
