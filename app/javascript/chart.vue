@@ -1,5 +1,6 @@
 <template>
   <div>
+    <p>{{ chartCodes }}</p>
     <input
       id="chart_code"
       type="hidden"
@@ -44,9 +45,15 @@
       >
     </div>
   </div>
-  <div class="vss-chart-wrapper">
-    <div id="chart"></div>
-  </div>
+  <chart-body
+      :chart-id="chartId"
+      :current-user-id="currentUserId"
+      :non-login="nonLogin"
+      @editing="edit1"
+      @setTitle="setTitle"
+      @setChartCodes="setChartCodes"
+  >
+  </chart-body>
   <template v-if="editing">
     <div class="vss-select-container">
       <div class="vss-select-block">
@@ -258,12 +265,17 @@
 
 <script>
 import Konva from 'konva';
+import ChartBody from "./chartBody";
 
 export default {
+  components: {ChartBody},
   props: {
     chartId: { type: Number, required: true },
     currentUserId: { type: Number, required: true },
     nonLogin: { type: String, required: true },
+    editing: { type: Boolean, require: true },
+    title: { type: String },
+    chartCodes: { type: Array },
   },
   data() {
     return {
@@ -288,58 +300,60 @@ export default {
       totalBeatCount: 4,
     };
   },
-  mounted() {
-    if (this.chartId) {
-      fetch(`/api/charts/${this.chartId}.json`, {
-        method: 'GET',
-        headers: {
-          'X-Requested-With': 'XMLHttpRequest',
-          'X-CSRF-Token': this.token(),
-        },
-        credentials: 'same-origin',
-      })
-        .then((response) => {
-          return response.json();
-        })
-        .then((json) => {
-          this.userId = json.user_id;
-          this.title = json.title;
-          this.isPublic = json.is_public || false;
-          this.chartCodes = JSON.parse(json.chart_code);
-          this.renderChartCodes(this.chartCodes);
-          const lastCode = this.chartCodes[this.chartCodes.length - 1];
-          this.currentBeat = lastCode.beatPosition + lastCode.beatLength;
-          this.loaded = true;
-        })
-        .catch((error) => {
-          console.warn('Failed to parsing', error);
-        });
-    } else {
-      this.editing = true;
-    }
-
-    this.stage = new Konva.Stage({
-      container: 'chart',
-      width: this.stageWidth,
-      height: this.stageHeight,
-    });
-    this.bgLineLayer = new Konva.Layer({
-      name: 'bgLine',
-    });
-
-    this.addBgLines(this.totalBeatCount);
-
-    this.bgLineLayer.offsetX(-10);
-    this.bgLineLayer.offsetY(-5);
-    this.codeLayer = new Konva.Layer({
-      name: 'code',
-    });
-
-    this.codeLayer.offsetX(-10);
-    this.codeLayer.offsetY(-5);
-    this.stage.add(this.bgLineLayer);
-    this.stage.draw();
-  },
+  // mounted() {
+  //   if (this.chartId) {
+  //     console.log('charrrrrrrrrrrrrrrrrrrrrrrrrrt')
+  //
+  //     fetch(`/api/charts/${this.chartId}.json`, {
+  //       method: 'GET',
+  //       headers: {
+  //         'X-Requested-With': 'XMLHttpRequest',
+  //         'X-CSRF-Token': this.token(),
+  //       },
+  //       credentials: 'same-origin',
+  //     })
+  //       .then((response) => {
+  //         return response.json();
+  //       })
+  //       .then((json) => {
+  //         this.userId = json.user_id;
+  //         this.title = json.title;
+  //         this.isPublic = json.is_public || false;
+  //         this.chartCodes = JSON.parse(json.chart_code);
+  //         this.renderChartCodes(this.chartCodes);
+  //         const lastCode = this.chartCodes[this.chartCodes.length - 1];
+  //         this.currentBeat = lastCode.beatPosition + lastCode.beatLength;
+  //         this.loaded = true;
+  //       })
+  //       .catch((error) => {
+  //         console.warn('Failed to parsing', error);
+  //       });
+  //   } else {
+  //     this.editing = true;
+  //   }
+  //
+  //   this.stage = new Konva.Stage({
+  //     container: 'chart',
+  //     width: this.stageWidth,
+  //     height: this.stageHeight,
+  //   });
+  //   this.bgLineLayer = new Konva.Layer({
+  //     name: 'bgLine',
+  //   });
+  //
+  //   this.addBgLines(this.totalBeatCount);
+  //
+  //   this.bgLineLayer.offsetX(-10);
+  //   this.bgLineLayer.offsetY(-5);
+  //   this.codeLayer = new Konva.Layer({
+  //     name: 'code',
+  //   });
+  //
+  //   this.codeLayer.offsetX(-10);
+  //   this.codeLayer.offsetY(-5);
+  //   this.stage.add(this.bgLineLayer);
+  //   this.stage.draw();
+  // },
   methods: {
     renderChartCodes(chartCodes) {
       chartCodes.forEach((code) => {
@@ -609,6 +623,15 @@ export default {
       this.editing = true;
       this.renderChartCodes(this.chartCodes);
     },
+    edit1() {
+      this.editing = true;
+    },
+    setTitle(title) {
+      this.title = title
+    },
+    setChartCodes(chartCodes) {
+      this.chartCodes = chartCodes
+    }
   },
 };
 </script>
