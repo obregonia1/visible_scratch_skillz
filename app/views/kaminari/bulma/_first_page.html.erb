@@ -13,5 +13,9 @@ Link to the "First" page
 %>
 
 <li>
-  <%= link_to_unless current_page.first?, t('views.pagination.first').html_safe, url, remote: remote, class: "button is-small pagination-link#{' is-current' if current_page.first?}" %>
+  <%= link_to_unless current_page.first?,
+                     t('views.pagination.first').sanitize,
+                     url,
+                     remote: remote,
+                     class: "button is-small pagination-link#{' is-current' if current_page.first?}" %>
 </li>

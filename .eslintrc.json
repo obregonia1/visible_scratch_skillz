@@ -1,0 +1,29 @@
+{
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es2021": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:vue/essential",
+        "plugin:vue/vue3-recommended",
+        "prettier"
+    ],
+    "parserOptions": {
+        "ecmaVersion": "latest"
+    },
+    "plugins": [
+        "vue"
+    ],
+    "rules": {
+        "vue/multi-word-component-names": ["error", {
+            "ignores": ["chart"]
+        }],
+        "no-global-assign": ["error", {
+            "exceptions": ["name"]
+        }],
+        "vue/no-multiple-template-root": "off",
+        "vue/component-definition-name-casing":  ["error", "kebab-case"]
+    }
+}

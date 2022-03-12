@@ -5,6 +5,7 @@ $mobile-header-height: 52px;
 
 header {
   background-color: $header-color;
+
   #burger-checkbox:checked ~ div.dropdown-menu {
     display: block;
   }
@@ -15,6 +16,7 @@ header {
     height: $header-height;
     padding: 0 32px;
   }
+
   @include mobile {
     height: $mobile-header-height;
     padding: 0 8px 0 16px;
@@ -26,6 +28,7 @@ header {
 
 .navbar-brand {
   height: 100%;
+
   img {
     object-fit: contain;
     max-height: calc(100% - 16px);
@@ -43,7 +46,10 @@ header {
 }
 
 @include tablet {
-  .navbar, .navbar-menu, .navbar-end, .navbar-item {
+  .navbar,
+  .navbar-menu,
+  .navbar-end,
+  .navbar-item {
     display: flex;
   }
 
@@ -60,43 +66,54 @@ header {
   margin: 0 4px;
   border-radius: 4px;
   border: 1px solid transparent;
-  transition: .2s;
+  transition: 0.2s;
+
   &:not(.vss-sign-up):hover {
     background-color: transparent;
   }
+
   &.vss-new,
   &.vss-new:hover {
     color: $background-color;
   }
+
   &.vss-new:hover {
     border-color: $background-color;
   }
+
   &.vss-list,
   &.vss-list:hover {
     color: $background-color;
   }
+
   &.vss-list:hover {
     border-color: $background-color;
   }
+
   &.vss-sign-up,
   &.vss-sign-up:hover {
     color: $header-color;
     background-color: $vss-yellow;
   }
+
   &.vss-sign-up:hover {
     opacity: 0.8;
   }
+
   &.vss-login,
   &.vss-login:hover {
     color: $vss-yellow;
   }
+
   &.vss-login:hover {
     border-color: $vss-yellow;
   }
+
   &.dropdown {
     .icon {
       color: white;
     }
+
     &:hover {
       background-color: transparent;
     }
@@ -125,11 +142,13 @@ header {
   @include tablet {
     display: none;
   }
+
   @include mobile {
     width: 44px;
     height: 44px;
     margin-left: 0;
   }
+
   span {
     color: $background-color;
   }

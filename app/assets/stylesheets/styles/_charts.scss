@@ -3,6 +3,7 @@
 .box {
   width: 680px;
   max-width: calc(100% - 32px);
+
   h2,
   .label {
     color: $header-color;
@@ -15,16 +16,20 @@
     h2 {
       flex: 1;
     }
+
     div {
       margin-left: 8px;
     }
+
     a {
       padding: 0 8px;
       width: 50px;
+
       &.edit {
         border: 1px solid $header-color;
         border-radius: 4px;
-        transition: .1s;
+        transition: 0.1s;
+
         &:hover {
           background-color: $header-color;
           color: white;
@@ -40,16 +45,20 @@
 
 .vss-button-row.submit {
   padding-top: 4px;
+
   .button {
     display: flex;
     width: 100%;
   }
+
   .vss-export {
     background-color: $vss-yellow;
     border-style: none;
+
     svg {
-      margin-left: .25em;
+      margin-left: 0.25em;
     }
+
     &:hover {
       color: $header-color;
       opacity: 0.8;
@@ -67,21 +76,27 @@
   .vss-select-block + & {
     margin-top: 16px;
   }
+
   .radio {
     cursor: default;
+
     @include tablet {
       width: 20%;
     }
+
     @include mobile {
       width: 33.33%;
     }
+
     padding: 0 4px 8px;
     margin: 0;
+
     input {
       opacity: 0;
       position: absolute;
     }
   }
+
   span {
     display: flex;
     justify-content: center;
@@ -91,23 +106,28 @@
     color: #969696;
     border-radius: 4px;
     cursor: pointer;
-    transition: all .2s ease-out;
+    transition: all 0.2s ease-out;
+
     @include tablet {
       font-size: 13px;
     }
+
     @include mobile {
       font-size: 12px;
     }
+
     &:hover {
       background-color: #f4faff;
     }
   }
+
   input:checked + span {
     border-color: $header-color;
     color: $header-color;
     background-color: #e5f0fb;
     pointer-events: none;
   }
+
   input:disabled + span {
     border-color: #e2e2e2;
     color: #bbb;
@@ -116,18 +136,21 @@
   }
 }
 
-
 .vss-chart-wrapper {
   margin: 12px auto;
 }
 
 .vss-button-container {
   margin-top: 40px;
+
   .vss-button-container + & {
     margin-top: 24px;
   }
+
   & + p {
     margin-top: 12px;
+
+    /* stylelint-disable-next-line no-descending-specificity */
     a {
       text-decoration: underline;
     }
@@ -148,9 +171,10 @@
 
 .vss-bordered-button {
   width: 100%;
-  transition: .2s;
+  transition: 0.2s;
   color: $header-color;
   border: 1px solid $header-color;
+
   &:hover {
     background-color: #fff8e6;
     color: $header-color;
@@ -162,6 +186,7 @@
   color: $vss-yellow;
   background-color: $header-color;
   border-color: $header-color;
+
   &:hover {
     opacity: 0.8;
     color: $vss-yellow;
@@ -173,6 +198,7 @@
   width: 100% !important;
   height: auto !important;
   padding-top: 22%;
+
   canvas {
     width: 100% !important;
     height: auto !important;
@@ -185,10 +211,11 @@
 
 #error_explanation.notification {
   padding: 12px 16px;
+
   ul {
     width: 680px;
     max-width: 100%;
-    margin:0 auto;
+    margin: 0 auto;
   }
 }
 
@@ -215,6 +242,7 @@
   top: 50%;
   z-index: 2;
   pointer-events: all;
+
   input:checked + & {
     display: block;
   }
@@ -222,7 +250,7 @@
 
 .vss-img-wrapper__overlay {
   display: none;
-  background-color: rgba(black, .7);
+  background-color: rgba(black, 0.7);
   position: fixed;
   width: 100%;
   height: 100%;
@@ -232,6 +260,7 @@
   bottom: 0;
   z-index: 1;
   pointer-events: all;
+
   input:checked ~ & {
     display: block;
   }
@@ -240,6 +269,8 @@
 .vss-img-wrapper__action {
   display: flex;
   justify-content: center;
+
+  /* stylelint-disable-next-line no-descending-specificity */
   .button {
     max-width: 360px;
     margin: 0 auto;
@@ -247,6 +278,7 @@
     border-style: none;
     display: flex;
     width: 100%;
+
     &:hover {
       color: $header-color;
       opacity: 0.8;
@@ -261,12 +293,15 @@
   position: absolute;
   cursor: pointer;
   top: -32px;
+
   @include tablet {
     right: -32px;
   }
+
   @include mobile {
     right: 0;
   }
+
   span::before,
   span::after {
     content: "";
@@ -277,10 +312,12 @@
     position: absolute;
     top: 50%;
   }
+
   span::before {
     transform: rotate(45deg);
     left: 0;
   }
+
   span::after {
     transform: rotate(-45deg);
     right: 0;

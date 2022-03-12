@@ -1,6 +1,14 @@
 {
   "name": "visible-scratch-skillz",
   "private": true,
+  "scripts": {
+    "lint:check": "run-p lint:check:*",
+    "lint:check:eslint": "eslint 'app/javascript/**/*.{js,vue}' --max-warnings=0",
+    "lint:check:prettier": "prettier app/javascript/**/*.{js,vue} --check",
+    "lint:fix": "run-p lint:fix:*",
+    "lint:fix:eslint": "eslint 'app/javascript/**/*.{js,vue}' --max-warnings=0 --fix",
+    "lint:fix:prettier": "prettier app/javascript/**/*.{js,vue} -w"
+  },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
@@ -10,15 +18,22 @@
     "@rails/ujs": "^6.0.0",
     "@rails/webpacker": "5.4.0",
     "@vue/compiler-sfc": "^3.1.5",
+    "eslint-config-prettier": "^8.5.0",
     "konva": "^8.1.1",
+    "stylelint": "^14.5.3",
+    "stylelint-config-standard": "^25.0.0",
     "turbolinks": "^5.2.0",
     "vue": "^3.1.5",
     "vue-loader": "^16.2.0",
     "webpack": "^4.46.0",
-    "webpack-cli": "^3.3.12"
+    "webpack-cli": "^3.3.12",
+    "yarn-run-all": "^3.1.1"
   },
   "version": "0.1.0",
   "devDependencies": {
+    "eslint": "^8.10.0",
+    "eslint-plugin-vue": "^8.5.0",
+    "prettier": "2.5.1",
     "webpack-dev-server": "^3.11.2"
   }
 }

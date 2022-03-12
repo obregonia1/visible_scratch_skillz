@@ -54,5 +54,5 @@ $ rspec
 
 ## Lint
 ```
-$ rubocop
+$ bin/lint
 ```

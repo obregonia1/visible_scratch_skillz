@@ -16,6 +16,7 @@ html {
     padding-right: 16px;
     margin: 16px auto;
   }
+
   @include tablet {
     padding-left: 32px;
     padding-right: 32px;
@@ -25,7 +26,9 @@ html {
 
 .notification {
   padding: 12px 16px !important;
-  #notice, #alert {
+
+  #notice,
+  #alert {
     width: 680px;
     max-width: 100%;
     margin: 0 auto;
