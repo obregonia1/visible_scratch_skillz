@@ -21,6 +21,7 @@
             <%= link_to 'Sign up', new_user_registration_path, class: 'dropdown-item' %>
             <%= link_to 'Log in', new_user_session_path, class: 'dropdown-item' %>
           <% end %>
+          <%= link_to 'Charts', charts_path, class: 'dropdown-item' %>
         </div>
       </div>
     </div>
@@ -28,6 +29,7 @@
     <div class="navbar-menu">
       <div class="navbar-end">
         <%= link_to 'New', new_chart_path, class: 'navbar-item has-text-weight-bold vss-new' %>
+        <%= link_to 'Charts', charts_path, class: 'navbar-item has-text-weight-bold vss-new' %>
         <% if user_signed_in? %>
           <%= link_to 'List', current_user, class: 'navbar-item has-text-weight-bold vss-list' %>
           <div class="dropdown is-hoverable is-right navbar-item navbar-link">

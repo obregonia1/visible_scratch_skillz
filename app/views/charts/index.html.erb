@@ -1,0 +1,33 @@
+<%= javascript_pack_tag 'charts_index' %>
+
+<div class="panel is-shadowless">
+  <p class="panel-heading">
+    Public Charts
+  </p>
+  <% if @charts.any? %>
+    <nav>
+      <% @charts.each do |chart| %>
+        <div class="panel-block is-justify-content-flex-end panel-list">
+          <div class="chart-title"><%= link_to chart.title, chart %></div>
+          <div class="vss-panel-list_button">
+            <input type="hidden" value="<%= rails_storage_proxy_url(chart.image) %>">
+            <a class="vss-copy-button button is-small"><i class="fas fa-clipboard"></i>
+            </a>
+          </div>
+          <div class="vss-panel-list_button">
+            <input type="hidden" value="<%= to_embed rails_storage_proxy_url(chart.image), chart.title %>">
+            <a class="vss-copy-button button is-small"><i class="fas fa-code"></i>
+            </a>
+          </div>
+        </div>
+      <% end %>
+    </nav>
+  <% else %>
+    <div class="panel-block panel-list is-block">
+      <p class="vss-no_charts_message has-text-centered is-size-4">There is no chart in public.
+      </p>
+      <p class="has-text-centered vss-no_charts_link is-size-6"><%= link_to 'Create New Chart', new_chart_path %></p>
+    </div>
+<% end %>
+  <%= paginate @charts, theme: 'bulma', window: 2 %>
+</div>
