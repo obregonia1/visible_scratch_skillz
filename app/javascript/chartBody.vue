@@ -12,15 +12,21 @@ export default {
   name: "chartBody",
 //   components: {ChartBody},
   props: {
-    chartId: { type: Number, required: true },
-    currentUserId: { type: Number, required: true },
-    nonLogin: { type: String, required: true },
-    title: { type: String, required: true },
-    editing: {type: Boolean, require: true },
+    chartId: {type: Number, required: true},
+    currentUserId: {type: Number, required: true},
+    nonLogin: {type: String, required: true},
+    title: {type: String, required: true},
+    editing: {type: Boolean, require: true},
+    trick: {type: String, require: true},
+    beatLength: {type: Number, require: true},
+    currentBee: {type: Number, require: true},
+    faderPositions: {type: Array},
+    clickCount: {type: Number},
+    bgLineLayer: {type: Object},
+    chartData: {type: Object, require: true},
   },
   data() {
     return {
-      chartCodes: [],
       trick: 'baby',
       pattern: 'forward',
       beatLength: 6,
@@ -39,6 +45,9 @@ export default {
       stageWidth: 500,
       stageHeight: 110,
       totalBeatCount: 4,
+      bgLineLayer: {},
+      test: 'propTest',
+      chartData: {},
     };
   },
   mounted() {
@@ -55,16 +64,8 @@ export default {
             return response.json();
           })
           .then((json) => {
-            this.userId = json.user_id;
-            this.title = json.title;
-            this.$emit('setTitle', this.title)
-            this.isPublic = json.is_public || false;
-            this.chartCodes = JSON.parse(json.chart_code);
-            this.$emit('setChartCodes', this.chartCodes)
-            this.renderChartCodes(this.chartCodes);
-            const lastCode = this.chartCodes[this.chartCodes.length - 1];
-            this.currentBeat = lastCode.beatPosition + lastCode.beatLength;
-            this.loaded = true;
+            this.chartData = JSON.parse(json.chart_code);
+            this.renderChartCodes(this.chartData);
           })
           .catch((error) => {
             console.warn('Failed to parsing', error);
@@ -87,15 +88,17 @@ export default {
 
     this.bgLineLayer.offsetX(-10);
     this.bgLineLayer.offsetY(-5);
+    this.$emit('setBgLineLayer', this.bgLineLayer)
+
     this.codeLayer = new Konva.Layer({
       name: 'code',
     });
 
     this.codeLayer.offsetX(-10);
     this.codeLayer.offsetY(-5);
+    this.$emit('setCodeLayer', this.codeLayer)
     this.stage.add(this.bgLineLayer);
     this.stage.draw();
-    console.log(this.editing)
 
   },
   methods: {
@@ -183,11 +186,12 @@ export default {
         trick: this.trick,
         pattern: pattern,
         beatLength: Number(this.beatLength),
-        beatPosition: this.currentBeat,
+        beatPosition: this.currentBee,
         faderPositions: this.calcFaderPositions(pattern),
       };
-      this.chartCodes.push(code);
-      this.currentBeat += Number(this.beatLength);
+      this.chartData.push(code);
+      this.currentBee += Number(this.beatLength);
+      console.log(this.currentBee)
       this.addCodeLine(code);
     },
     calcFaderPositions(pattern) {
@@ -215,40 +219,16 @@ export default {
         return faderPositions;
       }
     },
-    addTrick() {
-      if (this.currentBeat < 24) {
-        if (this.pattern === 'orbit') {
-          this.drawAddTrick('forward');
-          this.drawAddTrick('backward');
-        } else {
-          this.drawAddTrick(this.pattern);
-        }
-      }
-    },
     addRest() {
       const code = {
         trick: 'rest',
         pattern: null,
         beatLength: this.beatLength,
-        beatPosition: this.currentBeat,
+        beatPosition: this.currentBee,
       };
-      this.chartCodes.push(code);
-      this.currentBeat += Number(this.beatLength);
+      this.chartData.push(code);
+      this.currentBee += Number(this.beatLength);
       this.addCodeLine(code);
-    },
-    allClear() {
-      this.chartCodes.splice(0);
-      this.codeLayer.destroy();
-      this.currentBeat = 0;
-    },
-    destroy() {
-      if (this.chartCodes.length > 0) {
-        const lastCode = this.chartCodes.pop();
-        this.codeLayer.destroy();
-        this.renderChartCodes(this.chartCodes);
-        this.stage.draw();
-        this.currentBeat -= lastCode.beatLength;
-      }
     },
     addBgLines(beatCount) {
       // 1小節のchartWidthを4分割して1拍の幅にする
@@ -365,9 +345,24 @@ export default {
     },
     edit() {
       this.editing = true;
-      this.renderChartCodes(this.chartCodes);
+      this.renderChartCodes(this.chartData);
     },
-  },
+    setTrick(trick) {
+      this.trick = trick;
+    },
+    setBeatLength(beatLength) {
+      this.beatLength = beatLength
+    },
+    setBeatPosition(beatPosition) {
+      this.beatPosition = beatPosition
+    },
+    setClickCount(clickCount) {
+      this.clickCount = clickCount
+    },
+    setCurrentBeat(currentBeat) {
+      this.currentBee = currentBeat;
+    },
+  }
 }
 </script>
 

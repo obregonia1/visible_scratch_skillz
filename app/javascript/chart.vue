@@ -1,6 +1,5 @@
 <template>
   <div>
-    <p>{{ chartCodes }}</p>
     <input
       id="chart_code"
       type="hidden"
@@ -52,6 +51,15 @@
       @editing="edit1"
       @setTitle="setTitle"
       @setChartCodes="setChartCodes"
+      @setLayer="setLayer"
+      ref="chart-body"
+      :trick="trick"
+      @setUserId="setUserId"
+      @setBgLineLayer="setBgLineLayer"
+      @setCodeLayer="setCodeLayer"
+      :chart-data="chartCodes"
+      :current-bee="currentBeat"
+      :edit="editing"
   >
   </chart-body>
   <template v-if="editing">
@@ -268,14 +276,25 @@ import Konva from 'konva';
 import ChartBody from "./chartBody";
 
 export default {
-  components: {ChartBody},
+  components: {
+    ChartBody
+  },
   props: {
     chartId: { type: Number, required: true },
     currentUserId: { type: Number, required: true },
     nonLogin: { type: String, required: true },
     editing: { type: Boolean, require: true },
     title: { type: String },
-    chartCodes: { type: Array },
+    codeLayer: { type: Object },
+    pattern: { type: String, require: true },
+    trick: { type: String, require: true },
+    beatLength: { type: Number, require: true },
+    currentBeat: { type: Number, require: true },
+    faderPositions: { type: Array },
+    clickCount: { type: Number },
+    userId: { type: Number },
+    bgLineLayer: { type: Object },
+    test: { type: String },
   },
   data() {
     return {
@@ -298,62 +317,43 @@ export default {
       stageWidth: 500,
       stageHeight: 110,
       totalBeatCount: 4,
+      bgLineLayer: {},
     };
   },
-  // mounted() {
-  //   if (this.chartId) {
-  //     console.log('charrrrrrrrrrrrrrrrrrrrrrrrrrt')
-  //
-  //     fetch(`/api/charts/${this.chartId}.json`, {
-  //       method: 'GET',
-  //       headers: {
-  //         'X-Requested-With': 'XMLHttpRequest',
-  //         'X-CSRF-Token': this.token(),
-  //       },
-  //       credentials: 'same-origin',
-  //     })
-  //       .then((response) => {
-  //         return response.json();
-  //       })
-  //       .then((json) => {
-  //         this.userId = json.user_id;
-  //         this.title = json.title;
-  //         this.isPublic = json.is_public || false;
-  //         this.chartCodes = JSON.parse(json.chart_code);
-  //         this.renderChartCodes(this.chartCodes);
-  //         const lastCode = this.chartCodes[this.chartCodes.length - 1];
-  //         this.currentBeat = lastCode.beatPosition + lastCode.beatLength;
-  //         this.loaded = true;
-  //       })
-  //       .catch((error) => {
-  //         console.warn('Failed to parsing', error);
-  //       });
-  //   } else {
-  //     this.editing = true;
-  //   }
-  //
-  //   this.stage = new Konva.Stage({
-  //     container: 'chart',
-  //     width: this.stageWidth,
-  //     height: this.stageHeight,
-  //   });
-  //   this.bgLineLayer = new Konva.Layer({
-  //     name: 'bgLine',
-  //   });
-  //
-  //   this.addBgLines(this.totalBeatCount);
-  //
-  //   this.bgLineLayer.offsetX(-10);
-  //   this.bgLineLayer.offsetY(-5);
-  //   this.codeLayer = new Konva.Layer({
-  //     name: 'code',
-  //   });
-  //
-  //   this.codeLayer.offsetX(-10);
-  //   this.codeLayer.offsetY(-5);
-  //   this.stage.add(this.bgLineLayer);
-  //   this.stage.draw();
-  // },
+  mounted() {
+    if (this.chartId) {
+      fetch(`/api/charts/${this.chartId}.json`, {
+        method: 'GET',
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'X-CSRF-Token': this.token(),
+        },
+        credentials: 'same-origin',
+      })
+          .then((response) => {
+            return response.json();
+          })
+          .then((json) => {
+            this.userId = json.user_id;
+            this.$emit('setUserId', this.userId)
+            this.title = json.title;
+            this.$emit('setTitle', this.title)
+            this.isPublic = json.is_public || false;
+            this.chartCodes = JSON.parse(json.chart_code);
+            this.$emit('setChartCodes', this.chartCodes)
+            this.$emit('renderChartCodes', this.chartCodes);
+            const lastCode = this.chartCodes[this.chartCodes.length - 1];
+            this.currentBeat = lastCode.beatPosition + lastCode.beatLength;
+            this.loaded = true;
+          })
+          .catch((error) => {
+            console.warn('Failed to parsing', error);
+          });
+    } else {
+      this.editing = true;
+      this.$emit('editing');
+    }
+  },
   methods: {
     renderChartCodes(chartCodes) {
       chartCodes.forEach((code) => {
@@ -444,7 +444,7 @@ export default {
       };
       this.chartCodes.push(code);
       this.currentBeat += Number(this.beatLength);
-      this.addCodeLine(code);
+      this.$refs["chart-body"].addCodeLine(code);
     },
     calcFaderPositions(pattern) {
       if (this.trick === 'chirp') {
@@ -490,9 +490,11 @@ export default {
       };
       this.chartCodes.push(code);
       this.currentBeat += Number(this.beatLength);
-      this.addCodeLine(code);
+      this.$refs["chart-body"].addCodeLine(code);
+      // this.addCodeLine(code);
     },
     allClear() {
+      // this.$refs["chart-body"].allClear()
       this.chartCodes.splice(0);
       this.codeLayer.destroy();
       this.currentBeat = 0;
@@ -500,11 +502,10 @@ export default {
     destroy() {
       if (this.chartCodes.length > 0) {
         const lastCode = this.chartCodes.pop();
-        this.codeLayer.destroy();
-        this.renderChartCodes(this.chartCodes);
-        this.stage.draw();
         this.currentBeat -= lastCode.beatLength;
+        this.codeLayer.destroy();
       }
+      this.$refs["chart-body"].renderChartCodes(this.chartCodes)
     },
     addBgLines(beatCount) {
       // 1小節のchartWidthを4分割して1拍の幅にする
@@ -596,16 +597,7 @@ export default {
       });
     },
     save() {
-      const convert = this.convert;
-      const promise = new Promise(function (resolve) {
-        convert();
-        resolve();
-      });
-      function onFulfilled() {
-        const form = document.getElementById('form');
-        form.submit();
-      }
-      promise.then(onFulfilled);
+      this.$refs["chart-body"].save()
     },
     exportImg() {
       this.convert();
@@ -621,16 +613,31 @@ export default {
     },
     edit() {
       this.editing = true;
-      this.renderChartCodes(this.chartCodes);
+      this.$refs["chart-body"].edit()
     },
     edit1() {
       this.editing = true;
     },
     setTitle(title) {
-      this.title = title
+      this.title = title;
     },
     setChartCodes(chartCodes) {
-      this.chartCodes = chartCodes
+      this.chartCodes = chartCodes;
+    },
+    draw(renderChartCodes) {
+      renderChartCodes(this.chartCodes);
+    },
+    setLayer(layer) {
+      this.codeLayer = layer
+    },
+    setUserId(userId) {
+      this.userId = userId
+    },
+    setBgLineLayer(bgLineLayer) {
+      this.bgLineLayer = bgLineLayer
+    },
+    setCodeLayer(codeLayer) {
+      this.codeLayer = codeLayer
     }
   },
 };
