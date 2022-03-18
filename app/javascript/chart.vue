@@ -340,8 +340,7 @@ export default {
             this.$emit('setTitle', this.title)
             this.isPublic = json.is_public || false;
             this.chartCodes = JSON.parse(json.chart_code);
-            this.$emit('setChartCodes', this.chartCodes)
-            this.$emit('renderChartCodes', this.chartCodes);
+            this.$refs["chart-body"].renderChartCodes(this.chartCodes);
             const lastCode = this.chartCodes[this.chartCodes.length - 1];
             this.currentBeat = lastCode.beatPosition + lastCode.beatLength;
             this.loaded = true;
@@ -355,12 +354,6 @@ export default {
     }
   },
   methods: {
-    renderChartCodes(chartCodes) {
-      chartCodes.forEach((code) => {
-        this.addCodeLine(code);
-      });
-      this.stage.draw();
-    },
     addCodeLine(code) {
       let y1 = null;
       let y2 = null;
@@ -620,6 +613,7 @@ export default {
     },
     setTitle(title) {
       this.title = title;
+      console.log('titleeeeeeeeeeeeeee')
     },
     setChartCodes(chartCodes) {
       this.chartCodes = chartCodes;

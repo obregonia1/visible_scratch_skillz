@@ -51,30 +51,6 @@ export default {
     };
   },
   mounted() {
-    if (this.chartId) {
-      fetch(`/api/charts/${this.chartId}.json`, {
-        method: 'GET',
-        headers: {
-          'X-Requested-With': 'XMLHttpRequest',
-          'X-CSRF-Token': this.token(),
-        },
-        credentials: 'same-origin',
-      })
-          .then((response) => {
-            return response.json();
-          })
-          .then((json) => {
-            this.chartData = JSON.parse(json.chart_code);
-            this.renderChartCodes(this.chartData);
-          })
-          .catch((error) => {
-            console.warn('Failed to parsing', error);
-          });
-    } else {
-      this.editing = true;
-      this.$emit('editing');
-    }
-
     this.stage = new Konva.Stage({
       container: 'chart',
       width: this.stageWidth,
@@ -99,7 +75,6 @@ export default {
     this.$emit('setCodeLayer', this.codeLayer)
     this.stage.add(this.bgLineLayer);
     this.stage.draw();
-
   },
   methods: {
     renderChartCodes(chartCodes) {
