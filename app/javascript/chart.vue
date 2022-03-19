@@ -49,17 +49,10 @@
       :current-user-id="currentUserId"
       :non-login="nonLogin"
       :editing="editing"
-      @setTitle="setTitle"
-      @setChartCodes="setChartCodes"
-      @setLayer="setLayer"
       ref="chart-body"
       :trick="trick"
-      @setUserId="setUserId"
-      @setBgLineLayer="setBgLineLayer"
-      @setCodeLayer="setCodeLayer"
-      :chart-data="chartCodes"
-      :current-bee="currentBeat"
-      @addCodeLine="addCodeLine"
+      :code-layer="codeLayer"
+
   >
   </chart-body>
   <template v-if="editing">
@@ -407,18 +400,6 @@ export default {
         return faderPositions;
       }
     },
-    drawAddTrick(pattern) {
-      const code = {
-        trick: this.trick,
-        pattern: pattern,
-        beatLength: Number(this.beatLength),
-        beatPosition: this.currentBeat,
-        faderPositions: this.calcFaderPositions(pattern),
-      };
-      this.chartCodes.push(code);
-      this.currentBeat += Number(this.beatLength);
-      this.$refs["chart-body"].addCodeLineLayer(code);
-    },
     addChartCode(trick) {
       if (this.currentBeat < 24) {
         if (trick !== 'rest' && this.pattern === 'orbit') {
@@ -439,23 +420,20 @@ export default {
         beatPosition: this.currentBeat,
         faderPositions: this.calcFaderPositions(pattern),
       };
-      console.log('88888888888')
       this.chartCodes.push(code);
-      console.log('8999999999999999999999')
       this.currentBeat += Number(this.beatLength);
-      console.log('1000000111000000000000')
       this.$refs["chart-body"].addCodeLineLayer(code);
     },
     allClear() {
       this.chartCodes.splice(0);
-      this.codeLayer.destroy();
+      this.$refs["chart-body"].deleteCodeLayer();
       this.currentBeat = 0;
     },
     destroy() {
       if (this.chartCodes.length > 0) {
         const lastCode = this.chartCodes.pop();
         this.currentBeat -= lastCode.beatLength;
-        this.codeLayer.destroy();
+        this.$refs["chart-body"].deleteCodeLayer();
       }
       this.$refs["chart-body"].renderChartCodes(this.chartCodes)
     },
@@ -538,24 +516,12 @@ export default {
       this.editing = true;
       this.$refs["chart-body"].renderChartCodes(this.chartCodes)
     },
-    setChartCodes(chartCodes) {
-      this.chartCodes = chartCodes;
-    },
     draw(renderChartCodes) {
       renderChartCodes(this.chartCodes);
     },
     setLayer(layer) {
       this.codeLayer = layer
     },
-    setUserId(userId) {
-      this.userId = userId
-    },
-    setBgLineLayer(bgLineLayer) {
-      this.bgLineLayer = bgLineLayer
-    },
-    setCodeLayer(codeLayer) {
-      this.codeLayer = codeLayer
-    }
   },
 };
 </script>
