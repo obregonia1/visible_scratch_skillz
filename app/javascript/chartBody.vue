@@ -39,14 +39,12 @@ export default {
       title: '',
       imageUrl: '',
       loaded: null,
-      editing: false,
       userId: '',
       imageStage: null,
       stageWidth: 500,
       stageHeight: 110,
       totalBeatCount: 4,
       bgLineLayer: {},
-      test: 'propTest',
       chartData: {},
     };
   },
@@ -79,11 +77,14 @@ export default {
   methods: {
     renderChartCodes(chartCodes) {
       chartCodes.forEach((code) => {
-        this.addCodeLine(code);
+        this.addCodeLineLayer(code)
       });
       this.stage.draw();
     },
-    addCodeLine(code) {
+    addLayer(layer) {
+      this.stage.add(layer)
+    },
+    addCodeLineLayer(code) {
       let y1 = null;
       let y2 = null;
       let strokeWidth = null;
@@ -96,7 +97,7 @@ export default {
         strokeWidth = 2;
         stroke = '#5a5454';
         name = 'code';
-        if (code.trick !== 'baby') {
+        if (code.trick !== 'baby' && code.trick !== 'rest') {
           this.drawFaderLine(code, layer);
         }
       } else if (code.trick === 'rest' && this.editing === true) {
@@ -118,8 +119,11 @@ export default {
         name: name,
       });
       layer.add(line);
-      this.stage.add(layer);
-      this.stage.draw();
+      this.addLayer(layer);
+      this.draw();
+    },
+    draw() {
+      this.stage.draw()
     },
     drawFaderLine(code, layer) {
       code.faderPositions.forEach((faderPosition) => {
@@ -166,7 +170,6 @@ export default {
       };
       this.chartData.push(code);
       this.currentBee += Number(this.beatLength);
-      console.log(this.currentBee)
       this.addCodeLine(code);
     },
     calcFaderPositions(pattern) {
@@ -314,33 +317,6 @@ export default {
       const downloadImg = document.getElementById('downloadImg');
       downloadImg.href = this.imageUrl;
     },
-    token() {
-      const meta = document.querySelector('meta[name="csrf-token"]');
-      return meta ? meta.getAttribute('content') : '';
-    },
-    edit() {
-      this.editing = true;
-      this.renderChartCodes(this.chartData);
-    },
-    setTrick(trick) {
-      this.trick = trick;
-    },
-    setBeatLength(beatLength) {
-      this.beatLength = beatLength
-    },
-    setBeatPosition(beatPosition) {
-      this.beatPosition = beatPosition
-    },
-    setClickCount(clickCount) {
-      this.clickCount = clickCount
-    },
-    setCurrentBeat(currentBeat) {
-      this.currentBee = currentBeat;
-    },
   }
 }
 </script>
-
-<style scoped>
-
-</style>

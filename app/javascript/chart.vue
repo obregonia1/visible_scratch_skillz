@@ -48,7 +48,7 @@
       :chart-id="chartId"
       :current-user-id="currentUserId"
       :non-login="nonLogin"
-      @editing="edit1"
+      :editing="editing"
       @setTitle="setTitle"
       @setChartCodes="setChartCodes"
       @setLayer="setLayer"
@@ -59,7 +59,7 @@
       @setCodeLayer="setCodeLayer"
       :chart-data="chartCodes"
       :current-bee="currentBeat"
-      :edit="editing"
+      @addCodeLine="addCodeLine"
   >
   </chart-body>
   <template v-if="editing">
@@ -214,10 +214,10 @@
         class="vss-button-row is-flex-wrap-wrap is-align-items-center is-mobile"
       >
         <div class="vss-button-column">
-          <a class="button vss-bordered-button" @click="addTrick">Add Trick</a>
+          <a class="button vss-bordered-button" @click="addChartCode(trick)">Add Trick</a>
         </div>
         <div class="vss-button-column">
-          <a class="button vss-bordered-button" @click="addRest">Add Rest</a>
+          <a class="button vss-bordered-button" @click="addChartCode('rest')">Add Rest</a>
         </div>
         <div class="vss-button-column">
           <a class="button vss-bordered-button" @click="allClear">All Clear</a>
@@ -350,58 +350,13 @@ export default {
           });
     } else {
       this.editing = true;
-      this.$emit('editing');
     }
   },
   methods: {
     addCodeLine(code) {
-      let y1 = null;
-      let y2 = null;
-      let strokeWidth = null;
-      let stroke = null;
-      let layer = this.codeLayer;
-      const chartHeight = this.chartHeight();
-      if (code.trick !== 'rest') {
-        y1 = code.pattern === 'forward' ? chartHeight : 0;
-        y2 = code.pattern === 'forward' ? 0 : chartHeight;
-        strokeWidth = 2;
-        stroke = '#5a5454';
-        name = 'code';
-        if (code.trick !== 'baby') {
-          this.drawFaderLine(code, layer);
-        }
-      } else if (code.trick === 'rest' && this.editing === true) {
-        y1 = chartHeight;
-        y2 = chartHeight;
-        strokeWidth = 1;
-        stroke = 'red';
-        name = 'rest';
-      }
-      const line = new Konva.Line({
-        points: [
-          this.toPixel(code.beatPosition),
-          y1,
-          this.toPixel(code.beatPosition) + this.toPixel(code.beatLength),
-          y2,
-        ],
-        stroke: stroke,
-        strokeWidth: strokeWidth,
-        name: name,
-      });
-      layer.add(line);
-      this.stage.add(layer);
-      this.stage.draw();
-    },
-    drawFaderLine(code, layer) {
-      code.faderPositions.forEach((faderPosition) => {
-        const faderLine = new Konva.Line({
-          points: this.faderPoints(code, faderPosition),
-          stroke: '#5a5454',
-          strokeWidth: 1,
-          name: 'fader',
-        });
-        layer.add(faderLine);
-      });
+      this.$refs["chart-body"].addCodeLineLayer(code);
+      this.$refs["chart-body"].addLayer();
+      this.$refs["chart-body"].draw();
     },
     chartHeight() {
       return this.stageHeight - 10;
@@ -426,18 +381,6 @@ export default {
         const y = (faderPosition / code.beatLength) * chartHeight;
         return [x1, y, x2, y];
       }
-    },
-    drawAddTrick(pattern) {
-      const code = {
-        trick: this.trick,
-        pattern: pattern,
-        beatLength: Number(this.beatLength),
-        beatPosition: this.currentBeat,
-        faderPositions: this.calcFaderPositions(pattern),
-      };
-      this.chartCodes.push(code);
-      this.currentBeat += Number(this.beatLength);
-      this.$refs["chart-body"].addCodeLine(code);
     },
     calcFaderPositions(pattern) {
       if (this.trick === 'chirp') {
@@ -464,30 +407,46 @@ export default {
         return faderPositions;
       }
     },
-    addTrick() {
-      if (this.currentBeat < 24) {
-        if (this.pattern === 'orbit') {
-          this.drawAddTrick('forward');
-          this.drawAddTrick('backward');
-        } else {
-          this.drawAddTrick(this.pattern);
-        }
-      }
-    },
-    addRest() {
+    drawAddTrick(pattern) {
       const code = {
-        trick: 'rest',
-        pattern: null,
-        beatLength: this.beatLength,
+        trick: this.trick,
+        pattern: pattern,
+        beatLength: Number(this.beatLength),
         beatPosition: this.currentBeat,
+        faderPositions: this.calcFaderPositions(pattern),
       };
       this.chartCodes.push(code);
       this.currentBeat += Number(this.beatLength);
-      this.$refs["chart-body"].addCodeLine(code);
-      // this.addCodeLine(code);
+      this.$refs["chart-body"].addCodeLineLayer(code);
+    },
+    addChartCode(trick) {
+      if (this.currentBeat < 24) {
+        if (trick !== 'rest' && this.pattern === 'orbit') {
+          this.pushChartCode(trick, 'forward');
+          this.pushChartCode(trick, 'backward');
+        } else {
+          this.pushChartCode(trick, this.pattern);
+        }
+        const lastCode = this.chartCodes[this.chartCodes.length - 1]
+        this.$refs["chart-body"].addCodeLineLayer(lastCode);
+      }
+    },
+    pushChartCode(trick, pattern) {
+      const code = {
+        trick: trick,
+        pattern: trick !== 'rest' ? pattern : null,
+        beatLength: Number(this.beatLength),
+        beatPosition: this.currentBeat,
+        faderPositions: this.calcFaderPositions(pattern),
+      };
+      console.log('88888888888')
+      this.chartCodes.push(code);
+      console.log('8999999999999999999999')
+      this.currentBeat += Number(this.beatLength);
+      console.log('1000000111000000000000')
+      this.$refs["chart-body"].addCodeLineLayer(code);
     },
     allClear() {
-      // this.$refs["chart-body"].allClear()
       this.chartCodes.splice(0);
       this.codeLayer.destroy();
       this.currentBeat = 0;
@@ -499,35 +458,6 @@ export default {
         this.codeLayer.destroy();
       }
       this.$refs["chart-body"].renderChartCodes(this.chartCodes)
-    },
-    addBgLines(beatCount) {
-      // 1小節のchartWidthを4分割して1拍の幅にする
-      const solidLineWidth = this.chartWidth() / 4;
-      for (let i = 0; i <= beatCount; i++) {
-        this.addBgSolidLine(i * solidLineWidth);
-      }
-      // 1拍を6分割した基準線をつくる
-      const dashedLineWidth = solidLineWidth / 6;
-      for (let i = 1; i <= beatCount * 6; i++) {
-        if (i % 6 !== 0) {
-          this.addBgDashedLine(i * dashedLineWidth);
-        }
-      }
-    },
-    addBgSolidLine(x) {
-      this.addBgLine(x, '#2c2c2c');
-    },
-    addBgDashedLine(x) {
-      this.addBgLine(x, '#d3d3d3', true);
-    },
-    addBgLine(x, stroke, dash = null) {
-      this.bgLine = new Konva.Line({
-        points: [x, this.chartHeight(), x, 0],
-        stroke: stroke,
-        strokeWidth: 1,
-        dash: dash ? [3, 3] : null,
-      });
-      this.bgLineLayer.add(this.bgLine);
     },
     convert() {
       this.imageStage = new Konva.Stage({
@@ -606,14 +536,7 @@ export default {
     },
     edit() {
       this.editing = true;
-      this.$refs["chart-body"].edit()
-    },
-    edit1() {
-      this.editing = true;
-    },
-    setTitle(title) {
-      this.title = title;
-      console.log('titleeeeeeeeeeeeeee')
+      this.$refs["chart-body"].renderChartCodes(this.chartCodes)
     },
     setChartCodes(chartCodes) {
       this.chartCodes = chartCodes;
