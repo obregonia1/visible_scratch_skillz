@@ -149,56 +149,20 @@ export default {
     deleteCodeLayer() {
       this.codeLayer.destroy();
     },
-    // faderPoints(code, faderPosition) {
-    //   const faderPositionPx =
-    //       this.toPixel(code.beatPosition) + this.toPixel(faderPosition);
-    //   const x1 = faderPositionPx - 7;
-    //   const x2 = faderPositionPx + 7;
-    //   const chartHeight = this.chartHeight();
-    //   if (code.pattern === 'forward') {
-    //     const y = chartHeight - (faderPosition / code.beatLength) * chartHeight;
-    //     return [x1, y, x2, y];
-    //   } else if (code.pattern === 'backward') {
-    //     const y = (faderPosition / code.beatLength) * chartHeight;
-    //     return [x1, y, x2, y];
-    //   }
-    // },
-    // calcFaderPositions(pattern) {
-    //   if (this.trick === 'chirp') {
-    //     return [pattern === 'forward' ? Number(this.beatLength) : 0];
-    //   } else if (this.trick === 'slice') {
-    //     return [pattern === 'forward' ? 0 : Number(this.beatLength)];
-    //   } else if (this.trick === 'chop') {
-    //     return [0, Number(this.beatLength)];
-    //   } else if (this.trick === 'transformer') {
-    //     let faderPositions = [0];
-    //     for (let n = 1; n <= Number(this.clickCount); n++) {
-    //       faderPositions.push(
-    //           (Number(this.beatLength) * n) / Number(this.clickCount)
-    //       );
-    //     }
-    //     return faderPositions;
-    //   } else if (this.trick === 'flare') {
-    //     let faderPositions = [];
-    //     for (let n = 1; n <= Number(this.clickCount); n++) {
-    //       faderPositions.push(
-    //           (Number(this.beatLength) * n) / (Number(this.clickCount) + 1)
-    //       );
-    //     }
-    //     return faderPositions;
-    //   }
-    // },
-    // addRest() {
-    //   const code = {
-    //     trick: 'rest',
-    //     pattern: null,
-    //     beatLength: this.beatLength,
-    //     beatPosition: this.currentBee,
-    //   };
-    //   this.chartData.push(code);
-    //   this.currentBee += Number(this.beatLength);
-    //   this.addCodeLine(code);
-    // },
+    faderPoints(code, faderPosition) {
+      const faderPositionPx =
+          this.toPixel(code.beatPosition) + this.toPixel(faderPosition);
+      const x1 = faderPositionPx - 7;
+      const x2 = faderPositionPx + 7;
+      const chartHeight = this.chartHeight();
+      if (code.pattern === 'forward') {
+        const y = chartHeight - (faderPosition / code.beatLength) * chartHeight;
+        return [x1, y, x2, y];
+      } else if (code.pattern === 'backward') {
+        const y = (faderPosition / code.beatLength) * chartHeight;
+        return [x1, y, x2, y];
+      }
+    },
     addBgLines(beatCount) {
       // 1小節のchartWidthを4分割して1拍の幅にする
       const solidLineWidth = this.chartWidth() / 4;
