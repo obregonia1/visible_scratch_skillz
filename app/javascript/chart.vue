@@ -45,14 +45,11 @@
     </div>
   </div>
   <chart-body
-      :chart-id="chartId"
-      :current-user-id="currentUserId"
-      :non-login="nonLogin"
       :editing="editing"
       ref="chart-body"
       :trick="trick"
-      :code-layer="codeLayer"
-
+      :title="title"
+      :total-beat-count="totalBeatCount"
   >
   </chart-body>
   <template v-if="editing">
@@ -231,7 +228,7 @@
             >Export <font-awesome-icon icon="image"
           /></label>
         </div>
-        <div v-if="!nonLogin" class="vss-button-column">
+        <div v-if="nonLogin === 'false'" class="vss-button-column">
           <a
             class="button vss-save has-text-weight-bold"
             data-disable-with="Saving"
@@ -241,31 +238,14 @@
         </div>
       </div>
     </div>
-    <p v-if="nonLogin" class="has-text-centered">
+    <p v-if="nonLogin === 'true'" class="has-text-centered">
       <a href="/users/sign_in" class="has-text-weight-bold">Login</a> to save
       chart you made.
     </p>
   </template>
-  <div v-show="displayImg" class="vss-img-wrapper">
-    <input id="vss-img" type="checkbox" />
-    <div class="vss-img-wrapper__inner">
-      <img id="img" />
-      <div class="vss-img-wrapper__action">
-        <a
-          id="downloadImg"
-          :download="title"
-          class="button vss-download has-text-weight-bold"
-          >Download</a
-        >
-      </div>
-      <label class="vss-img-wrapper__close" for="vss-img"><span></span></label>
-    </div>
-    <label class="vss-img-wrapper__overlay" for="vss-img"></label>
-  </div>
 </template>
 
 <script>
-import Konva from 'konva';
 import ChartBody from "./chartBody";
 
 export default {
@@ -278,16 +258,13 @@ export default {
     nonLogin: { type: String, required: true },
     editing: { type: Boolean, require: true },
     title: { type: String },
-    codeLayer: { type: Object },
     pattern: { type: String, require: true },
     trick: { type: String, require: true },
     beatLength: { type: Number, require: true },
     currentBeat: { type: Number, require: true },
-    faderPositions: { type: Array },
     clickCount: { type: Number },
     userId: { type: Number },
-    bgLineLayer: { type: Object },
-    test: { type: String },
+    totalBeatCount: { type: Number },
   },
   data() {
     return {
@@ -295,10 +272,7 @@ export default {
       trick: 'baby',
       pattern: 'forward',
       beatLength: 6,
-      stage: {},
       currentBeat: 0,
-      codeLayer: null,
-      faderPositions: null,
       clickCount: 1,
       displayImg: false,
       title: '',
@@ -306,11 +280,7 @@ export default {
       loaded: null,
       editing: false,
       userId: '',
-      imageStage: null,
-      stageWidth: 500,
-      stageHeight: 110,
       totalBeatCount: 4,
-      bgLineLayer: {},
     };
   },
   mounted() {
@@ -328,9 +298,7 @@ export default {
           })
           .then((json) => {
             this.userId = json.user_id;
-            this.$emit('setUserId', this.userId)
             this.title = json.title;
-            this.$emit('setTitle', this.title)
             this.isPublic = json.is_public || false;
             this.chartCodes = JSON.parse(json.chart_code);
             this.$refs["chart-body"].renderChartCodes(this.chartCodes);
@@ -346,46 +314,6 @@ export default {
     }
   },
   methods: {
-    addCodeLine(code) {
-      this.$refs["chart-body"].addCodeLineLayer(code);
-      this.$refs["chart-body"].addLayer();
-      this.$refs["chart-body"].draw();
-    },
-    chartHeight() {
-      return this.stageHeight - 10;
-    },
-    chartWidth() {
-      return this.stageWidth - 20;
-    },
-    toPixel(beatPosition) {
-      const oneBeatWidth = this.chartWidth() / 4;
-      return (beatPosition * oneBeatWidth) / 6;
-    },
-    calcFaderPositions(pattern) {
-      if (this.trick === 'chirp') {
-        return [pattern === 'forward' ? Number(this.beatLength) : 0];
-      } else if (this.trick === 'slice') {
-        return [pattern === 'forward' ? 0 : Number(this.beatLength)];
-      } else if (this.trick === 'chop') {
-        return [0, Number(this.beatLength)];
-      } else if (this.trick === 'transformer') {
-        let faderPositions = [0];
-        for (let n = 1; n <= Number(this.clickCount); n++) {
-          faderPositions.push(
-            (Number(this.beatLength) * n) / Number(this.clickCount)
-          );
-        }
-        return faderPositions;
-      } else if (this.trick === 'flare') {
-        let faderPositions = [];
-        for (let n = 1; n <= Number(this.clickCount); n++) {
-          faderPositions.push(
-            (Number(this.beatLength) * n) / (Number(this.clickCount) + 1)
-          );
-        }
-        return faderPositions;
-      }
-    },
     addChartCode(trick) {
       if (this.currentBeat < 24) {
         if (trick !== 'rest' && this.pattern === 'orbit') {
@@ -423,90 +351,44 @@ export default {
       }
       this.$refs["chart-body"].renderChartCodes(this.chartCodes)
     },
-    convert() {
-      this.imageStage = new Konva.Stage({
-        container: 'img',
-        width: this.stageWidth,
-        height: this.stageHeight + 50,
-      });
-      const bgColor = new Konva.Rect({
-        width: this.stageWidth,
-        height: this.stageHeight + 50,
-        fill: 'white',
-      });
-
-      const bgColorLayer = new Konva.Layer({
-        name: 'bgColor',
-      });
-      bgColorLayer.add(bgColor);
-      this.imageStage.add(bgColorLayer);
-      const bgLineLayer = this.bgLineLayer.clone();
-      this.imageStage.add(bgLineLayer);
-
-      const codeLayer = this.codeLayer.clone();
-      const restLines = codeLayer.getChildren((line) => {
-        return line.attrs.name === 'rest';
-      });
-      restLines.map((line) => {
-        line.setAttr('visible', false);
-      });
-      this.imageStage.add(codeLayer);
-
-      bgLineLayer.offsetY(-30);
-      codeLayer.offsetY(-30);
-
-      const textLayer = new Konva.Layer({
-        name: 'text',
-      });
-      const title = new Konva.Text({
-        x: this.imageStage.width() / 2,
-        y: 10,
-        text: this.title,
-        fill: 'black',
-        fontSize: 16,
-      });
-      title.offsetX(title.width() / 2);
-      textLayer.add(title);
-
-      const appName = new Konva.Text({
-        x: this.imageStage.width() / 2,
-        y: 140,
-        text: '©︎Visible Scratch Skillz',
-        fill: 'black',
-        fontSize: 12,
-      });
-      appName.offsetX(appName.width() / 2);
-      textLayer.add(appName);
-
-      this.imageStage.add(textLayer);
-      this.imageUrl = this.imageStage.toDataURL({
-        pixelRatio: 2,
-      });
+    edit() {
+      this.editing = true;
+      this.$refs["chart-body"].renderChartCodes(this.chartCodes)
+    },
+    calcFaderPositions(pattern) {
+      if (this.trick === 'chirp') {
+        return [pattern === 'forward' ? Number(this.beatLength) : 0];
+      } else if (this.trick === 'slice') {
+        return [pattern === 'forward' ? 0 : Number(this.beatLength)];
+      } else if (this.trick === 'chop') {
+        return [0, Number(this.beatLength)];
+      } else if (this.trick === 'transformer') {
+        let faderPositions = [0];
+        for (let n = 1; n <= Number(this.clickCount); n++) {
+          faderPositions.push(
+            (Number(this.beatLength) * n) / Number(this.clickCount)
+          );
+        }
+        return faderPositions;
+      } else if (this.trick === 'flare') {
+        let faderPositions = [];
+        for (let n = 1; n <= Number(this.clickCount); n++) {
+          faderPositions.push(
+            (Number(this.beatLength) * n) / (Number(this.clickCount) + 1)
+          );
+        }
+        return faderPositions;
+      }
     },
     save() {
       this.$refs["chart-body"].save()
     },
     exportImg() {
-      this.convert();
-      this.displayImg = true;
-      const img = document.getElementById('img');
-      img.src = this.imageUrl;
-      const downloadImg = document.getElementById('downloadImg');
-      downloadImg.href = this.imageUrl;
+      this.$refs["chart-body"].exportImg()
     },
     token() {
       const meta = document.querySelector('meta[name="csrf-token"]');
       return meta ? meta.getAttribute('content') : '';
-    },
-    edit() {
-      this.editing = true;
-      this.$refs["chart-body"].renderChartCodes(this.chartCodes)
-    },
-    draw(renderChartCodes) {
-      renderChartCodes(this.chartCodes);
-    },
-    setLayer(layer) {
-      this.codeLayer = layer
     },
   },
 };

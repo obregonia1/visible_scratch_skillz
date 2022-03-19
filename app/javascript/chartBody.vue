@@ -3,6 +3,22 @@
     <div id="chart">
     </div>
   </div>
+  <div v-show="displayImg" class="vss-img-wrapper">
+    <input id="vss-img" type="checkbox" />
+    <div class="vss-img-wrapper__inner">
+      <img id="img" />
+      <div class="vss-img-wrapper__action">
+        <a
+            id="downloadImg"
+            :download="title"
+            class="button vss-download has-text-weight-bold"
+        >Download</a
+        >
+      </div>
+      <label class="vss-img-wrapper__close" for="vss-img"><span></span></label>
+    </div>
+    <label class="vss-img-wrapper__overlay" for="vss-img"></label>
+  </div>
 </template>
 
 <script>
@@ -10,42 +26,22 @@ import Konva from 'konva';
 
 export default {
   name: "chartBody",
-//   components: {ChartBody},
   props: {
-    chartId: {type: Number, required: true},
-    currentUserId: {type: Number, required: true},
-    nonLogin: {type: String, required: true},
     title: {type: String, required: true},
     editing: {type: Boolean, require: true},
-    trick: {type: String, require: true},
-    beatLength: {type: Number, require: true},
-    currentBee: {type: Number, require: true},
-    faderPositions: {type: Array},
-    clickCount: {type: Number},
-    bgLineLayer: {type: Object},
-    chartData: {type: Object, require: true},
+    totalBeatCount: { type: Number },
   },
   data() {
     return {
-      trick: 'baby',
-      pattern: 'forward',
-      beatLength: 6,
       stage: {},
-      currentBeat: 0,
       codeLayer: null,
-      faderPositions: null,
-      clickCount: 1,
       displayImg: false,
-      title: '',
       imageUrl: '',
       loaded: null,
-      userId: '',
       imageStage: null,
       stageWidth: 500,
       stageHeight: 110,
-      totalBeatCount: 4,
       bgLineLayer: {},
-      chartData: {},
     };
   },
   mounted() {
@@ -62,7 +58,6 @@ export default {
 
     this.bgLineLayer.offsetX(-10);
     this.bgLineLayer.offsetY(-5);
-    this.$emit('setBgLineLayer', this.bgLineLayer)
 
     this.codeLayer = new Konva.Layer({
       name: 'code',
@@ -70,7 +65,6 @@ export default {
 
     this.codeLayer.offsetX(-10);
     this.codeLayer.offsetY(-5);
-    this.$emit('setCodeLayer', this.codeLayer)
     this.stage.add(this.bgLineLayer);
     this.stage.draw();
   },

@@ -15,8 +15,11 @@
       <% if current_user %>
         <%= "data-current-user-id=#{current_user.id}" %>
       <% end %>
-    <% elsif !user_signed_in? %>
+    <% end %>
+    <%  if !user_signed_in? %>
       <%= 'non-login=true' %>
+    <% else %>
+      <%= 'non-login=false' %>
     <% end %>>
   </div>
 <% end %>
