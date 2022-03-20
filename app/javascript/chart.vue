@@ -45,11 +45,11 @@
     </div>
   </div>
   <chart-body
-      :editing="editing"
-      ref="chart-body"
-      :trick="trick"
-      :title="title"
-      :total-beat-count="totalBeatCount"
+    ref="chart-body"
+    :editing="editing"
+    :trick="trick"
+    :title="title"
+    :total-beat-count="totalBeatCount"
   >
   </chart-body>
   <template v-if="editing">
@@ -204,10 +204,14 @@
         class="vss-button-row is-flex-wrap-wrap is-align-items-center is-mobile"
       >
         <div class="vss-button-column">
-          <a class="button vss-bordered-button" @click="addChartCode(trick)">Add Trick</a>
+          <a class="button vss-bordered-button" @click="addChartCode(trick)"
+            >Add Trick</a
+          >
         </div>
         <div class="vss-button-column">
-          <a class="button vss-bordered-button" @click="addChartCode('rest')">Add Rest</a>
+          <a class="button vss-bordered-button" @click="addChartCode('rest')"
+            >Add Rest</a
+          >
         </div>
         <div class="vss-button-column">
           <a class="button vss-bordered-button" @click="allClear">All Clear</a>
@@ -246,7 +250,7 @@
 </template>
 
 <script>
-import ChartBody from "./chartBody";
+import ChartBody from './chartBody';
 
 export default {
   components: {
@@ -293,22 +297,22 @@ export default {
         },
         credentials: 'same-origin',
       })
-          .then((response) => {
-            return response.json();
-          })
-          .then((json) => {
-            this.userId = json.user_id;
-            this.title = json.title;
-            this.isPublic = json.is_public || false;
-            this.chartCodes = JSON.parse(json.chart_code);
-            this.$refs["chart-body"].renderChartCodes(this.chartCodes);
-            const lastCode = this.chartCodes[this.chartCodes.length - 1];
-            this.currentBeat = lastCode.beatPosition + lastCode.beatLength;
-            this.loaded = true;
-          })
-          .catch((error) => {
-            console.warn('Failed to parsing', error);
-          });
+        .then((response) => {
+          return response.json();
+        })
+        .then((json) => {
+          this.userId = json.user_id;
+          this.title = json.title;
+          this.isPublic = json.is_public || false;
+          this.chartCodes = JSON.parse(json.chart_code);
+          this.$refs['chart-body'].renderChartCodes(this.chartCodes);
+          const lastCode = this.chartCodes[this.chartCodes.length - 1];
+          this.currentBeat = lastCode.beatPosition + lastCode.beatLength;
+          this.loaded = true;
+        })
+        .catch((error) => {
+          console.warn('Failed to parsing', error);
+        });
     } else {
       this.editing = true;
     }
@@ -322,8 +326,8 @@ export default {
         } else {
           this.pushChartCode(trick, this.pattern);
         }
-        const lastCode = this.chartCodes[this.chartCodes.length - 1]
-        this.$refs["chart-body"].addCodeLineLayer(lastCode);
+        const lastCode = this.chartCodes[this.chartCodes.length - 1];
+        this.$refs['chart-body'].addCodeLineLayer(lastCode);
       }
     },
     pushChartCode(trick, pattern) {
@@ -336,24 +340,24 @@ export default {
       };
       this.chartCodes.push(code);
       this.currentBeat += Number(this.beatLength);
-      this.$refs["chart-body"].addCodeLineLayer(code);
+      this.$refs['chart-body'].addCodeLineLayer(code);
     },
     allClear() {
       this.chartCodes.splice(0);
-      this.$refs["chart-body"].deleteCodeLayer();
+      this.$refs['chart-body'].deleteCodeLayer();
       this.currentBeat = 0;
     },
     destroy() {
       if (this.chartCodes.length > 0) {
         const lastCode = this.chartCodes.pop();
         this.currentBeat -= lastCode.beatLength;
-        this.$refs["chart-body"].deleteCodeLayer();
+        this.$refs['chart-body'].deleteCodeLayer();
       }
-      this.$refs["chart-body"].renderChartCodes(this.chartCodes)
+      this.$refs['chart-body'].renderChartCodes(this.chartCodes);
     },
     edit() {
       this.editing = true;
-      this.$refs["chart-body"].renderChartCodes(this.chartCodes)
+      this.$refs['chart-body'].renderChartCodes(this.chartCodes);
     },
     calcFaderPositions(pattern) {
       if (this.trick === 'chirp') {
@@ -381,10 +385,10 @@ export default {
       }
     },
     save() {
-      this.$refs["chart-body"].save()
+      this.$refs['chart-body'].save();
     },
     exportImg() {
-      this.$refs["chart-body"].exportImg()
+      this.$refs['chart-body'].exportImg();
     },
     token() {
       const meta = document.querySelector('meta[name="csrf-token"]');

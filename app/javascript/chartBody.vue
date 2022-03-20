@@ -1,7 +1,6 @@
 <template>
   <div class="vss-chart-wrapper">
-    <div id="chart">
-    </div>
+    <div id="chart"></div>
   </div>
   <div v-show="displayImg" class="vss-img-wrapper">
     <input id="vss-img" type="checkbox" />
@@ -9,10 +8,10 @@
       <img id="img" />
       <div class="vss-img-wrapper__action">
         <a
-            id="downloadImg"
-            :download="title"
-            class="button vss-download has-text-weight-bold"
-        >Download</a
+          id="downloadImg"
+          :download="title"
+          class="button vss-download has-text-weight-bold"
+          >Download</a
         >
       </div>
       <label class="vss-img-wrapper__close" for="vss-img"><span></span></label>
@@ -25,10 +24,10 @@
 import Konva from 'konva';
 
 export default {
-  name: "chartBody",
+  name: 'chart-body',
   props: {
-    title: {type: String, required: true},
-    editing: {type: Boolean, require: true},
+    title: { type: String, required: true },
+    editing: { type: Boolean, require: true },
     totalBeatCount: { type: Number },
   },
   data() {
@@ -71,12 +70,12 @@ export default {
   methods: {
     renderChartCodes(chartCodes) {
       chartCodes.forEach((code) => {
-        this.addCodeLineLayer(code)
+        this.addCodeLineLayer(code);
       });
       this.stage.draw();
     },
     addLayer(layer) {
-      this.stage.add(layer)
+      this.stage.add(layer);
     },
     addCodeLineLayer(code) {
       let y1 = null;
@@ -117,7 +116,7 @@ export default {
       this.draw();
     },
     draw() {
-      this.stage.draw()
+      this.stage.draw();
     },
     drawFaderLine(code, layer) {
       code.faderPositions.forEach((faderPosition) => {
@@ -145,7 +144,7 @@ export default {
     },
     faderPoints(code, faderPosition) {
       const faderPositionPx =
-          this.toPixel(code.beatPosition) + this.toPixel(faderPosition);
+        this.toPixel(code.beatPosition) + this.toPixel(faderPosition);
       const x1 = faderPositionPx - 7;
       const x2 = faderPositionPx + 7;
       const chartHeight = this.chartHeight();
@@ -266,6 +265,6 @@ export default {
       const downloadImg = document.getElementById('downloadImg');
       downloadImg.href = this.imageUrl;
     },
-  }
-}
+  },
+};
 </script>
