@@ -2,4 +2,4 @@
 
 bundle exec rubocop -a
 bundle exec erblint -a app/views/
-bin/yarn lint:check
+bin/yarn lint:fix
