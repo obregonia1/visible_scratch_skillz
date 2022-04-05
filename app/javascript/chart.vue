@@ -254,7 +254,7 @@ import ChartBody from './chartBody';
 
 export default {
   components: {
-    ChartBody
+    ChartBody,
   },
   props: {
     chartId: { type: Number, required: true },
