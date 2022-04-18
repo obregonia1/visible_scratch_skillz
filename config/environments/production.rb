@@ -80,7 +80,8 @@ Rails.application.configure do
     user_name: Rails.application.credentials.smtp_user_name,
     password: Rails.application.credentials.smtp_password,
     ssl:  true,
-    tls: true
+    tls: true,
+    enable_starttls_auto: true
   }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
