@@ -62,7 +62,7 @@ Rails.application.configure do
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "visible_scratch_skillz_production"
 
-  config.action_mailer.perform_caching = false
+  config.action_mailer.perform_caching = true
 
   config.action_mailer.delivery_method = :smtp
 
@@ -80,7 +80,8 @@ Rails.application.configure do
     user_name: Rails.application.credentials.smtp_user_name,
     password: Rails.application.credentials.smtp_password,
     ssl:  true,
-    tls: true
+    tls: true,
+    enable_starttls_auto: true
   }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
