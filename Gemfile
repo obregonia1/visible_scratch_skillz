@@ -49,6 +49,7 @@ group :development do
   gem 'erb_lint', require: false
   gem 'letter_opener'
   gem 'letter_opener_web', '~> 1.0'
+  gem 'pry-rails'
   gem 'rubocop-fjord', require: false
   gem 'rubocop-rails', require: false
 end
