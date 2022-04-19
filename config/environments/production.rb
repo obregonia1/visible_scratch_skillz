@@ -62,7 +62,7 @@ Rails.application.configure do
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "visible_scratch_skillz_production"
 
-  config.action_mailer.perform_caching = false
+  config.action_mailer.perform_caching = true
 
   config.action_mailer.delivery_method = :smtp
 
