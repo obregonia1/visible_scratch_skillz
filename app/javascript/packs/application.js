@@ -5,9 +5,6 @@
 
 import Rails from '@rails/ujs';
 import * as ActiveStorage from '@rails/activestorage';
-import 'channels';
-
-require('../chart.js');
 
 Rails.start();
 ActiveStorage.start();

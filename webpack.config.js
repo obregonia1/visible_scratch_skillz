@@ -9,6 +9,7 @@ module.exports = (env, argv) => {
     context: path.resolve(__dirname, 'app/javascript'),
     entry: {
       application: './packs/application.js',
+      chart: './chart.js',
       charts_index: './packs/charts_index.js',
     },
     output: {
