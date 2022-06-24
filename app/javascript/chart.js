@@ -1,5 +1,5 @@
 import { createApp } from 'vue';
-import Chart from './chart';
+import Chart from './chart.vue';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faImage } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';

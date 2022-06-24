@@ -250,7 +250,7 @@
 </template>
 
 <script>
-import ChartBody from './chartBody';
+import ChartBody from './chartBody.vue';
 
 export default {
   components: {
