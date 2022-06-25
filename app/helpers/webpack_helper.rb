@@ -49,11 +49,13 @@ module WebpackHelper
   def manifest
     return @manifest ||= JSON.parse(pro_manifest) if Rails.env.production?
     return @manifest ||= JSON.parse(dev_manifest) if Rails.env.development?
-    return @manifest ||= JSON.parse(test_manifest)
+
+    @manifest ||= JSON.parse(test_manifest)
   end
 
   def valid_entry?(entry)
     return true if manifest.key?(entry)
+
     raise BundleNotFound, "Could not find bundle with name #{entry}"
   end
 
