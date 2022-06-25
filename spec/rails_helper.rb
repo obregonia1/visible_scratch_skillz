@@ -69,4 +69,18 @@ RSpec.configure do |config|
   config.before(:each) do |example|
     driven_by :selenium, using: :headless_chrome, screen_size: [1400, 1400] if example.metadata[:type] == :system
   end
+
+  config.after(:suite) do
+    Kernel.system("rm -f #{Rails.root.join("spec", "webpack_build")}")
+  end
+
+  config.before(:each) do |example|
+    if example.metadata[:type] == :system
+
+      unless  File.exist?(Rails.root.join("spec", "webpack_build"))
+        Kernel.system("yarn", "build:dev")
+        Kernel.system("touch #{Rails.root.join("spec", "webpack_build")}")
+      end
+    end
+  end
 end
