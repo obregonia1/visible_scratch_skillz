@@ -43,7 +43,7 @@ module WebpackHelper
   end
 
   def test_manifest
-    File.read('public/packs-test/manifest.json')
+    File.read('public/packs/manifest.json')
   end
 
   def manifest
