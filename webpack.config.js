@@ -3,19 +3,20 @@ const glob = require('glob');
 const { VueLoaderPlugin } = require('vue-loader');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const baseDir = './app/javascript'
 
 const scripts =
-  glob.sync('**/*.js', { cwd: './app/javascript' })
+  glob.sync('**/*.js', { cwd: baseDir })
       .reduce((obj, file) => {
         const key = file.replace(/.js$/, '')
-        obj[key] = path.resolve('app/javascript', key)
+        obj[key] = path.resolve(baseDir, key)
         return obj
       }, {})
 
 module.exports = (env, argv) => {
   const isProduction = argv.mode === 'production';
   return {
-    context: path.resolve(__dirname, 'app/javascript'),
+    context: path.resolve(__dirname, baseDir),
     entry: {
       ...scripts
     },
@@ -57,7 +58,7 @@ module.exports = (env, argv) => {
       host: 'localhost',
       port: 3035,
       publicPath: '/packs/',
-      contentBase: path.resolve(__dirname, 'app/javascript'),
+      contentBase: path.resolve(__dirname, baseDir),
       hot: true,
       disableHostCheck: true,
       historyApiFallback: true
