@@ -1,16 +1,23 @@
 const path = require('path');
+const glob = require('glob');
 const { VueLoaderPlugin } = require('vue-loader');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+const scripts =
+  glob.sync('**/*.js', { cwd: './app/javascript' })
+      .reduce((obj, file) => {
+        const key = file.replace(/.js$/, '')
+        obj[key] = path.resolve('app/javascript', key)
+        return obj
+      }, {})
 
 module.exports = (env, argv) => {
   const isProduction = argv.mode === 'production';
   return {
     context: path.resolve(__dirname, 'app/javascript'),
     entry: {
-      application: './packs/application.js',
-      chart: './chart.js',
-      charts_index: './packs/charts_index.js',
+      ...scripts
     },
     output: {
       path: path.resolve(__dirname, 'public/packs'),
