@@ -30,7 +30,7 @@ module WebpackHelper
   private
 
   def asset_server
-    port = Rails.env === 'production' ? '3000' : '3035'
+    port = Rails.env.production? ? '3000' : '3035'
     "http://#{request.host}:#{port}/"
   end
 
