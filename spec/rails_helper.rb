@@ -76,6 +76,7 @@ RSpec.configure do |config|
 
   config.before(:each) do |example|
     if example.metadata[:type] == :system
+      Capybara.server_port = '3000'
 
       unless  File.exist?(Rails.root.join("spec", "webpack_build"))
         Kernel.system("yarn", "build:dev")
