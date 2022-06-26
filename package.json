@@ -8,9 +8,9 @@
     "lint:fix": "run-p lint:fix:*",
     "lint:fix:eslint": "eslint 'app/javascript/**/*.{js,vue}' --max-warnings=0 --fix",
     "lint:fix:prettier": "prettier app/javascript/**/*.{js,vue} -w",
-    "build": "yarn && yarn webpack --mode=production",
-    "build:dev" : "yarn && yarn webpack --mode=development",
-    "dev": "yarn webpack-dev-server --mode=development"
+    "build": "yarn && webpack --mode=production",
+    "build:dev" : "yarn && webpack --mode=development",
+    "dev": "webpack-dev-server --mode=development"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
