@@ -30,7 +30,7 @@ module WebpackHelper
   private
 
   def asset_server
-    port = Rails.env.production? ? '3000' : '3035'
+    port = Rails.env.development? ? '3035' : '3000'
     "http://#{request.host}:#{port}/"
   end
 
@@ -47,10 +47,7 @@ module WebpackHelper
   end
 
   def manifest
-    return @manifest ||= JSON.parse(pro_manifest) if Rails.env.production?
-    return @manifest ||= JSON.parse(dev_manifest) if Rails.env.development?
-
-    @manifest ||= JSON.parse(test_manifest)
+    @manifest ||= Rails.env.development? ? JSON.parse(dev_manifest) : JSON.parse(pro_manifest)
   end
 
   def valid_entry?(entry)
