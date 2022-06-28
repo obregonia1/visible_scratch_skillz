@@ -45,5 +45,7 @@ jobs:
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
     - name: yarn install
       run: yarn install --check-files
+    - name: build webpack
+      run: yarn build:dev
     - name: Run tests
       run: bundle exec rspec

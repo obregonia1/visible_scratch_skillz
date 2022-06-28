@@ -7,7 +7,10 @@
     "lint:check:prettier": "prettier app/javascript/**/*.{js,vue} --check",
     "lint:fix": "run-p lint:fix:*",
     "lint:fix:eslint": "eslint 'app/javascript/**/*.{js,vue}' --max-warnings=0 --fix",
-    "lint:fix:prettier": "prettier app/javascript/**/*.{js,vue} -w"
+    "lint:fix:prettier": "prettier app/javascript/**/*.{js,vue} -w",
+    "build": "yarn && webpack --mode=production",
+    "build:dev" : "yarn && webpack --mode=development",
+    "dev": "webpack-dev-server --mode=development"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
@@ -16,13 +19,12 @@
     "@rails/actioncable": "^6.0.0",
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
-    "@rails/webpacker": "5.4.0",
     "@vue/compiler-sfc": "^3.1.5",
     "eslint-config-prettier": "^8.5.0",
+    "glob": "^8.0.3",
     "konva": "^8.1.1",
     "stylelint": "^14.5.3",
     "stylelint-config-standard": "^25.0.0",
-    "turbolinks": "^5.2.0",
     "vue": "^3.1.5",
     "vue-loader": "^16.2.0",
     "webpack": "^4.46.0",
@@ -33,7 +35,9 @@
   "devDependencies": {
     "eslint": "^8.10.0",
     "eslint-plugin-vue": "^8.5.0",
+    "mini-css-extract-plugin": "~1.6",
     "prettier": "2.5.1",
-    "webpack-dev-server": "^3.11.2"
+    "webpack-dev-server": "^3.11.2",
+    "webpack-manifest-plugin": "^5.0.0"
   }
 }
