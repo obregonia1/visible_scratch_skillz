@@ -50,3 +50,14 @@ set :bundle_path, -> { shared_path.join('vendor/bundle') }
 
 set :nginx_config_name, "vss.conf"
 set :nginx_sites_enabled_path, "/etc/nginx/conf.d"
+
+desc 'Build JavaScript for production'
+task :yarn_production do
+  on roles(:app) do
+    within release_path do
+      execute :yarn, 'build'
+    end
+  end
+end
+
+after 'deploy:updated', 'yarn_production'
