@@ -31,7 +31,7 @@ module WebpackHelper
 
   def asset_server
     if Rails.env.production?
-      "http://#{request.host}/"
+      "https://#{request.host}/"
     else
       port = Rails.env.development? ? '3035' : '3000'
       "http://#{request.host}:#{port}/"
