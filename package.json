@@ -9,7 +9,7 @@
     "lint:fix:eslint": "eslint 'app/javascript/**/*.{js,vue}' --max-warnings=0 --fix",
     "lint:fix:prettier": "prettier app/javascript/**/*.{js,vue} -w",
     "build": "yarn && webpack --mode=production",
-    "build:dev" : "yarn && webpack --mode=development",
+    "build:dev": "yarn && webpack --mode=development",
     "dev": "webpack-dev-server --mode=development"
   },
   "dependencies": {
