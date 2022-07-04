@@ -62,6 +62,6 @@ module WebpackHelper
 
   def asset_bundle_path(entry, **options)
     valid_entry?(entry)
-    asset_path("#{asset_server}packs/" + manifest.fetch(entry), **options)
+    asset_path("#{asset_server}" + manifest.fetch(entry), **options)
   end
 end
