@@ -16,6 +16,7 @@ const scripts =
 module.exports = (env, argv) => {
   const isProduction = argv.mode === 'production';
   return {
+    mode: isProduction ? 'production' : 'development',
     context: path.resolve(__dirname, baseDir),
     entry: {
       ...scripts
