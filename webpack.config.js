@@ -16,13 +16,15 @@ const scripts =
 module.exports = (env, argv) => {
   const isProduction = argv.mode === 'production';
   return {
+    mode: isProduction ? 'production' : 'development',
     context: path.resolve(__dirname, baseDir),
     entry: {
       ...scripts
     },
     output: {
-      path: path.resolve(__dirname, 'public/packs'),
+      path: path.resolve(__dirname, 'public'),
       filename: isProduction ? '[name]-[contentHash].js' : '[name]-[hash].js',
+      publicPath: 'packs'
     },
     module: {
       rules: [
