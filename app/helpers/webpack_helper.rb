@@ -39,7 +39,7 @@ module WebpackHelper
   end
 
   def pro_manifest
-    File.read('public/manifest.json')
+    File.read('public/packs/manifest.json')
   end
 
   def dev_manifest

@@ -22,7 +22,7 @@ module.exports = (env, argv) => {
       ...scripts
     },
     output: {
-      path: path.resolve(__dirname, 'public'),
+      path: path.resolve(__dirname, 'public/packs'),
       filename: isProduction ? '[name].[contenthash].js' : '[name]-[hash].js',
       publicPath: 'packs'
     },
