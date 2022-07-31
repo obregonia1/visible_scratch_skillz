@@ -23,7 +23,7 @@ module.exports = (env, argv) => {
     },
     output: {
       path: path.resolve(__dirname, 'public'),
-      filename: isProduction ? '[name]-[contentHash].js' : '[name]-[hash].js',
+      filename: isProduction ? '[name].[contenthash].js' : '[name]-[hash].js',
       publicPath: 'packs'
     },
     module: {
@@ -54,7 +54,7 @@ module.exports = (env, argv) => {
     plugins: [
       new VueLoaderPlugin(),
       new WebpackManifestPlugin({ writeToFileEmit: true, useLegacyEmit: true }),
-      new MiniCssExtractPlugin({filename: '[name]-[contentHash].css'}),
+      new MiniCssExtractPlugin({filename: '[name].[contenthash].css'}),
     ],
     devServer: {
       host: 'localhost',
